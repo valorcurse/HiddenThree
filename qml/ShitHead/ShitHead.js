@@ -58,29 +58,36 @@ var stackOfCards = [
 
 var blockWidth = 100;
 var blockHeight = 100 * 1.54;
-var screen;
+var player1Area;
+var player2Area;
 
 var player1;
-var board;
-var component;
+var player2;
+
+var playArea;
+//var board;
+//var component;
 
 function removeIndex(array, index) {
     if (index != -1)
         array.splice(index, 1);
 }
 
-function startNewGame(gameScreen) {
+function startNewGame(p1Area, p2Area, playArea) {
 
 //    console.log("type" + typeof stackOfCards);
 //    console.log("haha");
-    screen = gameScreen;
+    player1Area = p1Area;
+    player2Area = p2Area;
+
+    playArea = this.playArea;
 
     player1 = {
         cards: new Array(3),
-        cardsPosition : {x: (screen.width - (blockWidth * 3)) / 2, y: screen.height - blockHeight}
+        cardsPosition : {x: (player1Area.width - (blockWidth * 3)) / 2, y: player1Area.height - blockHeight}
     };
 
-    board = new Array(player1.length);
+//    board = new Array(player1.length);
 
     for (var i = 0; i < 3; i++) {
         var rnd = Math.floor((Math.random() * stackOfCards.length - 1) + 1);
@@ -92,7 +99,7 @@ function startNewGame(gameScreen) {
     //  Initialize Board
     for (var index = 0; index < player1.cards.length; index++) {
 
-        board[index] = null;
+//        board[index] = null;
 
         var card = player1.cards[index];
 
@@ -101,13 +108,12 @@ function startNewGame(gameScreen) {
 }
 
 function createBlock(index, card, player) {
-    if (component == null)
-        component = Qt.createComponent("Card.qml");
+    var component = Qt.createComponent("Card.qml");
 
-    if (component.status == Component.Ready) {
-        var dynamicObject = component.createObject(background, {cardObject: card});
+    if (component.status === Component.Ready) {
+        var dynamicObject = component.createObject(background, {cardObject: card, player: player});
 
-        if (dynamicObject == null) {
+        if (dynamicObject === null) {
             console.log("error creating block");
             console.log(component.errorString());
 
@@ -118,7 +124,7 @@ function createBlock(index, card, player) {
         dynamicObject.y = player.cardsPosition.y;
         dynamicObject.width = blockWidth;
         dynamicObject.height = blockHeight;
-        board[index] = dynamicObject;
+//        board[index] = dynamicObject;
 
     } else {
         console.log("error loading block component");
@@ -130,7 +136,7 @@ function createBlock(index, card, player) {
 }
 
 function playCard(card) {
-    console.log(card.width)
+//    console.log(card.width)
 //    card.x = screen.width / 2;
-//    card.y = screen.height / 2;
+    card.y = playArea.height;
 }

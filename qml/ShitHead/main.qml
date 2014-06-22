@@ -67,7 +67,7 @@ Rectangle {
         }
 
         Rectangle {
-            id: player1Area
+            id: player2Area
             height: parent.height / 4
             width: parent.width
             anchors { top: parent.top}
@@ -80,10 +80,11 @@ Rectangle {
             width: parent.width
             anchors { top: player1Area.bottom; bottom: player2Area.top}
             opacity: 0
+
         }
 
         Rectangle {
-            id: player2Area
+            id: player1Area
             height: parent.height / 4
             width: parent.width
             anchors { bottom: parent.bottom }
@@ -100,7 +101,7 @@ Rectangle {
         Button {
             anchors { left: parent.left; verticalCenter: parent.verticalCenter }
             text: "New Game"
-            onClicked: Game.startNewGame(screen)
+            onClicked: Game.startNewGame(player1Area, player2Area)
         }
     }
 }
