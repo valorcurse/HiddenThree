@@ -89,13 +89,6 @@ function startNewGame(gameScreen) {
         removeIndex(stackOfCards, rnd)
     }
 
-
-    //Delete blocks from previous game
-    //    for (var i = 0; i < maxIndex; i++) {
-    //        if (board[i] != null)
-    //            board[i].destroy();
-    //    }
-
     //  Initialize Board
     for (var index = 0; index < player1.cards.length; index++) {
 

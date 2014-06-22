@@ -68,23 +68,26 @@ Rectangle {
 
         Rectangle {
             id: player1Area
-            height: gameArea.height / 3
-            width: gameArea.width
-            anchors { top: gameArea }
+            height: parent.height / 4
+            width: parent.width
+            anchors { top: parent.top}
+            opacity: 0
         }
 
         Rectangle {
             id: playArea
-            height: gameArea.height / 3
-            width: gameArea.width
-            anchors { top: player1Area }
+            height: parent.height / 2
+            width: parent.width
+            anchors { top: player1Area.bottom; bottom: player2Area.top}
+            opacity: 0
         }
 
         Rectangle {
             id: player2Area
-            height: gameArea.height / 3
-            width: gameArea.width
-            anchors { top: playArea }
+            height: parent.height / 4
+            width: parent.width
+            anchors { bottom: parent.bottom }
+            opacity: 0
         }
     }
 
