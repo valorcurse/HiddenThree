@@ -1,8 +1,10 @@
 import QtQuick 2.0
 
+import "ShitHead.js" as Game
+
 Item {
-    id: block
-    property string imageSource
+    id: card
+    property var cardObject
 
     Image {
         id: img
@@ -10,6 +12,12 @@ Item {
         anchors.rightMargin: 5;
         anchors.bottomMargin: 5;
 
-        source: imageSource
+        source: cardObject.source
+
+        MouseArea {
+           id: region;
+           anchors.fill: parent;
+           onClicked: Game.playCard(screen)
+        }
     }
 }

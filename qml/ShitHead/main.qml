@@ -47,11 +47,15 @@ import "ShitHead.js" as Game
 Rectangle {
     id: screen
 
-    width: 490; height: 720
+    property int screenWidth: 490
+    property int screenHeight: 720
+
+    width: screenWidth; height: screenHeight
 
     SystemPalette { id: activePalette }
 
     Item {
+        id: gameArea
         width: parent.width
         anchors { top: parent.top; bottom: toolBar.top }
 
@@ -60,6 +64,27 @@ Rectangle {
             anchors.fill: parent
             source: "textures/woodBackground.png"
             fillMode: Image.PreserveAspectCrop
+        }
+
+        Rectangle {
+            id: player1Area
+            height: gameArea.height / 3
+            width: gameArea.width
+            anchors { top: gameArea }
+        }
+
+        Rectangle {
+            id: playArea
+            height: gameArea.height / 3
+            width: gameArea.width
+            anchors { top: player1Area }
+        }
+
+        Rectangle {
+            id: player2Area
+            height: gameArea.height / 3
+            width: gameArea.width
+            anchors { top: playArea }
         }
     }
 
@@ -72,13 +97,7 @@ Rectangle {
         Button {
             anchors { left: parent.left; verticalCenter: parent.verticalCenter }
             text: "New Game"
-            onClicked: Game.startNewGame()
-        }
-
-        Text {
-            id: score
-            anchors { right: parent.right; verticalCenter: parent.verticalCenter; rightMargin: 5  }
-            text: "Score: Who knows?"
+            onClicked: Game.startNewGame(screen)
         }
     }
 }
