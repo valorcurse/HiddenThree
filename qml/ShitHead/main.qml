@@ -72,7 +72,7 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
             anchors { top: parent.top}
-            opacity: 0
+            opacity: 0.5
         }
 
         Rectangle {
@@ -88,7 +88,7 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
             anchors { bottom: parent.bottom }
-            opacity: 0
+            opacity: 0.5
         }
     }
 

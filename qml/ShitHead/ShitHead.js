@@ -56,29 +56,21 @@ var stackOfCards = [
             {number: "a", type: "hearts", source: "textures/cards/h_a.png"}
         ]
 
-var blockWidth = 100;
-var blockHeight = 100 * 1.54;
-
 var player1;
 var player2;
-
-var stackLevel = 0;
-
-function removeIndex(array, index) {
-    if (index !== -1)
-        array.splice(index, 1);
-}
 
 function startNewGame(p1Area, p2Area) {
 
     player1 = {
         cards: new Array(3),
-        cardsPosition : {x: (player1Area.width - (blockWidth * 3)) / 2, y: player1Area.y + (player1Area.height / 2) }
+        cardsPosition : {x: (player1Area.width - (card,width * 3)) / 2, y: player1Area.y },
+        playerArea: player1Area
     };
 
     player2 = {
         cards: new Array(3),
-        cardsPosition : {x: (player2Area.width - (blockWidth * 3)) / 2, y: player2Area.y - (player2Area.height / 2)}
+        cardsPosition: {x: (player2Area.width - (card,width * 3)) / 2, y: player2Area.y },
+        playerArea: player2Area
     };
 
     dealCards(player1, 3);
@@ -104,6 +96,11 @@ function dealCards(player, numberOfCards) {
     }
 }
 
+function removeIndex(array, index) {
+    if (index !== -1)
+        array.splice(index, 1);
+}
+
 function createBlock(index, card, player) {
     var component = Qt.createComponent("Card.qml");
 
@@ -117,10 +114,10 @@ function createBlock(index, card, player) {
             return false;
         }
 
-        dynamicObject.x = player.cardsPosition.x + index * blockWidth;
-        dynamicObject.y = player.cardsPosition.y;
-        dynamicObject.width = blockWidth;
-        dynamicObject.height = blockHeight;
+        var cardsSize = player.cards.length * dynamicObject.width;
+
+        dynamicObject.x = (player.playerArea.width - cardsSize) / 2 + index * dynamicObject.width;
+        dynamicObject.y = player.playerArea.y + (player.playerArea.height - dynamicObject.height) / 2;
 
     } else {
         console.log("error loading block component");
