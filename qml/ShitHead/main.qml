@@ -49,6 +49,7 @@ Rectangle {
 
     property int screenWidth: 490
     property int screenHeight: 720
+    property int stackLevel: 0
 
     width: screenWidth; height: screenHeight
 
@@ -78,9 +79,8 @@ Rectangle {
             id: playArea
             height: parent.height / 2
             width: parent.width
-            anchors { top: player1Area.bottom; bottom: player2Area.top}
+            anchors { top: player2Area.bottom; bottom: player1Area.top;}
             opacity: 0
-
         }
 
         Rectangle {
@@ -101,7 +101,9 @@ Rectangle {
         Button {
             anchors { left: parent.left; verticalCenter: parent.verticalCenter }
             text: "New Game"
-            onClicked: Game.startNewGame(player1Area, player2Area)
+            onClicked: {
+                Game.startNewGame(player1Area, player2Area)
+            }
         }
     }
 }

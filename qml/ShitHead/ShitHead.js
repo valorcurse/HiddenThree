@@ -64,30 +64,22 @@ var player2Area;
 var player1;
 var player2;
 
-var playArea;
-//var board;
-//var component;
+var stackLevel = 0;
 
 function removeIndex(array, index) {
-    if (index != -1)
+    if (index !== -1)
         array.splice(index, 1);
 }
 
-function startNewGame(p1Area, p2Area, playArea) {
+function startNewGame(p1Area, p2Area) {
 
-//    console.log("type" + typeof stackOfCards);
-//    console.log("haha");
     player1Area = p1Area;
     player2Area = p2Area;
-
-    playArea = this.playArea;
 
     player1 = {
         cards: new Array(3),
         cardsPosition : {x: (player1Area.width - (blockWidth * 3)) / 2, y: player1Area.height - blockHeight}
     };
-
-//    board = new Array(player1.length);
 
     for (var i = 0; i < 3; i++) {
         var rnd = Math.floor((Math.random() * stackOfCards.length - 1) + 1);
@@ -98,8 +90,6 @@ function startNewGame(p1Area, p2Area, playArea) {
 
     //  Initialize Board
     for (var index = 0; index < player1.cards.length; index++) {
-
-//        board[index] = null;
 
         var card = player1.cards[index];
 
@@ -124,7 +114,6 @@ function createBlock(index, card, player) {
         dynamicObject.y = player.cardsPosition.y;
         dynamicObject.width = blockWidth;
         dynamicObject.height = blockHeight;
-//        board[index] = dynamicObject;
 
     } else {
         console.log("error loading block component");
@@ -132,11 +121,17 @@ function createBlock(index, card, player) {
 
         return false;
     }
+
     return true;
 }
 
 function playCard(card) {
-//    console.log(card.width)
-//    card.x = screen.width / 2;
-    card.y = playArea.height;
+    if (card.state !== "played") {
+        card.y = (playArea.y + playArea.height / 2) - (card.height / 2);
+        card.x = (playArea.x + playArea.width / 2) - (card.width / 2);
+        card.z = ++screen.stackLevel;
+        card.rotation = Math.floor(Math.random() * 360) + 1
+
+        card.state = "played";
+    }
 }

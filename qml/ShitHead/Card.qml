@@ -15,10 +15,13 @@ Item {
 
         source: cardObject.source
 
-        MouseArea {
-           id: region;
-           anchors.fill: parent;
-           onClicked: Game.playCard(card)
+    }
+
+    MouseArea {
+        id: mouseArea;
+        anchors.fill: parent;
+        onClicked: {
+            Game.playCard(card, playArea, stackLevel)
         }
     }
 }
