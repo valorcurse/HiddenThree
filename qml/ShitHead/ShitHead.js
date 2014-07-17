@@ -58,8 +58,6 @@ var stackOfCards = [
 
 var blockWidth = 100;
 var blockHeight = 100 * 1.54;
-var player1Area;
-var player2Area;
 
 var player1;
 var player2;
@@ -73,27 +71,36 @@ function removeIndex(array, index) {
 
 function startNewGame(p1Area, p2Area) {
 
-    player1Area = p1Area;
-    player2Area = p2Area;
-
     player1 = {
         cards: new Array(3),
-        cardsPosition : {x: (player1Area.width - (blockWidth * 3)) / 2, y: player1Area.height - blockHeight}
+        cardsPosition : {x: (player1Area.width - (blockWidth * 3)) / 2, y: player1Area.y + (player1Area.height / 2) }
     };
 
-    for (var i = 0; i < 3; i++) {
-        var rnd = Math.floor((Math.random() * stackOfCards.length - 1) + 1);
-        player1.cards[i] = stackOfCards[rnd];
+    player2 = {
+        cards: new Array(3),
+        cardsPosition : {x: (player2Area.width - (blockWidth * 3)) / 2, y: player2Area.y - (player2Area.height / 2)}
+    };
 
-        removeIndex(stackOfCards, rnd)
-    }
+    dealCards(player1, 3);
+    dealCards(player2, 3);
 
     //  Initialize Board
     for (var index = 0; index < player1.cards.length; index++) {
 
         var card = player1.cards[index];
-
         createBlock(index, card, player1);
+
+        card = player2.cards[index];
+        createBlock(index, card, player2);
+    }
+}
+
+function dealCards(player, numberOfCards) {
+    for (var i = 0; i < numberOfCards; i++) {
+        var rnd = Math.floor((Math.random() * stackOfCards.length - 1) + 1);
+        player.cards[i] = stackOfCards[rnd];
+
+        removeIndex(stackOfCards, rnd)
     }
 }
 
