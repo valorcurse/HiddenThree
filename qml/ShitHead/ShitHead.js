@@ -61,44 +61,74 @@ var player2;
 
 function startNewGame(p1Area, p2Area) {
 
+    shuffle(stackOfCards);
+
+    //  Initialize Board
+    createStackOfCards();
+
     player1 = {
         cards: new Array(3),
-        cardsPosition : {x: (player1Area.width - (card,width * 3)) / 2, y: player1Area.y },
+        cardsPosition : {x: (player1Area.width - (cardItem.width * 3)) / 2, y: player1Area.y },
         playerArea: player1Area
     };
 
     player2 = {
         cards: new Array(3),
-        cardsPosition: {x: (player2Area.width - (card,width * 3)) / 2, y: player2Area.y },
+        cardsPosition: {x: (player2Area.width - (cardItem.width * 3)) / 2, y: player2Area.y },
         playerArea: player2Area
     };
 
     dealCards(player1, 3);
     dealCards(player2, 3);
 
-    //  Initialize Board
-    for (var index = 0; index < player1.cards.length; index++) {
+    //    //  Initialize Board
+    //    for (var index = 0; index < player1.cards.length; index++) {
 
-        var card = player1.cards[index];
-        createBlock(index, card, player1);
+    //        var currentCard = player1.cards[index];
+    //        createBlock(index, card, player1);
 
-        card = player2.cards[index];
-        createBlock(index, card, player2);
-    }
+    //        currentCard = player2.cards[index];
+    //        createBlock(index, card, player2);
+    //    }
 }
 
 function dealCards(player, numberOfCards) {
     for (var i = 0; i < numberOfCards; i++) {
-        var rnd = Math.floor((Math.random() * stackOfCards.length - 1) + 1);
-        player.cards[i] = stackOfCards[rnd];
-
-        removeIndex(stackOfCards, rnd)
+        player.cards[i] = stackOfCards.pop();
     }
 }
 
 function removeIndex(array, index) {
     if (index !== -1)
         array.splice(index, 1);
+}
+
+function createStackOfCards() {
+    var component = Qt.createComponent("Card.qml");
+
+    if (component.status === Component.Ready) {
+
+        for (var i = 0; i < stackOfCards.length; i++) {
+            var card = component.createObject(background, {cardObject: stackOfCards[i]});
+
+            if (card === null) {
+                console.log("error creating block");
+                console.log(component.errorString());
+
+                return false;
+            }
+
+            card.x = stackOfCardsArea.x + stackOfCardsArea.width / 2 - card.width / 2 + i * 0.3;
+            card.y = stackOfCardsArea.y + stackOfCardsArea.height / 2 - card.height / 2;
+        }
+    } else {
+        console.log("error loading block component");
+        console.log(component.errorString());
+
+        return false;
+    }
+
+    return true;
 }
 
 function createBlock(index, card, player) {
@@ -138,4 +168,25 @@ function playCard(card) {
 
         card.state = "played";
     }
+}
+
+function shuffle(array) {
+    var currentIndex = array.length,
+            temporaryValue,
+            randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
 }

@@ -72,15 +72,16 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
             anchors { top: parent.top}
-            opacity: 0.5
+            opacity: 0
         }
 
         Rectangle {
             id: playArea
             height: parent.height / 2
-            width: parent.width
+            width: parent.width - stackOfCardsArea.width
             anchors { top: player2Area.bottom; bottom: player1Area.top;}
             opacity: 0
+//            color: "#028000"
         }
 
         Rectangle {
@@ -88,7 +89,16 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
             anchors { bottom: parent.bottom }
-            opacity: 0.5
+            opacity: 0
+        }
+
+        Rectangle {
+            id: stackOfCardsArea
+            width: parent.width / 3
+            anchors { top: player2Area.bottom; bottom: player1Area.top; right: parent.right}
+
+//            color: "red"
+            opacity: 0
         }
     }
 

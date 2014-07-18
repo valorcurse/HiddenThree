@@ -2,13 +2,15 @@ import QtQuick 2.0
 
 import "ShitHead.js" as Game
 
-Item {
-    id: card
+Rectangle {
+    id: cardItem
 
     property var cardObject
 //    property var player
+
     height: 154
     width: 100
+    color: "transparent"
 
     Image {
         id: img
