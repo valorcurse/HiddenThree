@@ -6,18 +6,16 @@ Rectangle {
     id: cardItem
 
     property var cardObject
-//    property var player
+    //    property var player
 
     height: 154
     width: 100
     color: "transparent"
+    border.color: (this.state === "Player1" || this.state === "Player2") ? Game.ifPlayable(cardItem) : "transparent";
 
     Image {
         id: img
         anchors.fill: parent
-        anchors.rightMargin: 5
-        anchors.bottomMargin: 5
-
         source: cardObject.source
 
     }
@@ -26,7 +24,51 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
-            Game.playCard(card, playArea, stackLevel)
+            Game.playCard(cardItem, playArea, stackLevel)
         }
     }
+
+    states: [
+        State {
+            name: "Stack"
+            PropertyChanges {
+                target: cardItem
+                parent: stackOfCardsArea
+                y: cardItem.height / 2;
+                x: cardItem.width / 2;
+                rotation: 0
+            }
+        },
+        State {
+            name: "Player1"
+            PropertyChanges {
+                target: cardItem
+                parent: player1Area
+                y: player1Area.height / 2
+                x: player1Area.width / 2
+                rotation: 0
+            }
+        },
+        State {
+            name: "Player2"
+            PropertyChanges {
+                target: cardItem
+                parent: player2Area
+                y: player2Area.height / 2
+                x: player2Area.width / 2
+                rotation: 0
+            }
+        },
+        State {
+            name: "Played"
+            PropertyChanges {
+                target: cardItem
+                parent: playArea
+                y:  parent.height / 4
+                x: parent.width / 3
+                z: screen.stackLevel
+                rotation: Math.floor(Math.random() * 360) + 1
+            }
+        }
+    ]
 }

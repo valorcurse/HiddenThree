@@ -56,45 +56,42 @@ var stackOfCards = [
             {number: "a", type: "hearts", source: "textures/cards/h_a.png"}
         ]
 
+var cardsPriority = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a"];
+
 var player1;
 var player2;
 
 function startNewGame(p1Area, p2Area) {
 
+    // Shuffle cards
     shuffle(stackOfCards);
 
     //  Initialize Board
     createStackOfCards();
 
+    // Create players
     player1 = {
         cards: new Array(3),
-        cardsPosition : {x: (player1Area.width - (cardItem.width * 3)) / 2, y: player1Area.y },
+        cardsPosition : {x: (player1Area.width ) / 2, y: player1Area.y },
         playerArea: player1Area
     };
 
     player2 = {
         cards: new Array(3),
-        cardsPosition: {x: (player2Area.width - (cardItem.width * 3)) / 2, y: player2Area.y },
+        cardsPosition: {x: (player2Area.width ) / 2, y: player2Area.y },
         playerArea: player2Area
     };
 
+    // Deals cards to players
     dealCards(player1, 3);
     dealCards(player2, 3);
 
-    //    //  Initialize Board
-    //    for (var index = 0; index < player1.cards.length; index++) {
-
-    //        var currentCard = player1.cards[index];
-    //        createBlock(index, card, player1);
-
-    //        currentCard = player2.cards[index];
-    //        createBlock(index, card, player2);
-    //    }
 }
 
 function dealCards(player, numberOfCards) {
     for (var i = 0; i < numberOfCards; i++) {
         player.cards[i] = stackOfCards.pop();
+        createBlock(i, player.cards[i], player);
     }
 }
 
@@ -118,8 +115,8 @@ function createStackOfCards() {
                 return false;
             }
 
-            card.x = stackOfCardsArea.x + stackOfCardsArea.width / 2 - card.width / 2 + i * 0.3;
-            card.y = stackOfCardsArea.y + stackOfCardsArea.height / 2 - card.height / 2;
+            card.state = "Stack";
+
         }
     } else {
         console.log("error loading block component");
@@ -160,13 +157,16 @@ function createBlock(index, card, player) {
 }
 
 function playCard(card) {
-    if (card.state !== "played") {
-        card.y = (playArea.y + playArea.height / 2) - (card.height / 2);
-        card.x = (playArea.x + playArea.width / 2) - (card.width / 2);
-        card.z = ++screen.stackLevel;
-        card.rotation = Math.floor(Math.random() * 360) + 1
+    if (card.state === "Played") return;
 
-        card.state = "played";
+    // No card has been played
+    if (screen.topCard === undefined ||
+            // Or card can be played
+            cardsPriority.indexOf(card.cardObject.number) >= cardsPriority.indexOf(screen.topCard.cardObject.number)) {
+
+        card.state = "Played";
+        ++screen.stackLevel;
+        screen.topCard = card;
     }
 }
 
@@ -189,4 +189,15 @@ function shuffle(array) {
     }
 
     return array;
+}
+
+function ifPlayable(card) {
+    if (card.cardObject === undefined) return;
+
+    if (screen.topCard === undefined ||
+            cardsPriority.indexOf(card.cardObject.number) >= cardsPriority.indexOf(screen.topCard.cardObject.number)) {
+        return "green";
+    } else {
+        return "transparent";
+    }
 }

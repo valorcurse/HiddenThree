@@ -50,6 +50,7 @@ Rectangle {
     property int screenWidth: 490
     property int screenHeight: 720
     property int stackLevel: 0
+    property var topCard
 
     width: screenWidth; height: screenHeight
 
@@ -72,7 +73,7 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
             anchors { top: parent.top}
-            opacity: 0
+            color: "transparent"
         }
 
         Rectangle {
@@ -80,8 +81,7 @@ Rectangle {
             height: parent.height / 2
             width: parent.width - stackOfCardsArea.width
             anchors { top: player2Area.bottom; bottom: player1Area.top;}
-            opacity: 0
-//            color: "#028000"
+            color: "transparent"
         }
 
         Rectangle {
@@ -89,16 +89,14 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
             anchors { bottom: parent.bottom }
-            opacity: 0
+            color: "transparent"
         }
 
         Rectangle {
             id: stackOfCardsArea
             width: parent.width / 3
             anchors { top: player2Area.bottom; bottom: player1Area.top; right: parent.right}
-
-//            color: "red"
-            opacity: 0
+            color: "transparent"
         }
     }
 
