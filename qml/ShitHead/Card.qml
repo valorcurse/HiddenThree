@@ -6,7 +6,7 @@ Rectangle {
     id: cardItem
 
     property var cardObject
-    //    property var player
+    property var player
 
     height: 154
     width: 100
@@ -28,6 +28,8 @@ Rectangle {
         }
     }
 
+
+
     states: [
         State {
             name: "Stack"
@@ -44,8 +46,6 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: player1Area
-                y: player1Area.height / 2
-                x: player1Area.width / 2
                 rotation: 0
             }
         },
@@ -54,19 +54,23 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: player2Area
-                y: player2Area.height / 2
-                x: player2Area.width / 2
                 rotation: 0
+
             }
         },
         State {
             name: "Played"
+
+            ParentChange {
+                target: cardItem;
+                parent: playArea;
+            }
+
             PropertyChanges {
                 target: cardItem
-                parent: playArea
-                y:  parent.height / 4
-                x: parent.width / 3
                 z: screen.stackLevel
+                y: parent.height / 3
+                x: parent.width / 3
                 rotation: Math.floor(Math.random() * 360) + 1
             }
         }

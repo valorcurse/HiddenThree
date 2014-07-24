@@ -1,4 +1,4 @@
-var stackOfCards = [
+var cardsInfo = [
             {number: "2", type: "clover", source: "textures/cards/c_02.png"},
             {number: "3", type: "clover", source: "textures/cards/c_03.png"},
             {number: "4", type: "clover", source: "textures/cards/c_04.png"},
@@ -60,38 +60,45 @@ var cardsPriority = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"
 
 var player1;
 var player2;
+//var stackOfCards = [];
 
 function startNewGame(p1Area, p2Area) {
 
-    // Shuffle cards
-    shuffle(stackOfCards);
 
     //  Initialize Board
     createStackOfCards();
 
+    // Shuffle cards
+    shuffle(stackOfCards);
+
     // Create players
     player1 = {
-        cards: new Array(3),
+        cards: [],
         cardsPosition : {x: (player1Area.width ) / 2, y: player1Area.y },
-        playerArea: player1Area
+        playerArea: player1Area,
+        state: "Player1"
     };
 
     player2 = {
-        cards: new Array(3),
+        cards: [],
         cardsPosition: {x: (player2Area.width ) / 2, y: player2Area.y },
-        playerArea: player2Area
+        playerArea: player2Area,
+        state: "Player2"
     };
 
     // Deals cards to players
     dealCards(player1, 3);
     dealCards(player2, 3);
-
 }
 
 function dealCards(player, numberOfCards) {
     for (var i = 0; i < numberOfCards; i++) {
-        player.cards[i] = stackOfCards.pop();
-        createBlock(i, player.cards[i], player);
+
+        var card = stackOfCards.pop();
+        card.state = player.state;
+        card.player = player;
+
+        player.cards.push(card);
     }
 }
 
@@ -105,8 +112,8 @@ function createStackOfCards() {
 
     if (component.status === Component.Ready) {
 
-        for (var i = 0; i < stackOfCards.length; i++) {
-            var card = component.createObject(background, {cardObject: stackOfCards[i]});
+        for (var i = 0; i < cardsInfo.length; i++) {
+            var card = component.createObject(background, {cardObject: cardsInfo[i], state: "Stack"});
 
             if (card === null) {
                 console.log("error creating block");
@@ -115,37 +122,8 @@ function createStackOfCards() {
                 return false;
             }
 
-            card.state = "Stack";
-
+            stackOfCards.push(card);
         }
-    } else {
-        console.log("error loading block component");
-        console.log(component.errorString());
-
-        return false;
-    }
-
-    return true;
-}
-
-function createBlock(index, card, player) {
-    var component = Qt.createComponent("Card.qml");
-
-    if (component.status === Component.Ready) {
-        var dynamicObject = component.createObject(background, {cardObject: card, player: player});
-
-        if (dynamicObject === null) {
-            console.log("error creating block");
-            console.log(component.errorString());
-
-            return false;
-        }
-
-        var cardsSize = player.cards.length * dynamicObject.width;
-
-        dynamicObject.x = (player.playerArea.width - cardsSize) / 2 + index * dynamicObject.width;
-        dynamicObject.y = player.playerArea.y + (player.playerArea.height - dynamicObject.height) / 2;
-
     } else {
         console.log("error loading block component");
         console.log(component.errorString());
@@ -157,16 +135,26 @@ function createBlock(index, card, player) {
 }
 
 function playCard(card) {
-    if (card.state === "Played") return;
+    if (card.state === "Played" || card.state === "Stack") return;
 
     // No card has been played
     if (screen.topCard === undefined ||
             // Or card can be played
             cardsPriority.indexOf(card.cardObject.number) >= cardsPriority.indexOf(screen.topCard.cardObject.number)) {
 
+        // Remove card from player's hand
+        var player = card.player;
+        var cardIndex = player.cards.indexOf(card);
+        removeIndex(player.cards, cardIndex);
+
+        // Remove player's info from card
+        card.player = null;
         card.state = "Played";
-        ++screen.stackLevel;
+        screen.stackLevel++;
         screen.topCard = card;
+
+        // Deal player new cards if possible or necessary
+        dealCards(player, 3 - player.cards.length);
     }
 }
 

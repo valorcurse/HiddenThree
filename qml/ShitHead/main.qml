@@ -51,6 +51,7 @@ Rectangle {
     property int screenHeight: 720
     property int stackLevel: 0
     property var topCard
+    property var stackOfCards: []
 
     width: screenWidth; height: screenHeight
 
@@ -68,12 +69,14 @@ Rectangle {
             fillMode: Image.PreserveAspectCrop
         }
 
-        Rectangle {
+        Row {
             id: player2Area
             height: parent.height / 4
-            width: parent.width
-            anchors { top: parent.top}
-            color: "transparent"
+
+            anchors {
+                top: parent.top
+                horizontalCenter: parent.horizontalCenter
+            }
         }
 
         Rectangle {
@@ -84,12 +87,15 @@ Rectangle {
             color: "transparent"
         }
 
-        Rectangle {
+        Row {
             id: player1Area
             height: parent.height / 4
-            width: parent.width
-            anchors { bottom: parent.bottom }
-            color: "transparent"
+
+            anchors {
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
+
         }
 
         Rectangle {
