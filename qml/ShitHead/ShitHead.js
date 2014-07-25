@@ -54,9 +54,25 @@ var cardsInfo = [
             {number: "q", type: "hearts", source: "textures/cards/h_q.png"},
             {number: "k", type: "hearts", source: "textures/cards/h_k.png"},
             {number: "a", type: "hearts", source: "textures/cards/h_a.png"}
-        ]
+        ];
 
 var cardsPriority = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a"];
+
+var cardsRules = {
+    "2"	: 	[],
+    "3"	: 	[],
+    "4"	: 	[],
+    "5"	: 	["4"],
+    "6"	: 	["4", "5"],
+    "7"	: 	["8", "9", "j", "q", "k", "a"],
+    "8"	: 	["4", "5", "6", "7"],
+    "9"	: 	["4", "5", "6", "7", "8"],
+    "10": 	[],
+    "j"	: 	["4", "5", "6", "7", "8", "9"],
+    "q"	: 	["4", "5", "6", "7", "8", "9", "j"],
+    "k"	: 	["4", "5", "6", "7", "8", "9", "j", "q"],
+    "a"	: 	["4", "5", "6", "7", "8", "9", "j", "q", "k"]
+};
 
 var player1;
 var player2;
@@ -135,13 +151,8 @@ function createStackOfCards() {
 }
 
 function playCard(card) {
-    if (card.state === "Played" || card.state === "Stack") return;
 
-    // No card has been played
-    if (screen.topCard === undefined ||
-            // Or card can be played
-            cardsPriority.indexOf(card.cardObject.number) >= cardsPriority.indexOf(screen.topCard.cardObject.number)) {
-
+    if (card.playable) {
         // Remove card from player's hand
         var player = card.player;
         var cardIndex = player.cards.indexOf(card);
@@ -179,13 +190,21 @@ function shuffle(array) {
     return array;
 }
 
-function ifPlayable(card) {
-    if (card.cardObject === undefined) return;
+function isPlayable(card) {
+    // If card is not owned by either the players
+    if (card.state !== "Player1" && card.state !== "Player2") return false;
 
-    if (screen.topCard === undefined ||
-            cardsPriority.indexOf(card.cardObject.number) >= cardsPriority.indexOf(screen.topCard.cardObject.number)) {
-        return "green";
-    } else {
-        return "transparent";
-    }
+    // If the play area is empty
+    if (screen.topCard === undefined) return true;
+
+    // Get cards' values
+    var topCardValue = screen.topCard.cardObject.number;
+    var playCardValue = card.cardObject.number;
+
+    // Get rules for the top card
+    var topCardRules = cardsRules[topCardValue];
+
+    // Check if this card cannot be played
+    if (topCardRules.indexOf(playCardValue) > -1) return false;
+    else return true;
 }

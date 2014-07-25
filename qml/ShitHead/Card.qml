@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+import QtGraphicalEffects 1.0
 import "ShitHead.js" as Game
 
 Rectangle {
@@ -7,11 +7,13 @@ Rectangle {
 
     property var cardObject
     property var player
+    property bool playable: Game.isPlayable(cardItem)
 
     height: 154
     width: 100
     color: "transparent"
-    border.color: (this.state === "Player1" || this.state === "Player2") ? Game.ifPlayable(cardItem) : "transparent";
+    border.color: (playable) ? "green" : "transparent";
+    border.width: 5
 
     Image {
         id: img
@@ -27,8 +29,6 @@ Rectangle {
             Game.playCard(cardItem, playArea, stackLevel)
         }
     }
-
-
 
     states: [
         State {

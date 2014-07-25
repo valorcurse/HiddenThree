@@ -72,6 +72,7 @@ Rectangle {
         Row {
             id: player2Area
             height: parent.height / 4
+            spacing: 10
 
             anchors {
                 top: parent.top
@@ -90,6 +91,7 @@ Rectangle {
         Row {
             id: player1Area
             height: parent.height / 4
+            spacing: 10
 
             anchors {
                 bottom: parent.bottom
