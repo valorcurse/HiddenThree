@@ -68,7 +68,7 @@ Rectangle {
 
             PropertyChanges {
                 target: cardItem
-                z: screen.stackLevel
+                z: game.stackLevel
                 y: parent.height / 3
                 x: parent.width / 3
                 rotation: Math.floor(Math.random() * 360) + 1

@@ -56,8 +56,6 @@ var cardsInfo = [
             {number: "a", type: "hearts", source: "textures/cards/h_a.png"}
         ];
 
-var cardsPriority = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a"];
-
 var cardsRules = {
     "2"	: 	[],
     "3"	: 	[],
@@ -94,6 +92,8 @@ function startNewGame(p1Area, p2Area) {
         playerArea: player1Area,
         state: "Player1"
     };
+    game.players.push(player1);
+    game.playerTurn = game.players.indexOf(player1);
 
     player2 = {
         cards: [],
@@ -101,6 +101,8 @@ function startNewGame(p1Area, p2Area) {
         playerArea: player2Area,
         state: "Player2"
     };
+    game.players.push(player2);
+
 
     // Deals cards to players
     dealCards(player1, 3);
@@ -153,19 +155,66 @@ function createStackOfCards() {
 function playCard(card) {
 
     if (card.playable) {
+
         // Remove card from player's hand
         var player = card.player;
         var cardIndex = player.cards.indexOf(card);
         removeIndex(player.cards, cardIndex);
 
+        // Add it to the played cards stack
+        game.playedCards.push(card);
+
         // Remove player's info from card
         card.player = null;
         card.state = "Played";
-        screen.stackLevel++;
-        screen.topCard = card;
+
+        // Don't set new topcard if the card played was 3
+        if (card.cardObject.number !== "3") {
+            game.stackLevel++;
+            game.topCard = card;
+        }
 
         // Deal player new cards if possible or necessary
         dealCards(player, 3 - player.cards.length);
+
+        switchPlayerTurn();
+    }
+}
+
+function isPlayPossible(player) {
+    var cards = player.cards;
+
+    for (var i = 0; i < cards.length; i++) {
+        if (cards[i].playable) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function switchPlayerTurn() {
+    // Choose the next player in the array
+    game.playerTurn = (game.playerTurn + 1) % game.players.length;
+
+    var currentPlayer = game.players[game.playerTurn];
+
+    // If the next player has a possible play
+    if (!isPlayPossible(currentPlayer)) {
+        for (var i = 0; game.playedCards.length; i++) {
+            var currentCard = game.playedCards.pop();
+
+            // Change card from owner
+            currentCard.state = currentPlayer.state;
+            currentCard.player = currentPlayer;
+            currentPlayer.cards.push(currentCard);
+        }
+
+        // Reset the play area
+        game.stackLevel = 0;
+        game.topCard = undefined;
+
+        game.playerTurn = (game.playerTurn + 1) % game.players.length;
     }
 }
 
@@ -191,14 +240,18 @@ function shuffle(array) {
 }
 
 function isPlayable(card) {
+
     // If card is not owned by either the players
     if (card.state !== "Player1" && card.state !== "Player2") return false;
 
+    // If it's not this player's turn
+    if (game.players.indexOf(card.player) !== game.playerTurn) return false;
+
     // If the play area is empty
-    if (screen.topCard === undefined) return true;
+    if (game.topCard === undefined) return true;
 
     // Get cards' values
-    var topCardValue = screen.topCard.cardObject.number;
+    var topCardValue = game.topCard.cardObject.number;
     var playCardValue = card.cardObject.number;
 
     // Get rules for the top card
@@ -206,5 +259,7 @@ function isPlayable(card) {
 
     // Check if this card cannot be played
     if (topCardRules.indexOf(playCardValue) > -1) return false;
-    else return true;
+
+    // If none of the constraints above apply
+    return true;
 }
