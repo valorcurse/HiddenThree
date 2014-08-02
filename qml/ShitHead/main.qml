@@ -1,10 +1,11 @@
 import QtQuick 2.0
 import "ShitHead.js" as Engine
+//import "Card.qml" as Card
 
 Rectangle {
     id: game
 
-    property int screenWidth: 490
+    property int screenWidth: 540
     property int screenHeight: 720
     property int stackLevel: 0
     property var topCard
@@ -13,7 +14,19 @@ Rectangle {
     property var players: []
     property var playerTurn
 
+//    property var cardWidth: Card.width
+
     width: screenWidth; height: screenHeight
+
+//    Loader {
+//        id: cardItem
+//    }
+
+//    attachedObjects: [
+//            Card {
+//                id: cardItem
+//            }
+//        ]
 
     SystemPalette { id: activePalette }
 
@@ -32,7 +45,8 @@ Rectangle {
         Row {
             id: player2Area
             height: parent.height / 4
-            spacing: 10
+//              spacing: (game.width / player1Area.children.length) > 20 ? 20 : game.width / player1Area.children.length;
+            spacing: Engine.calculateSpacing(player2Area);
 
             anchors {
                 top: parent.top
@@ -51,7 +65,8 @@ Rectangle {
         Row {
             id: player1Area
             height: parent.height / 4
-            spacing: 10
+            layoutDirection: Qt.RightToLeft
+            spacing: Engine.calculateSpacing(player1Area)
 
             anchors {
                 bottom: parent.bottom
@@ -78,7 +93,7 @@ Rectangle {
             anchors { left: parent.left; verticalCenter: parent.verticalCenter }
             text: "New Game"
             onClicked: {
-                Engine.startNewGame(player1Area, player2Area)
+                Engine.startNewGame()
             }
         }
     }

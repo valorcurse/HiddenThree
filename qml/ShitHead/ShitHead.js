@@ -105,7 +105,7 @@ function startNewGame(p1Area, p2Area) {
 
 
     // Deals cards to players
-    dealCards(player1, 3);
+    dealCards(player1, 15);
     dealCards(player2, 3);
 }
 
@@ -262,4 +262,15 @@ function isPlayable(card) {
 
     // If none of the constraints above apply
     return true;
+}
+
+function calculateSpacing(area) {
+    var cardWidth = 100; // TODO: Fix this
+    var widthOverflow = game.width - (area.children.length * cardWidth);
+    if (widthOverflow < 0) {
+        return widthOverflow / area.children.length * 2;
+
+    }
+    else
+        return 10;
 }

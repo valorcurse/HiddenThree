@@ -1,13 +1,15 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import "ShitHead.js" as Game
+import "ShitHead.js" as Engine
 
 Rectangle {
     id: cardItem
 
+    property alias cardItem: cardItem
     property var cardObject
+    property int test: 1
     property var player
-    property bool playable: Game.isPlayable(cardItem)
+    property bool playable: Engine.isPlayable(cardItem)
 
     height: 154
     width: 100
@@ -25,8 +27,20 @@ Rectangle {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+        hoverEnabled: true
+
+        onEntered: {
+            if (cardItem.state == "Player1")
+                cardItem.y -= 20
+        }
+
+        onExited: {
+            if (cardItem.state == "Player1")
+                cardItem.y += 20
+        }
+
         onClicked: {
-            Game.playCard(cardItem, playArea, stackLevel)
+            Engine.playCard(cardItem, playArea, stackLevel)
         }
     }
 
@@ -41,6 +55,7 @@ Rectangle {
                 rotation: 0
             }
         },
+
         State {
             name: "Player1"
             PropertyChanges {
@@ -49,6 +64,7 @@ Rectangle {
                 rotation: 0
             }
         },
+
         State {
             name: "Player2"
             PropertyChanges {
@@ -58,6 +74,7 @@ Rectangle {
 
             }
         },
+
         State {
             name: "Played"
 
