@@ -39,7 +39,7 @@ Rectangle {
             anchors {
                 bottom: playArea.top
                 horizontalCenter: parent.horizontalCenter
-                bottomMargin: 154 * 1.1
+                bottomMargin: 154 * 1.4
             }
         }
 
@@ -64,7 +64,7 @@ Rectangle {
             anchors {
                 top: playArea.bottom
                 horizontalCenter: parent.horizontalCenter
-                topMargin: 154 * 1.1 // TODO: Get this height from somewhere
+                topMargin: 154 // TODO: Get this height from somewhere
             }
 
         }

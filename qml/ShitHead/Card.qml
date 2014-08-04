@@ -48,12 +48,12 @@ Rectangle {
             name: "Stack"
             PropertyChanges {
                 target: cardItem
+
                 parent: stackOfCardsArea
-                y: cardItem.height / 2;
-                x: cardItem.width / 2;
                 rotation: 0
 
-//                anchors.verticalCenter: stackOfCardsArea.verticalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
             }
         },
 
@@ -64,6 +64,8 @@ Rectangle {
                 parent: player1Area
                 rotation: 0
 
+                anchors.verticalCenter: undefined
+                anchors.horizontalCenter: undefined
             }
         },
 
@@ -74,6 +76,8 @@ Rectangle {
                 parent: player2Area
                 rotation: 0
 
+                anchors.verticalCenter: undefined
+                anchors.horizontalCenter: undefined
             }
         },
 
@@ -81,11 +85,10 @@ Rectangle {
             name: "Played"
 
             PropertyChanges {
-                parent: playArea;
                 target: cardItem
+
+                parent: playArea;
                 z: game.stackLevel
-                y: parent.height / 3
-                x: parent.width / 3
                 rotation: Math.floor(Math.random() * 360) + 1
 
                 anchors.verticalCenter: parent.verticalCenter
