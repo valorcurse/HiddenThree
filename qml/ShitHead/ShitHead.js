@@ -74,7 +74,6 @@ var cardsRules = {
 
 var player1;
 var player2;
-//var stackOfCards = [];
 
 function startNewGame(p1Area, p2Area) {
 
@@ -88,7 +87,6 @@ function startNewGame(p1Area, p2Area) {
     // Create players
     player1 = {
         cards: [],
-        cardsPosition : {x: (player1Area.width ) / 2, y: player1Area.y },
         playerArea: player1Area,
         state: "Player1"
     };
@@ -97,7 +95,6 @@ function startNewGame(p1Area, p2Area) {
 
     player2 = {
         cards: [],
-        cardsPosition: {x: (player2Area.width ) / 2, y: player2Area.y },
         playerArea: player2Area,
         state: "Player2"
     };

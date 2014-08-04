@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.2
 import "ShitHead.js" as Engine
 //import "Card.qml" as Card
 
@@ -14,19 +15,7 @@ Rectangle {
     property var players: []
     property var playerTurn
 
-//    property var cardWidth: Card.width
-
     width: screenWidth; height: screenHeight
-
-//    Loader {
-//        id: cardItem
-//    }
-
-//    attachedObjects: [
-//            Card {
-//                id: cardItem
-//            }
-//        ]
 
     SystemPalette { id: activePalette }
 
@@ -45,32 +34,37 @@ Rectangle {
         Row {
             id: player2Area
             height: parent.height / 4
-//              spacing: (game.width / player1Area.children.length) > 20 ? 20 : game.width / player1Area.children.length;
             spacing: Engine.calculateSpacing(player2Area);
 
             anchors {
-                top: parent.top
+                bottom: playArea.top
                 horizontalCenter: parent.horizontalCenter
+                bottomMargin: 154 * 1.1
             }
         }
 
         Rectangle {
             id: playArea
-            height: parent.height / 2
+            height: parent.height / 3
             width: parent.width - stackOfCardsArea.width
-            anchors { top: player2Area.bottom; bottom: player1Area.top;}
-            color: "transparent"
+            anchors {
+                verticalCenter: parent.verticalCenter
+            }
+            color: "red"
+            opacity: 0.5
         }
 
         Row {
             id: player1Area
-            height: parent.height / 4
-            layoutDirection: Qt.RightToLeft
+            height: parent.height / 2
             spacing: Engine.calculateSpacing(player1Area)
 
+            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
+
             anchors {
-                bottom: parent.bottom
+                top: playArea.bottom
                 horizontalCenter: parent.horizontalCenter
+                topMargin: 154 * 1.1 // TODO: Get this height from somewhere
             }
 
         }
@@ -78,8 +72,16 @@ Rectangle {
         Rectangle {
             id: stackOfCardsArea
             width: parent.width / 3
-            anchors { top: player2Area.bottom; bottom: player1Area.top; right: parent.right}
-            color: "transparent"
+            height: parent.height / 3
+
+            anchors {
+                left: playArea.right
+                verticalCenter: playArea.verticalCenter
+            }
+
+            color: "blue"
+            opacity: 0.5
+
         }
     }
 

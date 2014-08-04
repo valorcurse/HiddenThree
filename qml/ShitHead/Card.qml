@@ -21,7 +21,6 @@ Rectangle {
         id: img
         anchors.fill: parent
         source: cardObject.source
-
     }
 
     MouseArea {
@@ -53,6 +52,8 @@ Rectangle {
                 y: cardItem.height / 2;
                 x: cardItem.width / 2;
                 rotation: 0
+
+//                anchors.verticalCenter: stackOfCardsArea.verticalCenter
             }
         },
 
@@ -62,6 +63,7 @@ Rectangle {
                 target: cardItem
                 parent: player1Area
                 rotation: 0
+
             }
         },
 
@@ -78,17 +80,16 @@ Rectangle {
         State {
             name: "Played"
 
-            ParentChange {
-                target: cardItem;
-                parent: playArea;
-            }
-
             PropertyChanges {
+                parent: playArea;
                 target: cardItem
                 z: game.stackLevel
                 y: parent.height / 3
                 x: parent.width / 3
                 rotation: Math.floor(Math.random() * 360) + 1
+
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
             }
         }
     ]
