@@ -51,6 +51,8 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
 
+            color: "transparent"
+
             anchors {
                 bottom: playArea.top
             }
@@ -60,6 +62,8 @@ Rectangle {
             id: playArea
             height: parent.height / 3
             width: parent.width - stackOfCardsArea.width
+
+            color: "transparent"
 
             anchors {
                 verticalCenter: parent.verticalCenter
@@ -71,6 +75,8 @@ Rectangle {
             width: parent.width / 3
             height: parent.height / 3
 
+            color: "transparent"
+
             anchors {
                 left: playArea.right
                 verticalCenter: playArea.verticalCenter
@@ -80,6 +86,8 @@ Rectangle {
         Rectangle {
             id: hiddenCardsPlayer1
             height: parent.height / 4
+
+            color: "transparent"
 
             anchors {
                 top: playArea.bottom
