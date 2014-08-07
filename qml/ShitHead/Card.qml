@@ -5,7 +5,7 @@ import "ShitHead.js" as Engine
 Rectangle {
     id: cardItem
 
-    property alias cardItem: cardItem
+    //    property alias cardItem: cardItem
     property var cardObject
     property int test: 1
     property var player
@@ -30,16 +30,16 @@ Rectangle {
 
         onEntered: {
             if (cardItem.state == "Player1")
-                cardItem.y -= 20
+                cardItem.anchors.topMargin -= 20;
             else if (cardItem.state == "Player2")
-                cardItem.y += 20
+                cardItem.anchors.bottomMargin -= 20;
         }
 
         onExited: {
             if (cardItem.state == "Player1")
-                cardItem.y += 20
+                cardItem.anchors.topMargin += 20
             else if (cardItem.state == "Player2")
-                cardItem.y -= 20
+                cardItem.anchors.bottomMargin += 20
         }
 
         onClicked: {
@@ -52,31 +52,35 @@ Rectangle {
             name: "Stack"
             PropertyChanges {
                 target: cardItem
-
                 parent: stackOfCardsArea
-                rotation: 0
+            }
 
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+            AnchorChanges {
+                target: cardItem
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
             }
         },
 
         State {
             name: "Player1"
+
+
             PropertyChanges {
                 target: cardItem
                 parent: player1Area
-                rotation: 0
+                anchors.topMargin: cardItem.height / 6
+            }
 
+            AnchorChanges {
+                target: cardItem
                 anchors {
-                    verticalCenter: undefined
-                    horizontalCenter: undefined
-
                     top: player1Area.top
-                    topMargin: cardItem.height / 6
-                    bottom: undefined
                 }
             }
+
         },
 
         State {
@@ -85,33 +89,31 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: player2Area
-                rotation: 0
-
+                anchors.bottomMargin: cardItem.height / 6
+            }
+            AnchorChanges {
+                target: cardItem
                 anchors {
-                    verticalCenter: undefined
-                    horizontalCenter: undefined
-
                     bottom: player2Area.bottom
-                    top: undefined
                 }
             }
         },
 
         State {
             name: "Played"
-
             PropertyChanges {
                 target: cardItem
 
                 parent: playArea;
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
+            }
 
+            AnchorChanges {
+                target: cardItem
                 anchors {
                     verticalCenter: parent.verticalCenter
                     horizontalCenter: parent.horizontalCenter
-
-                    top: undefined
                 }
             }
         }
