@@ -31,11 +31,15 @@ Rectangle {
         onEntered: {
             if (cardItem.state == "Player1")
                 cardItem.y -= 20
+            else if (cardItem.state == "Player2")
+                cardItem.y += 20
         }
 
         onExited: {
             if (cardItem.state == "Player1")
                 cardItem.y += 20
+            else if (cardItem.state == "Player2")
+                cardItem.y -= 20
         }
 
         onClicked: {
@@ -64,20 +68,32 @@ Rectangle {
                 parent: player1Area
                 rotation: 0
 
-                anchors.verticalCenter: undefined
-                anchors.horizontalCenter: undefined
+                anchors {
+                    verticalCenter: undefined
+                    horizontalCenter: undefined
+
+                    top: player1Area.top
+                    topMargin: cardItem.height / 6
+                    bottom: undefined
+                }
             }
         },
 
         State {
             name: "Player2"
+
             PropertyChanges {
                 target: cardItem
                 parent: player2Area
                 rotation: 0
 
-                anchors.verticalCenter: undefined
-                anchors.horizontalCenter: undefined
+                anchors {
+                    verticalCenter: undefined
+                    horizontalCenter: undefined
+
+                    bottom: player2Area.bottom
+                    top: undefined
+                }
             }
         },
 
@@ -91,8 +107,12 @@ Rectangle {
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
 
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+
+                    top: undefined
+                }
             }
         }
     ]

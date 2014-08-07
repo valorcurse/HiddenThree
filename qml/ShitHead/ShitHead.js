@@ -102,7 +102,7 @@ function startNewGame(p1Area, p2Area) {
 
 
     // Deals cards to players
-    dealCards(player1, 15);
+    dealCards(player1, 3);
     dealCards(player2, 3);
 }
 
@@ -209,7 +209,8 @@ function switchPlayerTurn() {
 
         // Reset the play area
         game.stackLevel = 0;
-        game.topCard = undefined;
+        game.topCard = undefilateSpacing(player1Area)
+        layoutDirection: Qt.Rned;
 
         game.playerTurn = (game.playerTurn + 1) % game.players.length;
     }
@@ -264,6 +265,7 @@ function isPlayable(card) {
 function calculateSpacing(area) {
     var cardWidth = 100; // TODO: Fix this
     var widthOverflow = game.width - (area.children.length * cardWidth);
+
     if (widthOverflow < 0) {
         return widthOverflow / area.children.length * 2;
 

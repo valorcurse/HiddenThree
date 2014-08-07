@@ -22,7 +22,10 @@ Rectangle {
     Item {
         id: gameArea
         width: parent.width
-        anchors { top: parent.top; bottom: toolBar.top }
+        anchors {
+            top: parent.top;
+            bottom: toolBar.top
+        }
 
         Image {
             id: background
@@ -33,13 +36,29 @@ Rectangle {
 
         Row {
             id: player2Area
-            height: parent.height / 4
+
+//            width: parent.width
             spacing: Engine.calculateSpacing(player2Area);
 
             anchors {
-                bottom: playArea.top
                 horizontalCenter: parent.horizontalCenter
-                bottomMargin: 154 * 1.4
+                top: parent.top
+                bottom: hiddenCardsPlayer2.top
+            }
+        }
+
+        Rectangle {
+            id: hiddenCardsPlayer2
+            height: parent.height / 4
+            width: parent.width
+
+            color: "#ffc2cd"
+            opacity: 0.5
+
+            anchors {
+                bottom: playArea.top
+//                left: parent.left
+//                right: parent.right
             }
         }
 
@@ -54,21 +73,6 @@ Rectangle {
             opacity: 0.5
         }
 
-        Row {
-            id: player1Area
-            height: parent.height / 2
-            spacing: Engine.calculateSpacing(player1Area)
-
-            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
-
-            anchors {
-                top: playArea.bottom
-                horizontalCenter: parent.horizontalCenter
-                topMargin: 154 // TODO: Get this height from somewhere
-            }
-
-        }
-
         Rectangle {
             id: stackOfCardsArea
             width: parent.width / 3
@@ -80,8 +84,37 @@ Rectangle {
             }
 
             color: "blue"
+            opacity: 0.1
+
+        }
+
+        Rectangle {
+            id: hiddenCardsPlayer1
+            height: parent.height / 4
+
+            color: "#faff00"
             opacity: 0.5
 
+            anchors {
+                top: playArea.bottom
+                left: parent.left
+                right: parent.right
+            }
+        }
+
+        Row {
+            id: player1Area
+            height: parent.height / 4
+
+            spacing: Engine.calculateSpacing(player1Area)
+            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
+
+            anchors {
+                bottom: parent.bottom
+                top:  hiddenCardsPlayer1.bottom
+                horizontalCenter: parent.horizontalCenter
+//                topMargin: 154 // TODO: Get this height from somewhere
+            }
         }
     }
 
