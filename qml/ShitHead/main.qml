@@ -37,7 +37,6 @@ Rectangle {
         Row {
             id: player2Area
 
-//            width: parent.width
             spacing: Engine.calculateSpacing(player2Area);
 
             anchors {
@@ -52,13 +51,8 @@ Rectangle {
             height: parent.height / 4
             width: parent.width
 
-            color: "#ffc2cd"
-            opacity: 0.5
-
             anchors {
                 bottom: playArea.top
-//                left: parent.left
-//                right: parent.right
             }
         }
 
@@ -66,11 +60,10 @@ Rectangle {
             id: playArea
             height: parent.height / 3
             width: parent.width - stackOfCardsArea.width
+
             anchors {
                 verticalCenter: parent.verticalCenter
             }
-            color: "red"
-            opacity: 0.5
         }
 
         Rectangle {
@@ -82,18 +75,11 @@ Rectangle {
                 left: playArea.right
                 verticalCenter: playArea.verticalCenter
             }
-
-            color: "blue"
-            opacity: 0.1
-
         }
 
         Rectangle {
             id: hiddenCardsPlayer1
             height: parent.height / 4
-
-            color: "#faff00"
-            opacity: 0.5
 
             anchors {
                 top: playArea.bottom
@@ -113,7 +99,6 @@ Rectangle {
                 bottom: parent.bottom
                 top:  hiddenCardsPlayer1.bottom
                 horizontalCenter: parent.horizontalCenter
-//                topMargin: 154 // TODO: Get this height from somewhere
             }
         }
     }
