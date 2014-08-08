@@ -7,7 +7,6 @@ Rectangle {
 
     //    property alias cardItem: cardItem
     property var cardObject
-    property int test: 1
     property var player
     property bool playable: Engine.isPlayable(cardItem)
 
@@ -16,6 +15,7 @@ Rectangle {
     color: "transparent"
     border.color: (playable) ? "green" : "transparent";
     border.width: 5
+
 
     Image {
         id: img
@@ -65,7 +65,7 @@ Rectangle {
         },
 
         State {
-            name: "Player1"
+            name: "Player1Hand"
 
 
             PropertyChanges {
@@ -84,7 +84,7 @@ Rectangle {
         },
 
         State {
-            name: "Player2"
+            name: "Player1Hand"
 
             PropertyChanges {
                 target: cardItem
@@ -100,11 +100,29 @@ Rectangle {
         },
 
         State {
+            name: "Player1HiddenTop"
+
+            PropertyChanges {
+                target: cardItem
+                parent: hiddenCardsPlayer1Top
+            }
+        },
+
+        State {
+            name: "Player1HiddenBottom"
+
+            PropertyChanges {
+                target: cardItem
+                parent: hiddenCardsPlayer1Bottom
+            }
+        },
+
+        State {
             name: "Played"
             PropertyChanges {
                 target: cardItem
 
-                parent: playArea;
+                parent: playArea
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
             }
@@ -116,6 +134,16 @@ Rectangle {
                     horizontalCenter: parent.horizontalCenter
                 }
             }
+        },
+
+        State {
+            name: "burned"
+
+            PropertyChanges {
+                target: cardItem
+                parent: graveyard
+            }
         }
+
     ]
 }

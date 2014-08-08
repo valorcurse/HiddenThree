@@ -86,34 +86,59 @@ function startNewGame(p1Area, p2Area) {
 
     // Create players
     player1 = {
-        cards: [],
+        cardsHand: [],
+        cardsHidden: [],
         playerArea: player1Area,
-        state: "Player1"
+        handState: "Player1Hand",
+        hiddenTopState: "Player1HiddenTop",
+        hiddenBottomState: "Player1HiddenBottom"
     };
     game.players.push(player1);
     game.playerTurn = game.players.indexOf(player1);
 
     player2 = {
-        cards: [],
+        cardsHand: [],
         playerArea: player2Area,
-        state: "Player2"
+        handState: "Player2Hand"
     };
     game.players.push(player2);
 
+    dealHiddenCards(player1);
+    //    dealHiddenCards(player2);
 
     // Deals cards to players
     dealCards(player1, 15);
     dealCards(player2, 3);
 }
 
+function dealHiddenCards(player) {
+    for (var i = 0; i < 6; i++) {
+
+        var card = stackOfCards.pop();
+
+        // Deal bottom cards
+        if (i < 3) {
+            card.state = player.hiddenBottomState;
+        }
+        // Deal top cards
+        else {
+            card.state = player.hiddenTopState;
+        }
+
+        card.player = player;
+
+        player.cardsHidden.push(card)
+    }
+}
+
 function dealCards(player, numberOfCards) {
     for (var i = 0; i < numberOfCards; i++) {
 
         var card = stackOfCards.pop();
-        card.state = player.state;
+        card.state = player.handState;
         card.player = player;
 
-        player.cards.push(card);
+        player.cardsHand.push(card);
     }
 }
 
@@ -155,8 +180,8 @@ function playCard(card) {
 
         // Remove card from player's hand
         var player = card.player;
-        var cardIndex = player.cards.indexOf(card);
-        removeIndex(player.cards, cardIndex);
+        var cardIndex = player.cardsHand.indexOf(card);
+        removeIndex(player.cardsHand, cardIndex);
 
         // Add it to the played cards stack
         game.playedCards.push(card);
@@ -165,21 +190,45 @@ function playCard(card) {
         card.player = null;
         card.state = "Played";
 
-        // Don't set new topcard if the card played was 3
-        if (card.cardObject.number !== "3") {
-            game.stackLevel++;
-            game.topCard = card;
-        }
+        // Invoke card played signal
+        game.cardPlayed();
 
         // Deal player new cards if possible or necessary
-        dealCards(player, 3 - player.cards.length);
-
-        switchPlayerTurn();
+        dealCards(player, 3 - player.cardsHand.length);
     }
 }
 
+function handlePlay() {
+    // Get last played card
+    var card = playedCards[playedCards.length - 1];
+    var cardValue = card.cardObject.number;
+    var numberOfTurnsToSkip = 1;
+
+    // Don't set new topcard if the card played was 3
+    if (cardValue !== "3") {
+        game.stackLevel++;
+        game.topCard = card;
+    }
+
+    // Burn played cards
+    if (cardValue === "10") {
+        for (var i = 0; i < game.playedCards.length; i++) {
+            playedCards[i].state = "burned";
+        }
+
+        numberOfTurnsToSkip = 0;
+    }
+
+    // Skip next player
+    if (cardValue === "8") {
+        numberOfTurnsToSkip = 2;
+    }
+
+    switchPlayerTurn(numberOfTurnsToSkip);
+}
+
 function isPlayPossible(player) {
-    var cards = player.cards;
+    var cards = player.cardsHand;
 
     for (var i = 0; i < cards.length; i++) {
         if (cards[i].playable) {
@@ -190,9 +239,11 @@ function isPlayPossible(player) {
     return false;
 }
 
-function switchPlayerTurn() {
+function switchPlayerTurn(numberOfTimes) {
+    if (typeof(numberOfTimes) === 'undefined') numberOfTimes = 1; // Default parameter value
+
     // Choose the next player in the array
-    game.playerTurn = (game.playerTurn + 1) % game.players.length;
+    game.playerTurn = (game.playerTurn + numberOfTimes) % game.players.length;
 
     var currentPlayer = game.players[game.playerTurn];
 
@@ -202,9 +253,9 @@ function switchPlayerTurn() {
             var currentCard = game.playedCards.pop();
 
             // Change card from owner
-            currentCard.state = currentPlayer.state;
+            currentCard.state = currentPlayer.handState;
             currentCard.player = currentPlayer;
-            currentPlayer.cards.push(currentCard);
+            currentplayer.cardsHand.push(currentCard);
         }
 
         // Reset the play area
@@ -239,7 +290,7 @@ function shuffle(array) {
 function isPlayable(card) {
 
     // If card is not owned by either the players
-    if (card.state !== "Player1" && card.state !== "Player2") return false;
+    if (card.state !== "Player1Hand" && card.state !== "Player2Hand") return false;
 
     // If it's not this player's turn
     if (game.players.indexOf(card.player) !== game.playerTurn) return false;
@@ -264,6 +315,7 @@ function isPlayable(card) {
 function calculateSpacing(area) {
     var cardWidth = 100; // TODO: Fix this
     var widthOverflow = game.width - (area.children.length * cardWidth);
+
     if (widthOverflow < 0) {
         return widthOverflow / area.children.length * 2;
 

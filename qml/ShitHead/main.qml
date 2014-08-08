@@ -15,6 +15,14 @@ Rectangle {
     property var players: []
     property var playerTurn
 
+    signal cardPlayed
+
+    onCardPlayed: {
+        console.log(game.playedCards[game.playedCards.length - 1].cardObject.number);
+
+        Engine.handlePlay(topCard);
+    }
+
     width: screenWidth; height: screenHeight
 
     SystemPalette { id: activePalette }
@@ -46,36 +54,30 @@ Rectangle {
             }
         }
 
-        Rectangle {
+        Item {
             id: hiddenCardsPlayer2
             height: parent.height / 4
             width: parent.width
-
-            color: "transparent"
 
             anchors {
                 bottom: playArea.top
             }
         }
 
-        Rectangle {
+        Item {
             id: playArea
             height: parent.height / 3
             width: parent.width - stackOfCardsArea.width
-
-            color: "transparent"
 
             anchors {
                 verticalCenter: parent.verticalCenter
             }
         }
 
-        Rectangle {
+        Item {
             id: stackOfCardsArea
             width: parent.width / 3
             height: parent.height / 3
-
-            color: "transparent"
 
             anchors {
                 left: playArea.right
@@ -83,16 +85,29 @@ Rectangle {
             }
         }
 
-        Rectangle {
-            id: hiddenCardsPlayer1
+        Row {
+            id: hiddenCardsPlayer1Top
             height: parent.height / 4
+            spacing: 20
+            z: 1 // Displays these cards on top
 
-            color: "transparent"
+//            color: "blue"
+            opacity: 0.5
 
             anchors {
                 top: playArea.bottom
-                left: parent.left
-                right: parent.right
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        Row {
+            id: hiddenCardsPlayer1Bottom
+            height: parent.height / 4
+            spacing: 20
+
+            anchors {
+                top: playArea.bottom
+                horizontalCenter: parent.horizontalCenter
             }
         }
 
@@ -105,8 +120,18 @@ Rectangle {
 
             anchors {
                 bottom: parent.bottom
-                top:  hiddenCardsPlayer1.bottom
+                top:  hiddenCardsPlayer1Top.bottom
                 horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        Item {
+            id: graveyard
+            width: 100
+            height: 154
+
+            anchors {
+                right: parent.left
             }
         }
     }
