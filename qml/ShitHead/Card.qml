@@ -5,7 +5,6 @@ import "ShitHead.js" as Engine
 Rectangle {
     id: cardItem
 
-    //    property alias cardItem: cardItem
     property var cardObject
     property var player
     property bool playable: Engine.isPlayable(cardItem)
@@ -29,16 +28,16 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            if (cardItem.state == "Player1")
+            if (cardItem.state == "Player1Hand")
                 cardItem.anchors.topMargin -= 20;
-            else if (cardItem.state == "Player2")
+            else if (cardItem.state == "Player2Hand")
                 cardItem.anchors.bottomMargin -= 20;
         }
 
         onExited: {
-            if (cardItem.state == "Player1")
+            if (cardItem.state == "Player1Hand")
                 cardItem.anchors.topMargin += 20
-            else if (cardItem.state == "Player2")
+            else if (cardItem.state == "Player2Hand")
                 cardItem.anchors.bottomMargin += 20
         }
 
@@ -83,21 +82,6 @@ Rectangle {
 
         },
 
-        State {
-            name: "Player1Hand"
-
-            PropertyChanges {
-                target: cardItem
-                parent: player2Area
-                anchors.bottomMargin: cardItem.height / 6
-            }
-            AnchorChanges {
-                target: cardItem
-                anchors {
-                    bottom: player2Area.bottom
-                }
-            }
-        },
 
         State {
             name: "Player1HiddenTop"
@@ -114,6 +98,40 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: hiddenCardsPlayer1Bottom
+            }
+        },
+
+        State {
+            name: "Player2Hand"
+
+            PropertyChanges {
+                target: cardItem
+                parent: player2Area
+                anchors.bottomMargin: cardItem.height / 6
+            }
+            AnchorChanges {
+                target: cardItem
+                anchors {
+                    bottom: player2Area.bottom
+                }
+            }
+        },
+
+        State {
+            name: "Player2HiddenTop"
+
+            PropertyChanges {
+                target: cardItem
+                parent: hiddenCardsPlayer2Top
+            }
+        },
+
+        State {
+            name: "Player2HiddenBottom"
+
+            PropertyChanges {
+                target: cardItem
+                parent: hiddenCardsPlayer2Bottom
             }
         },
 
@@ -137,7 +155,7 @@ Rectangle {
         },
 
         State {
-            name: "burned"
+            name: "Burned"
 
             PropertyChanges {
                 target: cardItem

@@ -18,8 +18,7 @@ Rectangle {
     signal cardPlayed
 
     onCardPlayed: {
-        console.log(game.playedCards[game.playedCards.length - 1].cardObject.number);
-
+//        console.log(game.playedCards[game.playedCards.length - 1].cardObject.number);
         Engine.handlePlay(topCard);
     }
 
@@ -44,23 +43,39 @@ Rectangle {
 
         Row {
             id: player2Area
+            height: parent.height / 4
 
             spacing: Engine.calculateSpacing(player2Area);
 
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
-                bottom: hiddenCardsPlayer2.top
+                bottom: hiddenCardsPlayer2Top.top
             }
         }
 
-        Item {
-            id: hiddenCardsPlayer2
+        Row {
+            id: hiddenCardsPlayer2Top
             height: parent.height / 4
-            width: parent.width
+            spacing: 20
+            z: 1 // Displays these cards on top
+
+            opacity: 0.5
 
             anchors {
                 bottom: playArea.top
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        Row {
+            id: hiddenCardsPlayer2Bottom
+            height: parent.height / 4
+            spacing: 20
+
+            anchors {
+                bottom: playArea.top
+                horizontalCenter: parent.horizontalCenter
             }
         }
 
@@ -91,7 +106,6 @@ Rectangle {
             spacing: 20
             z: 1 // Displays these cards on top
 
-//            color: "blue"
             opacity: 0.5
 
             anchors {
@@ -114,9 +128,10 @@ Rectangle {
         Row {
             id: player1Area
             height: parent.height / 4
+//            width: parent.width
 
             spacing: Engine.calculateSpacing(player1Area)
-            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
+//            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
             anchors {
                 bottom: parent.bottom
