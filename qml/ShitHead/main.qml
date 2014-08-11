@@ -18,7 +18,6 @@ Rectangle {
     signal cardPlayed
 
     onCardPlayed: {
-//        console.log(game.playedCards[game.playedCards.length - 1].cardObject.number);
         Engine.handlePlay(topCard);
     }
 
@@ -46,6 +45,7 @@ Rectangle {
             height: parent.height / 4
 
             spacing: Engine.calculateSpacing(player2Area);
+            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
             anchors {
                 horizontalCenter: parent.horizontalCenter
@@ -60,7 +60,7 @@ Rectangle {
             spacing: 20
             z: 1 // Displays these cards on top
 
-            opacity: 0.5
+            //            opacity: 0.5
 
             anchors {
                 bottom: playArea.top
@@ -106,7 +106,7 @@ Rectangle {
             spacing: 20
             z: 1 // Displays these cards on top
 
-            opacity: 0.5
+            //            opacity: 0.5
 
             anchors {
                 top: playArea.bottom
@@ -128,10 +128,9 @@ Rectangle {
         Row {
             id: player1Area
             height: parent.height / 4
-//            width: parent.width
 
             spacing: Engine.calculateSpacing(player1Area)
-//            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
+            //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
             anchors {
                 bottom: parent.bottom

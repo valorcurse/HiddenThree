@@ -110,7 +110,7 @@ function startNewGame(p1Area, p2Area) {
     dealHiddenCards(player2);
     
     // Deals cards to players
-    dealCards(player1, 15);
+    dealCards(player1, 3);
     dealCards(player2, 3);
 }
 
@@ -135,14 +135,15 @@ function dealHiddenCards(player) {
 }
 
 function dealCards(player, numberOfCards) {
-    for (var i = 0; i < numberOfCards; i++) {
-        
-        var card = stackOfCards.pop();
-        card.state = player.handState;
-        card.player = player;
-        
-        player.cardsHand.push(card);
-    }
+    if (stackOfCards.length > 0)
+        for (var i = 0; i < numberOfCards; i++) {
+
+            var card = stackOfCards.pop();
+            card.state = player.handState;
+            card.player = player;
+
+            player.cardsHand.push(card);
+        }
 }
 
 function removeIndex(array, index) {
@@ -156,7 +157,7 @@ function createStackOfCards() {
     if (component.status === Component.Ready) {
         
         for (var i = 0; i < cardsInfo.length; i++) {
-            var card = component.createObject(background, {cardObject: cardsInfo[i], state: "Stack"});
+            var card = component.createObject(background, {cardObject: cardsInfo[i]});
             
             if (card === null) {
                 console.log("error creating block");
@@ -164,8 +165,11 @@ function createStackOfCards() {
                 
                 return false;
             }
+
             
             stackOfCards.push(card);
+            card.state = "Stack";
+//            console.log(stackOfCards);
         }
     } else {
         console.log("error loading block component");
@@ -340,7 +344,7 @@ function isPlayable(card) {
 
 // TODO: Find a better algorithm
 function calculateSpacing(area) {
-    if (area === player2Area) return 0;
+    //    if (area === player2Area) return 0;
 
     var cardWidth = 100; // TODO: Fix this
     var widthOverflow = game.width / area.children.length;

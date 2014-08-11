@@ -49,17 +49,23 @@ Rectangle {
     states: [
         State {
             name: "Stack"
+
             PropertyChanges {
                 target: cardItem
                 parent: stackOfCardsArea
+                x: stackOfCards.indexOf(cardItem) * 0.2
             }
 
             AnchorChanges {
                 target: cardItem
                 anchors {
                     verticalCenter: parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
                 }
+            }
+
+            PropertyChanges {
+                target: img
+                source: "textures/cards/backside.png"
             }
         },
 
@@ -99,6 +105,11 @@ Rectangle {
                 target: cardItem
                 parent: hiddenCardsPlayer1Bottom
             }
+
+            PropertyChanges {
+                target: img
+                source: "textures/cards/backside.png"
+            }
         },
 
         State {
@@ -132,6 +143,11 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: hiddenCardsPlayer2Bottom
+            }
+
+            PropertyChanges {
+                target: img
+                source: "textures/cards/backside.png"
             }
         },
 
