@@ -25,22 +25,51 @@ Rectangle {
 
     SystemPalette { id: activePalette }
 
+//    GameArea {
+//        id: gameArea
+//    }
+
     Loader {
         id: pageLoader
-        anchors.fill: parent
-        source: "GameArea.qml"
-//        sourceComponent: gameArea
+//        anchors.fill: parent
+        z: 1
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            bottom: toolBar.top
+        }
+
+//        source: "GameArea.qml"
+
+        onLoaded: {
+            binder.target = pageLoader.item
+//            pageLoader.item.playArea.color = "blue";
+//            Engine.startNewGame()
+        }
+
+//        property var stackOfCardsArea: item.stackOfCardsArea
+        //        sourceComponent: gameArea
     }
+
+    Binding {
+           id: binder
+
+           property: "state"
+           value: "dealCards"
+       }
 
     Image {
         id: background
         anchors.fill: parent
+        z: 0
         source: "textures/woodBackground.png"
         fillMode: Image.PreserveAspectCrop
     }
 
     Rectangle {
         id: toolBar
+        z: 2
         width: parent.width; height: 30
         color: activePalette.window
         anchors.bottom: game.bottom
@@ -49,7 +78,7 @@ Rectangle {
             anchors { left: parent.left; verticalCenter: parent.verticalCenter }
             text: "New Game"
             onClicked: {
-                Engine.startNewGame()
+                pageLoader.source = "GameArea.qml"
             }
         }
     }

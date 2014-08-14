@@ -7,6 +7,7 @@ Rectangle {
 
     property var cardObject
     property var player
+//    property var gameArea: pageLoader.item
     property bool playable: Engine.isPlayable(cardItem)
 
     height: 154
@@ -46,19 +47,19 @@ Rectangle {
         }
     }
 
-//    onParentChanged: {
-//        for (var child in pageLoader.item.children)
-//            console.log(pageLoader.item.children[child].objectName);
-//    }
-
-    function findByObjectName(objectName) {
-        for (var child in pageLoader.item.children)
-            if (pageLoader.item.children[child].objectName === objectName)
-                return pageLoader.item.children[child];
-
-        return undefined;
+    onParentChanged: {
+//        console.log(parent)
+//        for (var child in gameArea.children)
+//            console.log(gameArea.children[child]);
     }
 
+//    function findByObjectName(objectName) {
+//        for (var child in pageLoader.item.children)
+//            if (pageLoader.item.children[child].objectName === objectName)
+//                return pageLoader.item.children[child];
+
+//        return undefined;
+//    }
 
     states: [
         State {
@@ -66,8 +67,7 @@ Rectangle {
 
             PropertyChanges {
                 target: cardItem
-                //                parent: stackOfCardsArea
-                parent: findByObjectName("stackOfCardsArea")
+                parent: stackOfCardsArea
                 x: stackOfCards.indexOf(cardItem) * 0.2
             }
 
@@ -87,7 +87,6 @@ Rectangle {
         State {
             name: "Player1Hand"
 
-
             PropertyChanges {
                 target: cardItem
                 parent: player1Area
@@ -102,7 +101,6 @@ Rectangle {
             }
 
         },
-
 
         State {
             name: "Player1HiddenTop"
@@ -135,6 +133,7 @@ Rectangle {
                 parent: player2Area
                 anchors.bottomMargin: cardItem.height / 6
             }
+
             AnchorChanges {
                 target: cardItem
                 anchors {
@@ -193,6 +192,5 @@ Rectangle {
                 parent: graveyard
             }
         }
-
     ]
 }

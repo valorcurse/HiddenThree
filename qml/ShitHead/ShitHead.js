@@ -157,7 +157,7 @@ function createStackOfCards() {
     if (component.status === Component.Ready) {
         
         for (var i = 0; i < cardsInfo.length; i++) {
-            var card = component.createObject(background, {cardObject: cardsInfo[i]});
+            var card = component.createObject(stackOfCardsArea, {cardObject: cardsInfo[i]});
             
             if (card === null) {
                 console.log("error creating block");
@@ -168,6 +168,9 @@ function createStackOfCards() {
 
             
             stackOfCards.push(card);
+//            console.log(pageLoader.item.children.contains("stackOfCardsArea"))
+//            card.parent = stackOfCardsArea;
+
             card.state = "Stack";
 //            console.log(stackOfCards);
         }
