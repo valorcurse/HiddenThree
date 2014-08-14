@@ -88,7 +88,7 @@ function startNewGame(p1Area, p2Area) {
     player1 = {
         cardsHand: [],
         cardsHidden: [],
-        playerArea: player1Area,
+        playerArea: pageLoader.player1Area,
         handState: "Player1Hand",
         hiddenTopState: "Player1HiddenTop",
         hiddenBottomState: "Player1HiddenBottom"
@@ -99,7 +99,7 @@ function startNewGame(p1Area, p2Area) {
     player2 = {
         cardsHand: [],
         cardsHidden: [],
-        playerArea: player2Area,
+        playerArea: pageLoader.player2Area,
         handState: "Player2Hand",
         hiddenTopState: "Player2HiddenTop",
         hiddenBottomState: "Player2HiddenBottom"

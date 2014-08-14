@@ -46,13 +46,28 @@ Rectangle {
         }
     }
 
+//    onParentChanged: {
+//        for (var child in pageLoader.item.children)
+//            console.log(pageLoader.item.children[child].objectName);
+//    }
+
+    function findByObjectName(objectName) {
+        for (var child in pageLoader.item.children)
+            if (pageLoader.item.children[child].objectName === objectName)
+                return pageLoader.item.children[child];
+
+        return undefined;
+    }
+
+
     states: [
         State {
             name: "Stack"
 
             PropertyChanges {
                 target: cardItem
-                parent: stackOfCardsArea
+                //                parent: stackOfCardsArea
+                parent: findByObjectName("stackOfCardsArea")
                 x: stackOfCards.indexOf(cardItem) * 0.2
             }
 
