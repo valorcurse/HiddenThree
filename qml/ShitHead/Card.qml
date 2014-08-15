@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import QtGraphicalEffects 1.0
 import "ShitHead.js" as Engine
 
@@ -7,7 +7,6 @@ Rectangle {
 
     property var cardObject
     property var player
-//    property var gameArea: pageLoader.item
     property bool playable: Engine.isPlayable(cardItem)
 
     height: 154
@@ -21,6 +20,7 @@ Rectangle {
         id: img
         anchors.fill: parent
         source: cardObject.source
+        mipmap: true
     }
 
     MouseArea {
@@ -29,37 +29,58 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            if (cardItem.state == "Player1Hand")
-                cardItem.anchors.topMargin -= 20;
-            else if (cardItem.state == "Player2Hand")
-                cardItem.anchors.bottomMargin -= 20;
+            if (playable) {
+                if (cardItem.state == "Player1Hand")
+                    cardItem.anchors.topMargin -= 20;
+                else if (cardItem.state == "Player2Hand")
+                    cardItem.anchors.bottomMargin -= 20;
+            }
         }
 
         onExited: {
-            if (cardItem.state == "Player1Hand")
-                cardItem.anchors.topMargin += 20
-            else if (cardItem.state == "Player2Hand")
-                cardItem.anchors.bottomMargin += 20
+            if (playable) {
+                if (cardItem.state == "Player1Hand")
+                    cardItem.anchors.topMargin += 20
+                else if (cardItem.state == "Player2Hand")
+                    cardItem.anchors.bottomMargin += 20
+            }
         }
 
         onClicked: {
-            Engine.playCard(cardItem, playArea, stackLevel)
+            if (gameArea.state === "chooseCards") {
+                switch(cardItem.state) {
+                case "Player1HiddenTop":
+                case "Player2HiddenTop": {
+                    Engine.removeTopCard(cardItem);
+                    break;
+                }
+
+                case "Player1Hand":
+                case "Player2Hand": {
+                    Engine.chooseTopCard(cardItem);
+                    break;
+                }
+
+                }
+            }
+            else if (gameArea.state === "playCards")
+                Engine.playCard(cardItem);
         }
     }
 
     onParentChanged: {
-//        console.log(parent)
-//        for (var child in gameArea.children)
-//            console.log(gameArea.children[child]);
+        //        console.log(parent)
+        //        for (var child in gameArea.children)
+        //            console.log(gameArea.children[child]);
     }
 
-//    function findByObjectName(objectName) {
-//        for (var child in pageLoader.item.children)
-//            if (pageLoader.item.children[child].objectName === objectName)
-//                return pageLoader.item.children[child];
+    //    function findByObjectName(objectName) {
+    //        for (var child in pageLoader.item.children)
+    //            if (pageLoader.item.children[child].objectName === objectName)
+    //                return pageLoader.item.children[child];
 
-//        return undefined;
-//    }
+    //        return undefined;
+    //    }
 
     states: [
         State {
@@ -85,78 +106,38 @@ Rectangle {
         },
 
         State {
-            name: "Player1Hand"
+            name: "PlayerHand"
 
             PropertyChanges {
                 target: cardItem
-                parent: player1Area
-                anchors.topMargin: cardItem.height / 6
+                parent: player.areas.playerHandArea
+
             }
 
             AnchorChanges {
                 target: cardItem
                 anchors {
-                    top: player1Area.top
+                    verticalCenter: parent.verticalCenter
                 }
             }
 
         },
 
         State {
-            name: "Player1HiddenTop"
+            name: "PlayerThreeTop"
 
             PropertyChanges {
                 target: cardItem
-                parent: hiddenCardsPlayer1Top
+                parent: player.areas.threeTopArea
             }
         },
 
         State {
-            name: "Player1HiddenBottom"
+            name: "PlayerThreeBottom"
 
             PropertyChanges {
                 target: cardItem
-                parent: hiddenCardsPlayer1Bottom
-            }
-
-            PropertyChanges {
-                target: img
-                source: "textures/cards/backside.png"
-            }
-        },
-
-        State {
-            name: "Player2Hand"
-
-            PropertyChanges {
-                target: cardItem
-                parent: player2Area
-                anchors.bottomMargin: cardItem.height / 6
-            }
-
-            AnchorChanges {
-                target: cardItem
-                anchors {
-                    bottom: player2Area.bottom
-                }
-            }
-        },
-
-        State {
-            name: "Player2HiddenTop"
-
-            PropertyChanges {
-                target: cardItem
-                parent: hiddenCardsPlayer2Top
-            }
-        },
-
-        State {
-            name: "Player2HiddenBottom"
-
-            PropertyChanges {
-                target: cardItem
-                parent: hiddenCardsPlayer2Bottom
+                parent: player.areas.threeBottomArea
             }
 
             PropertyChanges {

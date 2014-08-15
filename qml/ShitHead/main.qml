@@ -25,14 +25,10 @@ Rectangle {
 
     SystemPalette { id: activePalette }
 
-//    GameArea {
-//        id: gameArea
-//    }
-
     Loader {
         id: pageLoader
-//        anchors.fill: parent
         z: 1
+
         anchors {
             left: parent.left
             right: parent.right
@@ -40,20 +36,13 @@ Rectangle {
             bottom: toolBar.top
         }
 
-//        source: "GameArea.qml"
-
         onLoaded: {
-            binder.target = pageLoader.item
-//            pageLoader.item.playArea.color = "blue";
-//            Engine.startNewGame()
+            gameAreaBinder.target = pageLoader.item
         }
-
-//        property var stackOfCardsArea: item.stackOfCardsArea
-        //        sourceComponent: gameArea
     }
 
     Binding {
-           id: binder
+           id: gameAreaBinder
 
            property: "state"
            value: "dealCards"

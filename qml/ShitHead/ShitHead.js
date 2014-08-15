@@ -1,81 +1,9 @@
-var cardsInfo = [
-            {number: "2", type: "clover", source: "textures/cards/c_02.png"},
-            {number: "3", type: "clover", source: "textures/cards/c_03.png"},
-            {number: "4", type: "clover", source: "textures/cards/c_04.png"},
-            {number: "5", type: "clover", source: "textures/cards/c_05.png"},
-            {number: "6", type: "clover", source: "textures/cards/c_06.png"},
-            {number: "7", type: "clover", source: "textures/cards/c_07.png"},
-            {number: "8", type: "clover", source: "textures/cards/c_08.png"},
-            {number: "9", type: "clover", source: "textures/cards/c_09.png"},
-            {number: "10", type: "clover", source: "textures/cards/c_10.png"},
-            {number: "j", type: "clover", source: "textures/cards/c_j.png"},
-            {number: "q", type: "clover", source: "textures/cards/c_q.png"},
-            {number: "k", type: "clover", source: "textures/cards/c_k.png"},
-            {number: "a", type: "clover", source: "textures/cards/c_a.png"},
-            
-            {number: "2", type: "diamonds", source: "textures/cards/d_02.png"},
-            {number: "3", type: "diamonds", source: "textures/cards/d_03.png"},
-            {number: "4", type: "diamonds", source: "textures/cards/d_04.png"},
-            {number: "5", type: "diamonds", source: "textures/cards/d_05.png"},
-            {number: "6", type: "diamonds", source: "textures/cards/d_06.png"},
-            {number: "7", type: "diamonds", source: "textures/cards/d_07.png"},
-            {number: "8", type: "diamonds", source: "textures/cards/d_08.png"},
-            {number: "9", type: "diamonds", source: "textures/cards/d_09.png"},
-            {number: "10", type: "diamonds", source: "textures/cards/d_10.png"},
-            {number: "j", type: "diamonds", source: "textures/cards/d_j.png"},
-            {number: "q", type: "diamonds", source: "textures/cards/d_q.png"},
-            {number: "k", type: "diamonds", source: "textures/cards/d_k.png"},
-            {number: "a", type: "diamonds", source: "textures/cards/d_a.png"},
-            
-            {number: "2", type: "spades", source: "textures/cards/s_02.png"},
-            {number: "3", type: "spades", source: "textures/cards/s_03.png"},
-            {number: "4", type: "spades", source: "textures/cards/s_04.png"},
-            {number: "5", type: "spades", source: "textures/cards/s_05.png"},
-            {number: "6", type: "spades", source: "textures/cards/s_06.png"},
-            {number: "7", type: "spades", source: "textures/cards/s_07.png"},
-            {number: "8", type: "spades", source: "textures/cards/s_08.png"},
-            {number: "9", type: "spades", source: "textures/cards/s_09.png"},
-            {number: "10", type: "spades", source: "textures/cards/s_10.png"},
-            {number: "j", type: "spades", source: "textures/cards/s_j.png"},
-            {number: "q", type: "spades", source: "textures/cards/s_q.png"},
-            {number: "k", type: "spades", source: "textures/cards/s_k.png"},
-            {number: "a", type: "spades", source: "textures/cards/s_a.png"},
-            
-            {number: "2", type: "hearts", source: "textures/cards/h_02.png"},
-            {number: "3", type: "hearts", source: "textures/cards/h_03.png"},
-            {number: "4", type: "hearts", source: "textures/cards/h_04.png"},
-            {number: "5", type: "hearts", source: "textures/cards/h_05.png"},
-            {number: "6", type: "hearts", source: "textures/cards/h_06.png"},
-            {number: "7", type: "hearts", source: "textures/cards/h_07.png"},
-            {number: "8", type: "hearts", source: "textures/cards/h_08.png"},
-            {number: "9", type: "hearts", source: "textures/cards/h_09.png"},
-            {number: "10", type: "hearts", source: "textures/cards/h_10.png"},
-            {number: "j", type: "hearts", source: "textures/cards/h_j.png"},
-            {number: "q", type: "hearts", source: "textures/cards/h_q.png"},
-            {number: "k", type: "hearts", source: "textures/cards/h_k.png"},
-            {number: "a", type: "hearts", source: "textures/cards/h_a.png"}
-        ];
+Qt.include("GameProperties.js");
 
-var cardsRules = {
-    "2"	: 	[],
-    "3"	: 	[],
-    "4"	: 	[],
-    "5"	: 	["4"],
-    "6"	: 	["4", "5"],
-    "7"	: 	["8", "9", "j", "q", "k", "a"],
-    "8"	: 	["4", "5", "6", "7"],
-    "9"	: 	["4", "5", "6", "7", "8"],
-    "10": 	[],
-    "j"	: 	["4", "5", "6", "7", "8", "9"],
-    "q"	: 	["4", "5", "6", "7", "8", "9", "j"],
-    "k"	: 	["4", "5", "6", "7", "8", "9", "j", "q"],
-    "a"	: 	["4", "5", "6", "7", "8", "9", "j", "q", "k"]
-};
+//var player1;
+//var player2;
 
-var player1;
-var player2;
-
-function startNewGame(p1Area, p2Area) {
+function startNewGame() {
     
     
     //  Initialize Board
@@ -85,49 +13,38 @@ function startNewGame(p1Area, p2Area) {
     shuffle(stackOfCards);
     
     // Create players
-    player1 = {
-        cardsHand: [],
-        cardsHidden: [],
-        playerArea: pageLoader.player1Area,
-        handState: "Player1Hand",
-        hiddenTopState: "Player1HiddenTop",
-        hiddenBottomState: "Player1HiddenBottom"
-    };
+    player1.areas = {
+        playerHandArea: gameArea.player1Area,
+        threeTopArea: gameArea.player1ThreeTop,
+        threeBottomArea: gameArea.player1ThreeBottom
+    }
     game.players.push(player1);
     game.playerTurn = game.players.indexOf(player1);
     
-    player2 = {
-        cardsHand: [],
-        cardsHidden: [],
-        playerArea: pageLoader.player2Area,
-        handState: "Player2Hand",
-        hiddenTopState: "Player2HiddenTop",
-        hiddenBottomState: "Player2HiddenBottom"
-    };
+    player2.areas = {
+        playerHandArea: gameArea.player2Area,
+        threeTopArea: gameArea.player2ThreeTop,
+        threeBottomArea: gameArea.player2ThreeBottom
+    }
     game.players.push(player2);
     
     dealHiddenCards(player1);
     dealHiddenCards(player2);
     
     // Deals cards to players
-    dealCards(player1, 3);
-    dealCards(player2, 3);
+    dealCards(player1, 6);
+    dealCards(player2, 6);
+
+    //    gameArea.state = "chooseCards";
+    gameArea.cardsAreDealt = true;
 }
 
 function dealHiddenCards(player) {
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 3; i++) {
         
         var card = stackOfCards.pop();
         
-        // Deal bottom cards
-        if (i < 3) {
-            card.state = player.hiddenBottomState;
-        }
-        // Deal top cards
-        else {
-            card.state = player.hiddenTopState;
-        }
-        
+        card.state = "PlayerThreeBottom";
         card.player = player;
         
         player.cardsHidden.push(card)
@@ -139,8 +56,8 @@ function dealCards(player, numberOfCards) {
         for (var i = 0; i < numberOfCards; i++) {
 
             var card = stackOfCards.pop();
-            card.state = player.handState;
             card.player = player;
+            card.state = "PlayerHand";
 
             player.cardsHand.push(card);
         }
@@ -168,11 +85,11 @@ function createStackOfCards() {
 
             
             stackOfCards.push(card);
-//            console.log(pageLoader.item.children.contains("stackOfCardsArea"))
-//            card.parent = stackOfCardsArea;
+            //            console.log(pageLoader.item.children.contains("stackOfCardsArea"))
+            //            card.parent = stackOfCardsArea;
 
             card.state = "Stack";
-//            console.log(stackOfCards);
+            //            console.log(stackOfCards);
         }
     } else {
         console.log("error loading block component");
@@ -182,6 +99,26 @@ function createStackOfCards() {
     }
     
     return true;
+}
+
+function chooseTopCard(card) {
+    var player = card.player;
+    if (player.cardsHidden.length < 6) {
+        card.state = player.hiddenTopState;
+
+        var cardIndex = player.cardsHand.indexOf(card);
+        removeIndex(player.cardsHand, cardIndex);
+        player.cardsHidden.push(card);
+    }
+}
+
+function removeTopCard(card) {
+    var player = card.player;
+    card.state = player.handState;
+
+    var cardIndex = player.cardsHidden.indexOf(card);
+    removeIndex(player.cardsHidden, cardIndex);
+    player.cardsHand.push(card);
 }
 
 function playCard(card) {
@@ -308,39 +245,48 @@ function findCardState(cards, state) {
 function isPlayable(card) {
     var player = card.player;
 
-    // If card is not owned by any player or it's not this player's turn
-    if (typeof(player) === 'undefined' ||
-            game.players.indexOf(player) !== game.playerTurn) return false;
+    // If it's the game phase to choose the top cards
+    if (gameArea.state === "chooseCards"
+            && card.state === "Player1Hand" || card.state === "Player2Hand")
+        return true;
 
-    // If the player has no cards in his hand and there are no cards in the stack
-    if (player.cardsHand.length === 0
-            && stackOfCards.length === 0) {
+    // If it's the game phase to play
+    else if (gameArea.state === "playCards") {
+        // If card is not owned by any player or it's not this player's turn
+        if (typeof(player) === 'undefined' ||
+                game.players.indexOf(player) !== game.playerTurn) return false;
 
-        // If player has top hidden cards and this card is not one of them
-        if (findCardState(player.cardsHidden, player.hiddenTopState)
-                && card.state === player.hiddenBottomState)
-            return false;
+        // If the player has no cards in his hand and there are no cards in the stack
+        if (player.cardsHand.length === 0
+                && stackOfCards.length === 0) {
+
+            // If player has top hidden cards and this card is not one of them
+            if (findCardState(player.cardsHidden, player.hiddenTopState)
+                    && card.state === player.hiddenBottomState)
+                return false;
+        }
+        // If there are still cards in either the player's hand or the stack
+        else {
+            // And this card is one of the hidden cards
+            if (card.state === player.hiddenTopState || card.state === player.hiddenBottomState)
+                return false;
+        }
+
+        // If the play area is empty
+        if (game.topCard === undefined) return true;
+
+        // Get cards' values
+        var topCardValue = game.topCard.cardObject.number;
+        var playCardValue = card.cardObject.number;
+
+        // Get rules for the top card
+        var topCardRules = cardsRules[topCardValue];
+
+        // Check if this card cannot be played
+        if (topCardRules.indexOf(playCardValue) > -1) return false;
+
     }
-    // If there are still cards in either the player's hand or the stack
-    else {
-        // And this card is one of the hidden cards
-        if (card.state === player.hiddenTopState || card.state === player.hiddenBottomState)
-            return false;
-    }
 
-    // If the play area is empty
-    if (game.topCard === undefined) return true;
-    
-    // Get cards' values
-    var topCardValue = game.topCard.cardObject.number;
-    var playCardValue = card.cardObject.number;
-    
-    // Get rules for the top card
-    var topCardRules = cardsRules[topCardValue];
-    
-    // Check if this card cannot be played
-    if (topCardRules.indexOf(playCardValue) > -1) return false;
-    
     // If none of the constraints above apply
     return true;
 }

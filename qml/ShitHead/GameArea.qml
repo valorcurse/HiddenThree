@@ -5,50 +5,39 @@ Item {
     id: gameArea
 
     property alias player2Area: player2Area
-    property alias hiddenCardsPlayer2Top: hiddenCardsPlayer2Top
-    property alias hiddenCardsPlayer2Bottom: hiddenCardsPlayer2Bottom
+    property alias player2ThreeTop: player2ThreeTop
+    property alias player2ThreeBottom: player2ThreeBottom
     property alias stackOfCardsArea: stackOfCardsArea
     property alias playArea: playArea
-    property alias hiddenCardsPlayer1Top: hiddenCardsPlayer1Top
-    property alias hiddenCardsPlayer1Bottom: hiddenCardsPlayer1Bottom
+    property alias player1ThreeTop: player1ThreeTop
+    property alias player1ThreeBottom: player1ThreeBottom
     property alias player1Area: player1Area
     property alias graveyard: graveyard
 
-//    width: parent.width
-//    height: parent.height
-
-    //    Image {
-    //        id: background
-    //        anchors.fill: parent
-    //        source: "textures/woodBackground.png"
-    //        fillMode: Image.PreserveAspectCrop
-    //    }
+    property bool cardsAreDealt: false
 
     Row {
         id: player2Area
         objectName: "player2Area"
 
-        height: parent.height / 4
+        height: parent.height / 3
 
         spacing: Engine.calculateSpacing(player2Area);
         layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
         anchors {
             horizontalCenter: parent.horizontalCenter
-            top: parent.top
-            bottom: hiddenCardsPlayer2Top.top
+            bottom: player2ThreeTop.top
         }
     }
 
     Row {
-        id: hiddenCardsPlayer2Top
-        objectName: "hiddenCardsPlayer2Top"
+        id: player2ThreeTop
+        objectName: "player2ThreeTop"
 
         height: parent.height / 4
         spacing: 20
         z: 1 // Displays these cards on top
-
-        //            opacity: 0.5
 
         anchors {
             bottom: playArea.top
@@ -57,8 +46,8 @@ Item {
     }
 
     Row {
-        id: hiddenCardsPlayer2Bottom
-        objectName: "hiddenCardsPlayer2Bottom"
+        id: player2ThreeBottom
+        objectName: "player2ThreeBottom"
 
         height: parent.height / 4
         spacing: 20
@@ -97,14 +86,12 @@ Item {
     }
 
     Row {
-        id: hiddenCardsPlayer1Top
-        objectName: "hiddenCardsPlayer1Top"
+        id: player1ThreeTop
+        objectName: "player1ThreeTop"
 
         height: parent.height / 4
         spacing: 20
         z: 1 // Displays these cards on top
-
-        //            opacity: 0.5
 
         anchors {
             top: playArea.bottom
@@ -113,8 +100,8 @@ Item {
     }
 
     Row {
-        id: hiddenCardsPlayer1Bottom
-        objectName: "hiddenCardsPlayer1Bottom"
+        id: player1ThreeBottom
+        objectName: "player1ThreeBottom"
 
         height: parent.height / 4
         spacing: 20
@@ -129,14 +116,14 @@ Item {
         id: player1Area
         objectName: "player1Area"
 
-        height: parent.height / 4
+        height: parent.height / 3
 
         spacing: Engine.calculateSpacing(player1Area)
         //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
         anchors {
-            bottom: parent.bottom
-            top:  hiddenCardsPlayer1Top.bottom
+//            bottom: parent.bottom
+            top:  player1ThreeTop.bottom
             horizontalCenter: parent.horizontalCenter
         }
     }
@@ -153,13 +140,24 @@ Item {
         }
     }
 
-   states: [
-       State {
-           name: "dealCards"
+    states: [
+        State {
+            name: "dealCards"
 
-           onCompleted: {
-               Engine.startNewGame()
-           }
-       }
-   ]
+            onCompleted: {
+                Engine.startNewGame()
+            }
+        },
+
+        State {
+            name: "chooseCards"
+            when: cardsAreDealt
+        },
+
+        State {
+            name: "playCards"
+            when: topCardsAreChosen
+        }
+
+    ]
 }
