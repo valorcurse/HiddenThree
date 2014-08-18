@@ -8,6 +8,8 @@ Rectangle {
     property var cardObject
     property var player
     property bool playable: Engine.isPlayable(cardItem)
+    property bool chosen: false
+    property var doubleClickTime
 
     height: 154
     width: 100
@@ -15,6 +17,9 @@ Rectangle {
     border.color: (playable) ? "green" : "transparent";
     border.width: 5
 
+    Drag.active: mouseArea.drag.active
+        Drag.hotSpot.x: width / 2
+        Drag.hotSpot.y: height / 2
 
     Image {
         id: img
@@ -27,6 +32,9 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
+
+        drag.target: parent
+        onReleased: if (cardItem.Drag.drop() !== Qt.IgnoreAction) console.log("Accepted!");
 
         onEntered: {
             if (playable) {
@@ -47,25 +55,41 @@ Rectangle {
         }
 
         onClicked: {
+            //            var isDoubleClicked = false;
+            //            if (!doubleClickTime) {
+            //                doubleClickTime = new Date;
+            //            }
+            //            else {
+            //                isDoubleClicked = true;
+            //                doubleClickTime = false;
+            //            }
+
             if (gameArea.state === "chooseCards") {
                 switch(cardItem.state) {
-                case "Player1HiddenTop":
-                case "Player2HiddenTop": {
+                case "PlayerThreeTop":
                     Engine.removeTopCard(cardItem);
                     break;
-                }
 
-                case "Player1Hand":
-                case "Player2Hand": {
+
+                case "PlayerHand":
                     Engine.chooseTopCard(cardItem);
                     break;
-                }
+
 
                 }
             }
             else if (gameArea.state === "playCards")
                 Engine.playCard(cardItem);
         }
+
+        //        onDoubleClicked: {
+        //            console.log("double click");
+        //            if (gameArea.state === "chooseCards") {
+        //                if (cardItem.state === "PlayerThreeTop") {
+        //                    chosen = true;
+        //                }
+        //            }
+        //        }
     }
 
     onParentChanged: {
@@ -171,6 +195,20 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: graveyard
+            }
+        },
+
+        State {
+            when: cardItem.Drag.active
+            ParentChange {
+                target: cardItem
+                parent: gameArea
+            }
+
+            AnchorChanges {
+                target: cardItem
+                anchors.horizontalCenter: undefined
+                anchors.verticalCenter: undefined
             }
         }
     ]

@@ -83,13 +83,8 @@ function createStackOfCards() {
                 return false;
             }
 
-            
             stackOfCards.push(card);
-            //            console.log(pageLoader.item.children.contains("stackOfCardsArea"))
-            //            card.parent = stackOfCardsArea;
-
             card.state = "Stack";
-            //            console.log(stackOfCards);
         }
     } else {
         console.log("error loading block component");
@@ -104,7 +99,7 @@ function createStackOfCards() {
 function chooseTopCard(card) {
     var player = card.player;
     if (player.cardsHidden.length < 6) {
-        card.state = player.hiddenTopState;
+        card.state = "PlayerThreeTop";
 
         var cardIndex = player.cardsHand.indexOf(card);
         removeIndex(player.cardsHand, cardIndex);
@@ -114,7 +109,8 @@ function chooseTopCard(card) {
 
 function removeTopCard(card) {
     var player = card.player;
-    card.state = player.handState;
+//    card.state = player.handState;
+    card.state = "PlayerHand";
 
     var cardIndex = player.cardsHidden.indexOf(card);
     removeIndex(player.cardsHidden, cardIndex);
@@ -246,12 +242,18 @@ function isPlayable(card) {
     var player = card.player;
 
     // If it's the game phase to choose the top cards
-    if (gameArea.state === "chooseCards"
-            && card.state === "Player1Hand" || card.state === "Player2Hand")
-        return true;
+    if (gameArea.state === "chooseCards") {
+
+        // And the card is in a player's hand
+        if (card.state === "PlayerHand")
+            return true;
+        else
+            return false;
+    }
 
     // If it's the game phase to play
     else if (gameArea.state === "playCards") {
+
         // If card is not owned by any player or it's not this player's turn
         if (typeof(player) === 'undefined' ||
                 game.players.indexOf(player) !== game.playerTurn) return false;

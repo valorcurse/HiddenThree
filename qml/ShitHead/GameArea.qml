@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.2
 import "ShitHead.js" as Engine
 
 Item {
@@ -85,30 +86,55 @@ Item {
         }
     }
 
-    Row {
-        id: player1ThreeTop
-        objectName: "player1ThreeTop"
-
-        height: parent.height / 4
-        spacing: 20
-        z: 1 // Displays these cards on top
+    StackView {
+        id: player1ThreeStack
+        height: 154
 
         anchors {
             top: playArea.bottom
-            horizontalCenter: parent.horizontalCenter
         }
-    }
 
-    Row {
-        id: player1ThreeBottom
-        objectName: "player1ThreeBottom"
+        DropArea {
+            id: player1ThreeDropArea
 
-        height: parent.height / 4
-        spacing: 20
+            onDropped: {
+                console.log("Dropped " + drop.source.objectName + " on " + Drag.source.objectName);
+                drop.accept();
+                drop.source.state = "PlayerThreeTop";
+            }
 
-        anchors {
-            top: playArea.bottom
-            horizontalCenter: parent.horizontalCenter
+            onEntered: {
+                console.log("Entered");
+            }
+
+            anchors {
+                fill: parent
+            }
+        }
+
+        Row {
+            id: player1ThreeTop
+            objectName: "player1ThreeTop"
+
+            height: parent.height / 4
+            spacing: 20
+            z: 1 // Displays these cards on top
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        Row {
+            id: player1ThreeBottom
+            objectName: "player1ThreeBottom"
+
+            spacing: 20
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+
+
         }
     }
 
@@ -122,8 +148,8 @@ Item {
         //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
         anchors {
-//            bottom: parent.bottom
-            top:  player1ThreeTop.bottom
+            //            bottom: parent.bottom
+            top:  player1ThreeStack.bottom
             horizontalCenter: parent.horizontalCenter
         }
     }
