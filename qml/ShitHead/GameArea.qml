@@ -94,6 +94,36 @@ Item {
             top: playArea.bottom
         }
 
+        Rectangle {
+            color: "blue"
+            opacity: 0.5
+            anchors.fill: parent
+        }
+
+
+        Row {
+            id: player1ThreeBottom
+            objectName: "player1ThreeBottom"
+
+            spacing: 20
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        Row {
+            id: player1ThreeTop
+            objectName: "player1ThreeTop"
+
+            height: parent.height / 4
+            spacing: 20
+//            z: 1 // Displays these cards on top
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+
         DropArea {
             id: player1ThreeDropArea
 
@@ -112,30 +142,6 @@ Item {
             }
         }
 
-        Row {
-            id: player1ThreeTop
-            objectName: "player1ThreeTop"
-
-            height: parent.height / 4
-            spacing: 20
-            z: 1 // Displays these cards on top
-
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-            }
-        }
-
-        Row {
-            id: player1ThreeBottom
-            objectName: "player1ThreeBottom"
-
-            spacing: 20
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-            }
-
-
-        }
     }
 
     Row {
