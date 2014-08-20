@@ -9,7 +9,6 @@ Rectangle {
     property var player
     property bool playable: Engine.isPlayable(cardItem)
     property bool chosen: false
-    property var doubleClickTime
 
     height: 154
     width: 100
@@ -18,8 +17,8 @@ Rectangle {
     border.width: 5
 
     Drag.active: mouseArea.drag.active
-        Drag.hotSpot.x: width / 2
-        Drag.hotSpot.y: height / 2
+//    Drag.hotSpot.x: width / 2
+//    Drag.hotSpot.y: height / 2
 
     Image {
         id: img
@@ -55,15 +54,6 @@ Rectangle {
         }
 
         onClicked: {
-            //            var isDoubleClicked = false;
-            //            if (!doubleClickTime) {
-            //                doubleClickTime = new Date;
-            //            }
-            //            else {
-            //                isDoubleClicked = true;
-            //                doubleClickTime = false;
-            //            }
-
             if (gameArea.state === "chooseCards") {
                 switch(cardItem.state) {
                 case "PlayerThreeTop":
@@ -81,30 +71,7 @@ Rectangle {
             else if (gameArea.state === "playCards")
                 Engine.playCard(cardItem);
         }
-
-        //        onDoubleClicked: {
-        //            console.log("double click");
-        //            if (gameArea.state === "chooseCards") {
-        //                if (cardItem.state === "PlayerThreeTop") {
-        //                    chosen = true;
-        //                }
-        //            }
-        //        }
     }
-
-    onParentChanged: {
-        //        console.log(parent)
-        //        for (var child in gameArea.children)
-        //            console.log(gameArea.children[child]);
-    }
-
-    //    function findByObjectName(objectName) {
-    //        for (var child in pageLoader.item.children)
-    //            if (pageLoader.item.children[child].objectName === objectName)
-    //                return pageLoader.item.children[child];
-
-    //        return undefined;
-    //    }
 
     states: [
         State {

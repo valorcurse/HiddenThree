@@ -96,7 +96,7 @@ Item {
 
         Rectangle {
             color: "blue"
-            opacity: 0.5
+            opacity: 0.1
             anchors.fill: parent
         }
 
@@ -106,7 +106,14 @@ Item {
             objectName: "player1ThreeBottom"
 
             spacing: 20
+
+//            color: "yellow"
+//            opacity: 0.5
+
             anchors {
+                top: parent.top
+                bottom: parent.bottom
+//                fill: parent
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -114,12 +121,20 @@ Item {
         Row {
             id: player1ThreeTop
             objectName: "player1ThreeTop"
+//            width: parent.width
+//            height: parent.height
 
-            height: parent.height / 4
+//            height: parent.height / 4
             spacing: 20
 //            z: 1 // Displays these cards on top
+//            color: "red"
+//            opacity: 0.5
+
 
             anchors {
+                top: parent.top
+                bottom: parent.bottom
+//                fill: parent
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -128,9 +143,10 @@ Item {
             id: player1ThreeDropArea
 
             onDropped: {
-                console.log("Dropped " + drop.source.objectName + " on " + Drag.source.objectName);
+                console.log("Dropped " + drop.source + " on " + Drag.source);
+//                drop.source.state = "PlayerThreeTop";
+                Engine.chooseTopCard(drop.source);
                 drop.accept();
-                drop.source.state = "PlayerThreeTop";
             }
 
             onEntered: {
