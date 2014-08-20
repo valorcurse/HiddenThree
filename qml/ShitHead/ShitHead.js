@@ -14,7 +14,7 @@ function startNewGame() {
     
     // Create players
     player1.areas = {
-        playerHandArea: gameArea.player1Area,
+        playerHandArea: gameArea.player1CardsArea,
         threeTopArea: gameArea.player1ThreeTop,
         threeBottomArea: gameArea.player1ThreeBottom
     }
@@ -47,7 +47,7 @@ function dealHiddenCards(player) {
         card.state = "PlayerThreeBottom";
         card.player = player;
         
-        player.cardsHidden.push(card)
+        player.bottomCards.push(card)
     }
 }
 
@@ -59,7 +59,7 @@ function dealCards(player, numberOfCards) {
             card.player = player;
             card.state = "PlayerHand";
 
-            player.cardsHand.push(card);
+            player.handCards.push(card);
         }
 }
 
@@ -98,23 +98,23 @@ function createStackOfCards() {
 
 function chooseTopCard(card) {
     var player = card.player;
-    if (player.cardsHidden.length < 6) {
+
+    if (player.topCards.length < 3) {
         card.state = "PlayerThreeTop";
 
-        var cardIndex = player.cardsHand.indexOf(card);
-        removeIndex(player.cardsHand, cardIndex);
-        player.cardsHidden.push(card);
+        var cardIndex = player.handCards.indexOf(card);
+        removeIndex(player.handCards, cardIndex);
+        player.topCards.push(card);
     }
 }
 
 function removeTopCard(card) {
     var player = card.player;
-//    card.state = player.handState;
     card.state = "PlayerHand";
 
-    var cardIndex = player.cardsHidden.indexOf(card);
+    var cardIndex = player.topCards.indexOf(card);
     removeIndex(player.cardsHidden, cardIndex);
-    player.cardsHand.push(card);
+    player.handCards.push(card);
 }
 
 function playCard(card) {
@@ -123,8 +123,8 @@ function playCard(card) {
         
         // Remove card from player's hand
         var player = card.player;
-        var cardIndex = player.cardsHand.indexOf(card);
-        removeIndex(player.cardsHand, cardIndex);
+        var cardIndex = player.handCards.indexOf(card);
+        removeIndex(player.handCards, cardIndex);
         
         // Add it to the played cards stack
         game.playedCards.push(card);
@@ -137,7 +137,7 @@ function playCard(card) {
         game.cardPlayed();
         
         // Deal player new cards if possible or necessary
-        dealCards(player, 3 - player.cardsHand.length);
+        dealCards(player, 3 - player.handCards.length);
     }
 }
 
@@ -171,7 +171,7 @@ function handlePlay() {
 }
 
 function isPlayPossible(player) {
-    var cards = player.cardsHand;
+    var cards = player.handCards;
     
     for (var i = 0; i < cards.length; i++) {
         if (cards[i].playable) {
@@ -180,6 +180,20 @@ function isPlayPossible(player) {
     }
     
     return false;
+}
+
+function areTopCardsChosen() {
+    for (var player in game.players) {
+        for (var card in player.topCards) {
+            if (!card.chosen) {
+                console.log("false");
+                return false;
+            }
+        }
+    }
+
+    console.log("true");
+    return true;
 }
 
 function switchPlayerTurn(numberOfTimes) {
@@ -198,7 +212,7 @@ function switchPlayerTurn(numberOfTimes) {
             // Change card from owner
             currentCard.state = currentPlayer.handState;
             currentCard.player = currentPlayer;
-            currentPlayer.cardsHand.push(currentCard);
+            currentPlayer.handCards.push(currentCard);
         }
         
         // Reset the play area
@@ -241,17 +255,17 @@ function findCardState(cards, state) {
 function isPlayable(card) {
     var player = card.player;
 
-    // If it's the game phase to choose the top cards
+    // If it's the phase to choose the top cards
     if (gameArea.state === "chooseCards") {
 
         // And the card is in a player's hand
-        if (card.state === "PlayerHand")
+        if (card.state === "PlayerHand" || card.state === "PlayerThreeTop")
             return true;
         else
             return false;
     }
 
-    // If it's the game phase to play
+    // If it's the play phase
     else if (gameArea.state === "playCards") {
 
         // If card is not owned by any player or it's not this player's turn
@@ -259,7 +273,7 @@ function isPlayable(card) {
                 game.players.indexOf(player) !== game.playerTurn) return false;
 
         // If the player has no cards in his hand and there are no cards in the stack
-        if (player.cardsHand.length === 0
+        if (player.handCards.length === 0
                 && stackOfCards.length === 0) {
 
             // If player has top hidden cards and this card is not one of them

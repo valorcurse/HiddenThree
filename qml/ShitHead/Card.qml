@@ -13,12 +13,22 @@ Rectangle {
     height: 154
     width: 100
     color: "transparent"
-    border.color: (playable) ? "green" : "transparent";
+    border.color: {
+        if (playable) {
+            if (gameArea.state === "chooseCards" && chosen) {
+                return "orange";
+            }
+
+            return "green";
+        } else {
+            return "transparent";
+        }
+    }
     border.width: 5
 
     Drag.active: mouseArea.drag.active
-//    Drag.hotSpot.x: width / 2
-//    Drag.hotSpot.y: height / 2
+    Drag.hotSpot.x: width / 2
+    Drag.hotSpot.y: height / 2
 
     Image {
         id: img
@@ -33,7 +43,7 @@ Rectangle {
         hoverEnabled: true
 
         drag.target: parent
-        onReleased: if (cardItem.Drag.drop() !== Qt.IgnoreAction) console.log("Accepted!");
+                onReleased: cardItem.Drag.drop();
 
         onEntered: {
             if (playable) {
@@ -54,21 +64,9 @@ Rectangle {
         }
 
         onClicked: {
-            if (gameArea.state === "chooseCards") {
-                switch(cardItem.state) {
-                case "PlayerThreeTop":
-                    Engine.removeTopCard(cardItem);
-                    break;
-
-
-                case "PlayerHand":
-                    Engine.chooseTopCard(cardItem);
-                    break;
-
-
-                }
-            }
-            else if (gameArea.state === "playCards")
+            if (gameArea.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
+                chosen = !chosen;
+            } else if (gameArea.state === "playCards")
                 Engine.playCard(cardItem);
         }
     }
@@ -120,6 +118,14 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: player.areas.threeTopArea
+            }
+
+            AnchorChanges {
+                target: cardItem
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    //                    horizontalCenter: parent.horizontalCenter
+                }
             }
         },
 

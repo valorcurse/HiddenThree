@@ -76,8 +76,9 @@ var cardsRules = {
 
 var player1 = {
     id: 1,
-    cardsHand: [],
-    cardsHidden: [],
+    handCards: [],
+    topCards: [],
+    bottomCards: [],
     areas: {
         playerHandArea: { id: {}, margin: {}, anchor: {} },
         handState: {id: {} },
@@ -88,8 +89,9 @@ var player1 = {
 
 var player2 = {
     id: 2,
-    cardsHand: [],
-    cardsHidden: [],
+    handCards: [],
+    topCards: [],
+    bottomCards: [],
     areas: {
         playerHandArea: { id: {}, topMargin: {}, anchor: {} },
         handState: {id: {} },

@@ -12,10 +12,11 @@ Item {
     property alias playArea: playArea
     property alias player1ThreeTop: player1ThreeTop
     property alias player1ThreeBottom: player1ThreeBottom
-    property alias player1Area: player1Area
+    property alias player1CardsArea: player1CardsArea
     property alias graveyard: graveyard
 
     property bool cardsAreDealt: false
+    property bool topCardsAreChosen: Engine.areTopCardsChosen()
 
     Row {
         id: player2Area
@@ -94,26 +95,15 @@ Item {
             top: playArea.bottom
         }
 
-        Rectangle {
-            color: "blue"
-            opacity: 0.1
-            anchors.fill: parent
-        }
-
-
         Row {
             id: player1ThreeBottom
             objectName: "player1ThreeBottom"
 
             spacing: 20
 
-//            color: "yellow"
-//            opacity: 0.5
-
             anchors {
                 top: parent.top
                 bottom: parent.bottom
-//                fill: parent
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -121,20 +111,12 @@ Item {
         Row {
             id: player1ThreeTop
             objectName: "player1ThreeTop"
-//            width: parent.width
-//            height: parent.height
 
-//            height: parent.height / 4
             spacing: 20
-//            z: 1 // Displays these cards on top
-//            color: "red"
-//            opacity: 0.5
-
 
             anchors {
                 top: parent.top
                 bottom: parent.bottom
-//                fill: parent
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -143,14 +125,12 @@ Item {
             id: player1ThreeDropArea
 
             onDropped: {
-                console.log("Dropped " + drop.source + " on " + Drag.source);
-//                drop.source.state = "PlayerThreeTop";
                 Engine.chooseTopCard(drop.source);
                 drop.accept();
             }
 
             onEntered: {
-                console.log("Entered");
+                console.log("entered");
             }
 
             anchors {
@@ -160,22 +140,42 @@ Item {
 
     }
 
-    Row {
-        id: player1Area
-        objectName: "player1Area"
-
+    StackView {
         height: parent.height / 3
 
-        spacing: Engine.calculateSpacing(player1Area)
-        //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
-
         anchors {
-            //            bottom: parent.bottom
             top:  player1ThreeStack.bottom
-            horizontalCenter: parent.horizontalCenter
+            left: parent.left
+            right: parent.right
+        }
+
+        Row {
+            id: player1CardsArea
+            objectName: "player1CardsArea"
+
+
+            spacing: Engine.calculateSpacing(player1CardsArea)
+            //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+        }
+
+        DropArea {
+            id: player1CardsDropArea
+
+            onDropped: {
+                Engine.removeTopCard(drop.source);
+                drop.accept();
+            }
+
+            anchors {
+                fill: parent
+            }
         }
     }
-
     Item {
         id: graveyard
         objectName: "graveyard"
