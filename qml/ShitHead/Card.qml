@@ -66,6 +66,8 @@ Rectangle {
         onClicked: {
             if (gameArea.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
                 chosen = !chosen;
+
+                gameArea.topCardsAreChosen = Engine.areTopCardsChosen();
             } else if (gameArea.state === "playCards")
                 Engine.playCard(cardItem);
         }

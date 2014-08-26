@@ -22,12 +22,14 @@ function startNewGame() {
     game.playerTurn = game.players.indexOf(player1);
     
     player2.areas = {
-        playerHandArea: gameArea.player2Area,
+        playerHandArea: gameArea.player2CardsArea,
         threeTopArea: gameArea.player2ThreeTop,
         threeBottomArea: gameArea.player2ThreeBottom
     }
     game.players.push(player2);
     
+    console.log(game.players);
+
     dealHiddenCards(player1);
     dealHiddenCards(player2);
     
@@ -113,7 +115,7 @@ function removeTopCard(card) {
     card.state = "PlayerHand";
 
     var cardIndex = player.topCards.indexOf(card);
-    removeIndex(player.cardsHidden, cardIndex);
+    removeIndex(player.topCards, cardIndex);
     player.handCards.push(card);
 }
 
@@ -184,15 +186,19 @@ function isPlayPossible(player) {
 
 function areTopCardsChosen() {
     for (var player in game.players) {
-        for (var card in player.topCards) {
-            if (!card.chosen) {
-                console.log("false");
+        var topCards = game.players[player].topCards;
+
+        if (topCards.length < 3) return false;
+
+        for (var card in topCards) {
+            if (!topCards[card].chosen) {
+//                console.log("false");
                 return false;
             }
         }
     }
 
-    console.log("true");
+//    console.log("true");
     return true;
 }
 
