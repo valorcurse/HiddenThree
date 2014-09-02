@@ -176,8 +176,10 @@ Item {
             id: player1ThreeDropArea
 
             onDropped: {
-                Engine.chooseTopCard(drop.source);
-                drop.accept();
+                if (drop.source.previousState === "PlayerHand") {
+                    Engine.chooseTopCard(drop.source);
+                    drop.accept();
+                }
             }
 
             onEntered: {
@@ -189,6 +191,13 @@ Item {
             }
         }
 
+        Rectangle {
+            id: player1ThreeHighlight
+            anchors.fill: parent
+            color: "blue"
+            opacity: 0.5
+            visible: player1ThreeDropArea.containsDrag
+        }
     }
 
     StackView {
@@ -222,9 +231,24 @@ Item {
                 drop.accept();
             }
 
+            //            states: [
+            //                State {
+            //                    when: player1CardsDropArea.containsDrag
+
+            //                }
+            //            ]
+
             anchors {
                 fill: parent
             }
+        }
+
+        Rectangle {
+            id: player1HandHighlight
+            anchors.fill: parent
+            color: "blue"
+            opacity: 0.5
+            visible: player1CardsDropArea.containsDrag
         }
     }
 

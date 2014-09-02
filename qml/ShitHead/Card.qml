@@ -9,6 +9,7 @@ Rectangle {
     property var player
     property bool playable: Engine.isPlayable(cardItem)
     property bool chosen: false
+    property string previousState: state
 
     height: 154
     width: 100
@@ -30,6 +31,12 @@ Rectangle {
     Drag.hotSpot.x: width / 2
     Drag.hotSpot.y: height / 2
 
+    onStateChanged: {
+        if (cardItem.state !== "Dragged" && cardItem.state !== "") {
+            previousState = cardItem.state;
+        }
+    }
+
     Image {
         id: img
         anchors.fill: parent
@@ -43,7 +50,12 @@ Rectangle {
         hoverEnabled: true
 
         drag.target: parent
-                onReleased: cardItem.Drag.drop();
+
+        onReleased: {
+            if (typeof(cardItem.Drag.target) === "null" || cardItem.Drag.drop() === Qt.IgnoreAction) {
+                cardItem.state = previousState;
+            }
+        }
 
         onEntered: {
             if (playable) {
@@ -174,6 +186,7 @@ Rectangle {
         },
 
         State {
+            name: "Dragged"
             when: cardItem.Drag.active
             ParentChange {
                 target: cardItem
