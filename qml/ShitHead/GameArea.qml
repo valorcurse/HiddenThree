@@ -47,8 +47,10 @@ Item {
             id: player2CardsDropArea
 
             onDropped: {
-                Engine.removeTopCard(drop.source);
-                drop.accept();
+                if (drop.source.previousState === "PlayerThreeTop") {
+                    Engine.removeTopCard(drop.source);
+                    drop.accept();
+                }
             }
 
             anchors {
@@ -95,8 +97,10 @@ Item {
             id: player2ThreeDropArea
 
             onDropped: {
-                Engine.chooseTopCard(drop.source);
-                drop.accept();
+                if (drop.source.previousState === "PlayerHand" && player2ThreeTop.children.length < 3) {
+                    Engine.chooseTopCard(drop.source);
+                    drop.accept();
+                }
             }
 
             onEntered: {
@@ -176,7 +180,7 @@ Item {
             id: player1ThreeDropArea
 
             onDropped: {
-                if (drop.source.previousState === "PlayerHand") {
+                if (drop.source.previousState === "PlayerHand" && player1ThreeTop.children.length < 3) {
                     Engine.chooseTopCard(drop.source);
                     drop.accept();
                 }
@@ -227,8 +231,10 @@ Item {
             id: player1CardsDropArea
 
             onDropped: {
-                Engine.removeTopCard(drop.source);
-                drop.accept();
+                if (drop.source.previousState === "PlayerThreeTop") {
+                    Engine.removeTopCard(drop.source);
+                    drop.accept();
+                }
             }
 
             //            states: [
