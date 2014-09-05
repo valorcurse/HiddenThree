@@ -16,7 +16,7 @@ Rectangle {
     color: "transparent"
     border.color: {
         if (playable) {
-            if (gameArea.state === "chooseCards" && chosen) {
+            if (game.state === "chooseCards" && chosen) {
                 return "orange";
             }
 
@@ -76,11 +76,11 @@ Rectangle {
         }
 
         onClicked: {
-            if (gameArea.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
+            if (game.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
                 chosen = !chosen;
 
-                gameArea.topCardsAreChosen = Engine.areTopCardsChosen();
-            } else if (gameArea.state === "playCards")
+                game.topCardsAreChosen = Engine.areTopCardsChosen();
+            } else if (game.state === "playCards")
                 Engine.playCard(cardItem);
         }
     }
@@ -190,7 +190,7 @@ Rectangle {
             when: cardItem.Drag.active
             ParentChange {
                 target: cardItem
-                parent: gameArea
+                parent: game
             }
 
             AnchorChanges {

@@ -14,21 +14,21 @@ function startNewGame() {
     
     // Create players
     player1.areas = {
-        playerHandArea: gameArea.player1CardsArea,
-        threeTopArea: gameArea.player1ThreeTop,
-        threeBottomArea: gameArea.player1ThreeBottom
+        playerHandArea: game.player1CardsArea,
+        threeTopArea: game.player1ThreeTop,
+        threeBottomArea: game.player1ThreeBottom
     }
     game.players.push(player1);
     game.playerTurn = game.players.indexOf(player1);
     
     player2.areas = {
-        playerHandArea: gameArea.player2CardsArea,
-        threeTopArea: gameArea.player2ThreeTop,
-        threeBottomArea: gameArea.player2ThreeBottom
+        playerHandArea: game.player2CardsArea,
+        threeTopArea: game.player2ThreeTop,
+        threeBottomArea: game.player2ThreeBottom
     }
     game.players.push(player2);
     
-    console.log(game.players);
+//    console.log(game.players);
 
     dealHiddenCards(player1);
     dealHiddenCards(player2);
@@ -37,8 +37,8 @@ function startNewGame() {
     dealCards(player1, 6);
     dealCards(player2, 6);
 
-    //    gameArea.state = "chooseCards";
-    gameArea.cardsAreDealt = true;
+    //    game.state = "chooseCards";
+    game.cardsAreDealt = true;
 }
 
 function dealHiddenCards(player) {
@@ -262,7 +262,7 @@ function isPlayable(card) {
     var player = card.player;
 
     // If it's the phase to choose the top cards
-    if (gameArea.state === "chooseCards") {
+    if (game.state === "chooseCards") {
 
         // And the card is in a player's hand
         if (card.state === "PlayerHand" || card.state === "PlayerThreeTop")
@@ -272,15 +272,16 @@ function isPlayable(card) {
     }
 
     // If it's the play phase
-    else if (gameArea.state === "playCards") {
+    else if (game.state === "playCards") {
+
+//        if (stackOfCards.length === 0 && player.handCards.length === 0)
 
         // If card is not owned by any player or it's not this player's turn
         if (typeof(player) === 'undefined' ||
                 game.players.indexOf(player) !== game.playerTurn) return false;
 
         // If the player has no cards in his hand and there are no cards in the stack
-        if (player.handCards.length === 0
-                && stackOfCards.length === 0) {
+        if (player.handCards.length === 0  && stackOfCards.length === 0) {
 
             // If player has top hidden cards and this card is not one of them
             if (findCardState(player.cardsHidden, player.hiddenTopState)

@@ -3,22 +3,10 @@ import QtQuick.Controls 1.2
 import "ShitHead.js" as Engine
 
 Rectangle {
-    id: game
+    id: app
 
     property int screenWidth: 540
     property int screenHeight: 720
-    property int stackLevel: 0
-    property var topCard
-    property var stackOfCards: []
-    property var playedCards: []
-    property var players: []
-    property var playerTurn
-
-    signal cardPlayed
-
-    onCardPlayed: {
-        Engine.handlePlay(topCard);
-    }
 
     width: screenWidth; height: screenHeight
 
@@ -60,7 +48,7 @@ Rectangle {
         z: 2
         width: parent.width; height: 30
         color: activePalette.window
-        anchors.bottom: game.bottom
+        anchors.bottom: app.bottom
 
         Button {
             anchors { left: parent.left; verticalCenter: parent.verticalCenter }

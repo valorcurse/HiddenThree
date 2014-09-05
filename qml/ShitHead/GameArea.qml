@@ -3,7 +3,7 @@ import QtQuick.Controls 1.2
 import "ShitHead.js" as Engine
 
 Item {
-    id: gameArea
+    id: game
 
     property alias player2CardsArea: player2CardsArea
     property alias player2ThreeTop: player2ThreeTop
@@ -15,10 +15,22 @@ Item {
     property alias player1CardsArea: player1CardsArea
     property alias graveyard: graveyard
 
-    property string currentState: gameArea.state;
+    property string currentState: game.state;
 
+    property int stackLevel: 0
+    property var topCard
+    property var stackOfCards: []
+    property var playedCards: []
+    property var players: []
+    property var playerTurn
     property bool cardsAreDealt: false
     property bool topCardsAreChosen: false
+
+    signal cardPlayed
+
+    onCardPlayed: {
+        Engine.handlePlay(topCard);
+    }
 
     StackView {
         height: parent.height / 3
