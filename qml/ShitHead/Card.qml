@@ -59,18 +59,19 @@ Rectangle {
 
         onEntered: {
             if (playable) {
-                if (cardItem.state == "Player1Hand")
+                if (cardItem.player.id === 1) {
                     cardItem.anchors.topMargin -= 20;
-                else if (cardItem.state == "Player2Hand")
+                }
+                else if (cardItem.player.id === 2)
                     cardItem.anchors.bottomMargin -= 20;
             }
         }
 
         onExited: {
             if (playable) {
-                if (cardItem.state == "Player1Hand")
+                if (cardItem.player.id === 1)
                     cardItem.anchors.topMargin += 20
-                else if (cardItem.state == "Player2Hand")
+                else if (cardItem.player.id === 2)
                     cardItem.anchors.bottomMargin += 20
             }
         }
@@ -114,13 +115,12 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
                 parent: player.areas.playerHandArea
-
             }
 
             AnchorChanges {
                 target: cardItem
                 anchors {
-                    verticalCenter: parent.verticalCenter
+                    top: parent.top
                 }
             }
 
@@ -165,6 +165,7 @@ Rectangle {
                 parent: playArea
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
+                player: null
             }
 
             AnchorChanges {

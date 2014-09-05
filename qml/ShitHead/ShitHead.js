@@ -132,8 +132,8 @@ function playCard(card) {
         game.playedCards.push(card);
         
         // Remove player's info from card
-        card.player = null;
         card.state = "Played";
+//        card.player = null;
         
         // Invoke card played signal
         game.cardPlayed();
@@ -168,8 +168,29 @@ function handlePlay() {
     if (cardValue === "8") {
         numberOfTurnsToSkip = 2;
     }
-    
+
+
     switchPlayerTurn(numberOfTurnsToSkip);
+
+    var currentPlayer = game.players[game.playerTurn];
+
+    // If the next player does not have a possible play
+    if (!isPlayPossible(currentPlayer)) {
+        for (var i = 0; game.playedCards.length; i++) {
+            var currentCard = game.playedCards.pop();
+
+            // Change card from owner
+            currentCard.player = currentPlayer;
+            currentCard.state = "PlayerHand";
+            currentPlayer.handCards.push(currentCard);
+        }
+
+        // Reset the play area
+        game.stackLevel = 0;
+        game.topCard = undefined;
+
+        switchPlayerTurn();
+    }
 }
 
 function isPlayPossible(player) {
@@ -208,25 +229,25 @@ function switchPlayerTurn(numberOfTimes) {
     // Choose the next player in the array
     game.playerTurn = (game.playerTurn + numberOfTimes) % game.players.length;
     
-    var currentPlayer = game.players[game.playerTurn];
+//    var currentPlayer = game.players[game.playerTurn];
     
-    // If the next player does not have a possible play
-    if (!isPlayPossible(currentPlayer)) {
-        for (var i = 0; game.playedCards.length; i++) {
-            var currentCard = game.playedCards.pop();
+//    // If the next player does not have a possible play
+//    if (!isPlayPossible(currentPlayer)) {
+//        for (var i = 0; game.playedCards.length; i++) {
+//            var currentCard = game.playedCards.pop();
             
-            // Change card from owner
-            currentCard.state = currentPlayer.handState;
-            currentCard.player = currentPlayer;
-            currentPlayer.handCards.push(currentCard);
-        }
+//            // Change card from owner
+//            currentCard.state = currentPlayer.handState;
+//            currentCard.player = currentPlayer;
+//            currentPlayer.handCards.push(currentCard);
+//        }
         
-        // Reset the play area
-        game.stackLevel = 0;
-        game.topCard = undefined;
+//        // Reset the play area
+//        game.stackLevel = 0;
+//        game.topCard = undefined;
         
-        game.playerTurn = (game.playerTurn + 1) % game.players.length;
-    }
+//        game.playerTurn = (game.playerTurn + 1) % game.players.length;
+//    }
 }
 
 function shuffle(array) {
@@ -280,14 +301,25 @@ function isPlayable(card) {
         if (typeof(player) === 'undefined' ||
                 game.players.indexOf(player) !== game.playerTurn) return false;
 
-        // If the player has no cards in his hand and there are no cards in the stack
-        if (player.handCards.length === 0  && stackOfCards.length === 0) {
-
-            // If player has top hidden cards and this card is not one of them
-            if (findCardState(player.cardsHidden, player.hiddenTopState)
-                    && card.state === player.hiddenBottomState)
-                return false;
+//         If card is part of top three and there are still cards in the hand/stack
+        if (player.topCards.indexOf(card) > -1
+                && player.handCards.length > 0  && stackOfCards.length > 0) {
+            return false;
         }
+
+//         If card is part of bottom three and there are still top three cards
+        if (player.bottomCards.indexOf(card) > -1 && player.topCards.length !== 0)
+            return false;
+
+        // If the player has no cards in his hand and there are no cards in the stack
+//        if (player.handCards.length === 0  && stackOfCards.length === 0) {
+
+//            // If player has top hidden cards and this card is not one of them
+//            if (findCardState(player.cardsHidden, player.hiddenTopState)
+//                    && card.state === player.hiddenBottomState)
+//                return false;
+//        }
+
         // If there are still cards in either the player's hand or the stack
         else {
             // And this card is one of the hidden cards
