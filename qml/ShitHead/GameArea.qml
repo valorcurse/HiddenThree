@@ -249,13 +249,6 @@ Item {
                 }
             }
 
-            //            states: [
-            //                State {
-            //                    when: player1CardsDropArea.containsDrag
-
-            //                }
-            //            ]
-
             anchors {
                 fill: parent
             }

@@ -15,25 +15,27 @@ Rectangle {
     Loader {
         id: pageLoader
         z: 1
+        source: "MenuArea.qml"
 
         anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-            bottom: toolBar.top
+            fill: parent
+            //            left: parent.left
+            //            right: parent.right
+            //            top: parent.top
+            //            bottom: toolBar.top
         }
 
         onLoaded: {
-            gameAreaBinder.target = pageLoader.item
+            areaBinder.target = pageLoader.item
         }
     }
 
     Binding {
-           id: gameAreaBinder
+        id: areaBinder
 
-           property: "state"
-           value: "dealCards"
-       }
+        property: "state"
+        value: "dealCards"
+    }
 
     Image {
         id: background
@@ -43,19 +45,19 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    Rectangle {
-        id: toolBar
-        z: 2
-        width: parent.width; height: 30
-        color: activePalette.window
-        anchors.bottom: app.bottom
+    //    Rectangle {
+    //        id: toolBar
+    //        z: 2
+    //        width: parent.width; height: 30
+    //        color: activePalette.window
+    //        anchors.bottom: app.bottom
 
-        Button {
-            anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-            text: "New Game"
-            onClicked: {
-                pageLoader.source = "GameArea.qml"
-            }
-        }
-    }
+    //        Button {
+    //            anchors { left: parent.left; verticalCenter: parent.verticalCenter }
+    //            text: "New Game"
+    //            onClicked: {
+    //                pageLoader.source = "GameArea.qml"
+    //            }
+    //        }
+    //    }
 }

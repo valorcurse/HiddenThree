@@ -59,11 +59,11 @@ Rectangle {
 
         onEntered: {
             if (playable) {
-                if (cardItem.player.id === 1) {
+                if (cardItem.player.id === 1)
                     cardItem.anchors.topMargin -= 20;
-                }
                 else if (cardItem.player.id === 2)
-                    cardItem.anchors.bottomMargin -= 20;
+                    cardItem.anchors.topMargin += 20;
+
             }
         }
 
@@ -72,7 +72,7 @@ Rectangle {
                 if (cardItem.player.id === 1)
                     cardItem.anchors.topMargin += 20
                 else if (cardItem.player.id === 2)
-                    cardItem.anchors.bottomMargin += 20
+                    cardItem.anchors.topMargin -= 20
             }
         }
 
