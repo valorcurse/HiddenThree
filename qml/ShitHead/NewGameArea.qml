@@ -8,13 +8,19 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-//         AnimatedImage { id: adnimation; source: "textures/waiting.gif" }
-
         Button {
-            text: "New Game"
+            text: "Create Game"
 
             onClicked: {
-                pageLoader.source = "NewGameArea.qml";
+//                pageLoader.source = "GameArea.qml";
+            }
+        }
+
+        Button {
+            text: "Join Game"
+
+            onClicked: {
+//                pageLoader.source = "GameArea.qml";
             }
         }
     }

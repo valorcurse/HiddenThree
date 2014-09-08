@@ -7,7 +7,8 @@ DEPLOYMENTFOLDERS = folder_01
 #QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    networking.cpp
 
 # Installation path
 # target.path =
@@ -17,4 +18,8 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += \
-    qml/ShitHead/GameProperties.js
+    qml/ShitHead/GameProperties.js \
+    NewGameArea.qml
+
+HEADERS += \
+    networking.h
