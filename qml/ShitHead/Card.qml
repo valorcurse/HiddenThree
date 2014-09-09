@@ -57,26 +57,27 @@ Rectangle {
             }
         }
 
-        onEntered: {
-            if (playable) {
-                if (cardItem.player.id === 1)
-                    cardItem.anchors.topMargin -= 20;
-                else if (cardItem.player.id === 2)
-                    cardItem.anchors.topMargin += 20;
+        //        onEntered: {
+        //            if (playable) {
+        //                if (cardItem.player.id === 1)
+        //                    cardItem.anchors.topMargin -= 20;
+        //                else if (cardItem.player.id === 2)
+        //                    cardItem.anchors.topMargin += 20;
 
-            }
-        }
+        //            }
+        //        }
 
-        onExited: {
-            if (playable) {
-                if (cardItem.player.id === 1)
-                    cardItem.anchors.topMargin += 20
-                else if (cardItem.player.id === 2)
-                    cardItem.anchors.topMargin -= 20
-            }
-        }
+        //        onExited: {
+        //            if (playable) {
+        //                if (cardItem.player.id === 1)
+        //                    cardItem.anchors.topMargin += 20
+        //                else if (cardItem.player.id === 2)
+        //                    cardItem.anchors.topMargin -= 20
+        //            }
+        //        }
 
         onClicked: {
+            console.log("clicked - player: " + player.id)
             if (game.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
                 chosen = !chosen;
 
@@ -189,6 +190,7 @@ Rectangle {
         State {
             name: "Dragged"
             when: cardItem.Drag.active
+
             ParentChange {
                 target: cardItem
                 parent: game

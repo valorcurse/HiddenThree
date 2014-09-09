@@ -8,16 +8,26 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
+        spacing: 20
+
         Button {
             text: "Create Game"
 
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+
             onClicked: {
-//                pageLoader.source = "GameArea.qml";
+                pageLoader.source = "GameArea.qml";
             }
         }
 
         Button {
             text: "Join Game"
+
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
 
             onClicked: {
 //                pageLoader.source = "GameArea.qml";

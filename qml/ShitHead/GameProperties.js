@@ -76,12 +76,12 @@ var cardsRules = {
 
 var player1 = {
     id: 1,
+    canPlay: false,
     handCards: [],
     topCards: [],
     bottomCards: [],
     areas: {
         playerHandArea: { id: {}, margin: {}, anchor: {} },
-        handState: {id: {} },
         threeTopArea: { id: {} },
         threeBottomArea: { id: {} }
     }
@@ -89,12 +89,12 @@ var player1 = {
 
 var player2 = {
     id: 2,
+    canPlay: false,
     handCards: [],
     topCards: [],
     bottomCards: [],
     areas: {
         playerHandArea: { id: {}, topMargin: {}, anchor: {} },
-        handState: {id: {} },
         threeTopArea: { id: {} },
         threeBottomArea: { id: {} }
     }

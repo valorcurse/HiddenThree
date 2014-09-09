@@ -139,6 +139,21 @@ Item {
         anchors {
             verticalCenter: parent.verticalCenter
         }
+
+//        states: [
+
+//            // If there are no cards on play area
+//            State {
+//                when: playedCards.length === 0
+
+//                PropertyChanges {
+//                    target: game
+//                    topCard: undefined
+////                    stackLevel: 0
+//                }
+//            }
+
+//        ]
     }
 
     Item {
@@ -296,7 +311,23 @@ Item {
             onCompleted: {
                 console.log("entered: topCardsAreChosen");
             }
-        }
+        },
 
+        State {
+            name: "gameOver"
+            when: {
+                for (var id in players) {
+                    if (players[id].bottomCards.length === 0) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            onCompleted: {
+                console.log("entered: gameOver");
+            }
+        }
     ]
 }
