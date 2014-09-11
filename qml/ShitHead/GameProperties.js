@@ -81,9 +81,9 @@ var player1 = {
     topCards: [],
     bottomCards: [],
     areas: {
-        playerHandArea: { id: {}, margin: {}, anchor: {} },
-        threeTopArea: { id: {} },
-        threeBottomArea: { id: {} }
+        playerHandArea: { },
+        threeTopArea: { },
+        threeBottomArea: { }
     }
 };
 
@@ -94,8 +94,8 @@ var player2 = {
     topCards: [],
     bottomCards: [],
     areas: {
-        playerHandArea: { id: {}, topMargin: {}, anchor: {} },
-        threeTopArea: { id: {} },
-        threeBottomArea: { id: {} }
+        playerHandArea: { },
+        threeTopArea: { },
+        threeBottomArea: { }
     }
 };

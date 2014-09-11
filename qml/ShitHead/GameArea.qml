@@ -17,7 +17,7 @@ Item {
     property alias graveyard: graveyard
 
     property string currentState: game.state
-    property int stackLevel: 0
+    property int stackLevel: playedCards.length
     property var topCard
     property var stackOfCards: []
     property var playedCards: []

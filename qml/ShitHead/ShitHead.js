@@ -143,21 +143,20 @@ function playCard(card) {
 
 function handlePreTurn() {
 
+    console.log("Handling preturn");
+
     // If the next player does not have a possible play
     if (!isPlayPossible(currentPlayer)) {
 
-        console.log("player: " + currentPlayer.id)
+        console.log("player: " + currentPlayer.id + " cannot play.");
 
         // Return cards to player's hand
-        for (var i = 0; i < game.playedCards.length; i++) {
-            var currentCard = game.playedCards.pop();
+        while (game.playedCards.length > 0) {
+            var currentCard = playedCards.pop();
 
-            // Change card from owner
             currentCard.player = currentPlayer;
             currentCard.state = "PlayerHand";
             currentPlayer.handCards.push(currentCard);
-
-            removeFromPlayedCards(currentCard);
         }
 
         // Reset the play area
@@ -166,7 +165,9 @@ function handlePreTurn() {
         switchPlayerTurn();
     }
 
-    currentPlayer.canPlay = true;
+//    else {
+        currentPlayer.canPlay = true;
+//    }
 }
 
 function handlePlay() {
@@ -177,22 +178,21 @@ function handlePlay() {
     var numberOfTurnsToSkip = 1;
     
     // Don't set new topcard if the card played was 3
-    if (cardValue !== "3") {
-        game.stackLevel++;
-        game.topCard = card;
-    } else {
+    if (cardValue === "3") {
         cardValue = game.topCard.cardObject.number;
+    } else {
+        game.topCard = card;
     }
 
     // Burn played cards
-    if (cardValue === "10") {
+    if (cardValue === "10" ||
+            quartetPlayed()) {
+
+        console.log("Burning cards");
 
         while (game.playedCards.length > 0) {
-            var playedCard = playedCards[i];
-            console.log(i + "- Burned card: " + playedCard.cardObject.number);
+            var playedCard = playedCards.pop();
             playedCard.state = "Burned";
-
-            removeFromPlayedCards(playedCard);
         }
         
         numberOfTurnsToSkip = 0;
@@ -207,17 +207,41 @@ function handlePlay() {
 
 }
 
-function removeFromPlayedCards(card) {
-    var cardIndex = playedCards.indexOf(card);
-    removeIndex(playedCards, cardIndex);
-    game.stackLevel--;
+function quartetPlayed() {
+    // Check if there are at least four cards played
+    if (playedCards.length < 4) return false;
+
+    // Slice the last four played cards
+    var nrOfCardsPlayed = playedCards.length;
+    var lastFourCards = playedCards.slice(nrOfCardsPlayed - 4,
+                                          nrOfCardsPlayed);
+
+//    console.log("lasterfourcards lenght: " + lastFourCards.length);
+//    console.log("Last four cards: " + lastFourCards);
+
+    // Check if the last four cards make a quartet
+    var lastCard = lastFourCards[0];
+    for (var i = 1; i < lastFourCards.length; i++) {
+        var currentCard = lastFourCards[i];
+
+        if (currentCard.cardObject.number !== lastCard.cardObject.number)
+            return false;
+    }
+
+    console.log("Found quartet");
+    return true;
 }
 
 function isPlayPossible(player) {
     var cards = player.handCards;
     
+    console.log("number of cards in hand: " + cards.length);
+
     for (var i = 0; i < cards.length; i++) {
+        console.log("looping hand cards - " + i);
+
         if (cards[i].playable) {
+            console.log("Player: " + player.id +" | Card is playable: " + cards[i].cardObject.number);
             return true;
         }
     }
@@ -233,13 +257,11 @@ function areTopCardsChosen() {
 
         for (var card in topCards) {
             if (!topCards[card].chosen) {
-                //                console.log("false");
                 return false;
             }
         }
     }
 
-    //    console.log("true");
     return true;
 }
 
@@ -252,7 +274,7 @@ function switchPlayerTurn(numberOfTimes) {
     var playerIndex = game.players.indexOf(game.currentPlayer);
     var nextPlayerIndex = (playerIndex + numberOfTimes) % game.players.length;
     game.currentPlayer = players[nextPlayerIndex];
-    game.currentPlayer.canPlay = false;
+//    game.currentPlayer.canPlay = false;
 
 }
 
@@ -287,6 +309,7 @@ function findCardState(cards, state) {
 
 function isPlayable(card) {
     var player = card.player;
+//    console.log("game state: " + game.state);
 
     // If it's the phase to choose the top cards
     if (game.state === "chooseCards") {
@@ -299,23 +322,19 @@ function isPlayable(card) {
     }
 
     // If it's the play phase
-    else if (game.state === "playTurn") {
-
-        //        if (stackOfCards.length === 0 && player.handCards.length === 0)
+    else if (game.state === "preTurn" || game.state === "playTurn") {
 
         // If card is not owned by any player or it's not this player's turn
         if (typeof(player) === 'undefined' ||
                 player !== game.currentPlayer) return false;
-        //        game.players.indexOf(player) !== game.currentPlayer) return false;
 
         // If card is part of top three and there are still cards in the hand/stack
-        if (player.topCards.indexOf(card) > -1
-                && player.handCards.length > 0  && stackOfCards.length > 0) {
+        if (card.state === "PlayerThreeTop" && player.handCards.length > 0  && stackOfCards.length > 0) {
             return false;
         }
 
         // If card is part of bottom three and there are still top three cards
-        if (player.bottomCards.indexOf(card) > -1 && player.topCards.length !== 0)
+        if (card.state === "PlayerThreeBottom" && player.topCards.length > 0)
             return false;
 
         // If the player has no cards in his hand and there are no cards in the stack
@@ -328,11 +347,11 @@ function isPlayable(card) {
         //        }
 
         // If there are still cards in either the player's hand or the stack
-        else {
-            // And this card is one of the hidden cards
-            if (card.state === player.hiddenTopState || card.state === player.hiddenBottomState)
-                return false;
-        }
+        //        else {
+        //            // And this card is one of the hidden cards
+        //            if (card.state === player.hiddenTopState || card.state === player.hiddenBottomState)
+        //                return false;
+        //        }
 
         // If the play area is empty
         if (game.topCard === undefined) return true;
@@ -347,10 +366,11 @@ function isPlayable(card) {
         // Check if this card cannot be played
         if (topCardRules.indexOf(playCardValue) > -1) return false;
 
+        // If none of the constraints above apply
+        return true;
     }
 
-    // If none of the constraints above apply
-    return true;
+    return false;
 }
 
 // TODO: Find a better algorithm
