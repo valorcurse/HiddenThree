@@ -78,12 +78,15 @@ Rectangle {
 
         onClicked: {
             console.log("clicked - player: " + player.id)
+
             if (game.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
                 chosen = !chosen;
-
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
-            } else if (game.state === "playCards")
+            }
+
+            else if (game.state === "playTurn") {
                 Engine.playCard(cardItem);
+            }
         }
     }
 
@@ -166,7 +169,7 @@ Rectangle {
                 parent: playArea
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
-                player: null
+//                player: null
             }
 
             AnchorChanges {

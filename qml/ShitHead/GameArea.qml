@@ -5,6 +5,7 @@ import "ShitHead.js" as Engine
 Item {
     id: game
 
+    // Aliases to expose areas to others files
     property alias player2CardsArea: player2CardsArea
     property alias player2ThreeTop: player2ThreeTop
     property alias player2ThreeBottom: player2ThreeBottom
@@ -15,14 +16,13 @@ Item {
     property alias player1CardsArea: player1CardsArea
     property alias graveyard: graveyard
 
-    property string currentState: game.state;
-
+    property string currentState: game.state
     property int stackLevel: 0
     property var topCard
     property var stackOfCards: []
     property var playedCards: []
     property var players: []
-    property var playerTurn
+    property var currentPlayer
     property bool cardsAreDealt: false
     property bool topCardsAreChosen: false
 
@@ -140,20 +140,20 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-//        states: [
+        //        states: [
 
-//            // If there are no cards on play area
-//            State {
-//                when: playedCards.length === 0
+        //            // If there are no cards on play area
+        //            State {
+        //                when: playedCards.length === 0
 
-//                PropertyChanges {
-//                    target: game
-//                    topCard: undefined
-////                    stackLevel: 0
-//                }
-//            }
+        //                PropertyChanges {
+        //                    target: game
+        //                    topCard: undefined
+        ////                    stackLevel: 0
+        //                }
+        //            }
 
-//        ]
+        //        ]
     }
 
     Item {
@@ -305,22 +305,33 @@ Item {
         },
 
         State {
-            name: "playCards"
-            when: cardsAreDealt && topCardsAreChosen
+            name: "preTurn"
+            when: topCardsAreChosen && !currentPlayer.canPlay
 
             onCompleted: {
-                console.log("entered: topCardsAreChosen");
+                Engine.handlePreTurn();
+                console.log("entered: preTurn");
+            }
+        },
+
+        State {
+            name: "playTurn"
+            when: topCardsAreChosen && currentPlayer.canPlay
+
+            onCompleted: {
+                console.log("entered: playTurn");
             }
         },
 
         State {
             name: "gameOver"
             when: {
-                for (var id in players) {
-                    if (players[id].bottomCards.length === 0) {
-                        return true;
+                if (topCardsAreChosen)
+                    for (var id in players) {
+                        if (players[id].bottomCards.length === 0) {
+                            return true;
+                        }
                     }
-                }
 
                 return false;
             }
