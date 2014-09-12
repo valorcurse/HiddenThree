@@ -84,7 +84,7 @@ Rectangle {
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
             }
 
-            else if (game.state === "playTurn") {
+            else if (game.state === "Play" && currentTurn === turn.playTurn) {
                 Engine.playCard(cardItem);
             }
         }

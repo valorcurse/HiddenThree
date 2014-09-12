@@ -16,15 +16,21 @@ Item {
     property alias player1CardsArea: player1CardsArea
     property alias graveyard: graveyard
 
-    property string currentState: game.state
+//    property string currentState: game.state
     property int stackLevel: playedCards.length
     property var topCard
     property var stackOfCards: []
     property var playedCards: []
+
     property var players: []
     property var currentPlayer
+
     property bool cardsAreDealt: false
     property bool topCardsAreChosen: false
+
+    // Fake enum
+    property var turn: {"preTurn", "playTurn"}
+    property var currentTurn: turn.preTurn
 
     signal cardPlayed
 
@@ -305,23 +311,34 @@ Item {
         },
 
         State {
-            name: "preTurn"
-            when: topCardsAreChosen && !currentPlayer.canPlay
+            name: "Play"
+            when: topCardsAreChosen && currentTurn === turn.preTurn
+
+//            PropertyChanges {
+//                target: game
+//                currentTurn: Turn.preTurn
+//            }
 
             onCompleted: {
-                Engine.handlePreTurn();
-                console.log("entered: preTurn");
+//                Engine.handlePreTurn();
+                Engine.switchPlayerTurn(0);
+                console.log("entered: play");
             }
         },
 
-        State {
-            name: "playTurn"
-            when: topCardsAreChosen && currentPlayer.canPlay
+//        State {
+//            name: "playTurn"
+//            when: topCardsAreChosen && currentTurn === turn.playTurn
 
-            onCompleted: {
-                console.log("entered: playTurn");
-            }
-        },
+////            PropertyChanges {
+////                target: game
+////                currentTurn: Turn.playTurn
+////            }
+
+//            onCompleted: {
+//                console.log("entered: playTurn");
+//            }
+//        },
 
         State {
             name: "gameOver"

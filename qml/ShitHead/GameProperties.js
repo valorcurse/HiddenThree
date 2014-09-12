@@ -76,7 +76,7 @@ var cardsRules = {
 
 var player1 = {
     id: 1,
-    canPlay: false,
+//    canPlay: false,
     handCards: [],
     topCards: [],
     bottomCards: [],
@@ -89,7 +89,7 @@ var player1 = {
 
 var player2 = {
     id: 2,
-    canPlay: false,
+//    canPlay: false,
     handCards: [],
     topCards: [],
     bottomCards: [],

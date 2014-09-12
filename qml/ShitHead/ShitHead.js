@@ -177,8 +177,9 @@ function handlePreTurn() {
 
         switchPlayerTurn();
     }
-
-    currentPlayer.canPlay = true;
+    else
+        game.currentTurn = turn.playTurn;
+    //    currentPlayer.canPlay = true;
 }
 
 function handlePlay() {
@@ -215,6 +216,18 @@ function handlePlay() {
     }
 
     switchPlayerTurn(numberOfTurnsToSkip);
+}
+
+function switchPlayerTurn(numberOfTimes) {
+    if (typeof(numberOfTimes) === 'undefined') numberOfTimes = 1; // Default parameter value
+
+    // Choose the next player in the array
+    var playerIndex = game.players.indexOf(game.currentPlayer);
+    var nextPlayerIndex = (playerIndex + numberOfTimes) % game.players.length;
+    game.currentPlayer = players[nextPlayerIndex];
+
+    game.currentTurn = turn.preTurn;
+    handlePreTurn();
 
 }
 
@@ -242,11 +255,13 @@ function quartetPlayed() {
 
 function isPlayPossible(player) {
     var cards = player.handCards;
+    cards = cards.concat(player.topCards);
+    cards = cards.concat(player.bottomCards);
     
-    console.log("number of cards in hand: " + cards.length);
+    console.log("Number of cards in hand: " + cards.length);
 
     for (var i = 0; i < cards.length; i++) {
-        console.log("looping hand cards - " + i);
+//        console.log("looping hand cards - " + i);
 
         if (cards[i].playable) {
             console.log("Player: " + player.id +" | Card is playable: " + cards[i].cardObject.number);
@@ -254,6 +269,7 @@ function isPlayPossible(player) {
         }
     }
     
+    console.log("Player is not able to play");
     return false;
 }
 
@@ -273,18 +289,6 @@ function areTopCardsChosen() {
     return true;
 }
 
-function switchPlayerTurn(numberOfTimes) {
-    if (typeof(numberOfTimes) === 'undefined') numberOfTimes = 1; // Default parameter value
-    
-    game.currentPlayer.canPlay = false;
-
-    // Choose the next player in the array
-    var playerIndex = game.players.indexOf(game.currentPlayer);
-    var nextPlayerIndex = (playerIndex + numberOfTimes) % game.players.length;
-    game.currentPlayer = players[nextPlayerIndex];
-    //    game.currentPlayer.canPlay = false;
-
-}
 
 function shuffle(array) {
     var currentIndex = array.length,
@@ -317,7 +321,6 @@ function findCardState(cards, state) {
 
 function isPlayable(card) {
     var player = card.player;
-    //    console.log("game state: " + game.state);
 
     // If it's the phase to choose the top cards
     if (game.state === "chooseCards") {
@@ -330,23 +333,36 @@ function isPlayable(card) {
     }
 
     // If it's the play phase
-    else if (game.state === "preTurn" || game.state === "playTurn") {
+    else if (game.state === "Play") {
+        console.log("Player: " + player.id +
+                    " | Card: " + card.cardObject.number +
+                    " | State: " + card.state);
+        console.log("0");
 
         // If card is not owned by any player or it's not this player's turn
         if (typeof(player) === 'undefined' ||
                 player !== game.currentPlayer) return false;
 
+        console.log("1");
+
         // If card is part of top three and there are still cards in the hand/stack
-        if (card.state === "PlayerThreeTop" && (player.handCards.length > 0 || stackOfCards.length > 0)) {
+        if (card.state === "PlayerThreeTop"
+                && (player.handCards.length > 0 || stackOfCards.length > 0)) {
             return false;
         }
+
+        console.log("2");
 
         // If card is part of bottom three and there are still top three cards
         if (card.state === "PlayerThreeBottom" && player.topCards.length > 0)
             return false;
 
+        console.log("3");
+
         // If the play area is empty
         if (game.topCard === undefined) return true;
+
+        console.log("4");
 
         // Get cards' values
         var topCardValue = game.topCard.cardObject.number;
@@ -358,10 +374,13 @@ function isPlayable(card) {
         // Check if this card cannot be played
         if (topCardRules.indexOf(playCardValue) > -1) return false;
 
+        console.log("5");
+
         // If none of the constraints above apply
         return true;
     }
 
+//    console.log("Skipped states");
     return false;
 }
 
