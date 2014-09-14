@@ -76,26 +76,15 @@ var cardsRules = {
 
 var player1 = {
     id: 1,
-//    canPlay: false,
-    handCards: [],
-    topCards: [],
-    bottomCards: [],
-    areas: {
-        playerHandArea: { },
-        threeTopArea: { },
-        threeBottomArea: { }
-    }
+    hand: { cards: [], area: {} },
+    top: { cards: [], area: {} },
+    bottom: { cards: [], area: {} }
 };
+
 
 var player2 = {
     id: 2,
-//    canPlay: false,
-    handCards: [],
-    topCards: [],
-    bottomCards: [],
-    areas: {
-        playerHandArea: { },
-        threeTopArea: { },
-        threeBottomArea: { }
-    }
+    hand: { cards: [], area: {} },
+    top: { cards: [], area: {} },
+    bottom: { cards: [], area: {} }
 };
