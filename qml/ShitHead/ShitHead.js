@@ -133,7 +133,7 @@ function playCard(card) {
         }
 
         var cardIndex = cardContainer.indexOf(card);
-        removeIndex(player.hand.cards, cardIndex);
+        removeIndex(cardContainer, cardIndex);
 
         // Add it to the played cards stack
         game.playedCards.push(card);
@@ -155,7 +155,8 @@ function handlePreTurn() {
     console.log("Handling preturn");
 
     // If the next player does not have a possible play
-    if (!isPlayPossible(currentPlayer)) {
+    if (!isPlayPossible(currentPlayer)
+            && (currentPlayer.hand.cards.length > 0 || currentPlayer.top.cards.length > 0)) {
 
         console.log("player: " + currentPlayer.id + " cannot play.");
 
@@ -175,7 +176,6 @@ function handlePreTurn() {
     }
     else
         game.currentTurn = turn.playTurn;
-    //    currentPlayer.canPlay = true;
 }
 
 function handlePlay() {
@@ -183,6 +183,7 @@ function handlePlay() {
     // Get last played card
     var card = playedCards[playedCards.length - 1];
     var cardValue = card.cardObject.number;
+
     var numberOfTurnsToSkip = 1;
     
     // Don't set new topcard if the card played was 3
@@ -193,8 +194,7 @@ function handlePlay() {
     }
 
     // Burn played cards
-    if (cardValue === "10" ||
-            quartetPlayed()) {
+    if (cardValue === "10" || quartetPlayed()) {
 
         console.log("Burning cards");
 
@@ -257,7 +257,7 @@ function isPlayPossible(player) {
     console.log("Number of cards in hand: " + cards.length);
 
     for (var i = 0; i < cards.length; i++) {
-//        console.log("looping hand cards - " + i);
+        //        console.log("looping hand cards - " + i);
 
         if (cards[i].playable) {
             console.log("Player: " + player.id +" | Card is playable: " + cards[i].cardObject.number);
@@ -330,9 +330,11 @@ function isPlayable(card) {
 
     // If it's the play phase
     else if (game.state === "Play") {
+
         console.log("Player: " + player.id +
                     " | Card: " + card.cardObject.number +
                     " | State: " + card.state);
+
         console.log("0");
 
         // If card is not owned by any player or it's not this player's turn
@@ -350,8 +352,11 @@ function isPlayable(card) {
         console.log("2");
 
         // If card is part of bottom three and there are still top three cards
-        if (card.state === "PlayerThreeBottom" && player.top.cards.length > 0)
-            return false;
+        if (card.state === "PlayerThreeBottom")
+            if (player.top.cards.length > 0)
+                return false;
+            else
+                return true;
 
         console.log("3");
 
@@ -376,7 +381,6 @@ function isPlayable(card) {
         return true;
     }
 
-//    console.log("Skipped states");
     return false;
 }
 
