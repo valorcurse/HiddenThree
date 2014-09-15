@@ -1,16 +1,24 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
 
 Rectangle {
     id: app
 
-    property int screenWidth: 540
-    property int screenHeight: 720
+    //    property int screenWidth: 540
+    //    property int screenHeight: 720
 
-    width: screenWidth; height: screenHeight
+    //    width: Screen.width;
+    //    height: Screen.height
+    //    width: 540
+    //    height: 720
 
     SystemPalette { id: activePalette }
+
+    anchors {
+        fill: parent
+    }
 
     Loader {
         id: pageLoader

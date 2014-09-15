@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
 
 Rectangle {
@@ -11,8 +12,13 @@ Rectangle {
     property bool chosen: false
     property string previousState: state
 
-    height: 154
-    width: 100
+//    height: 154
+//    width: 100
+
+    height: Screen.height / 6
+    width: cardItem.height / 1.54
+
+
     color: "transparent"
     border.color: {
         if (playable) {
