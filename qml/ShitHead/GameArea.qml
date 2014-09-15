@@ -66,7 +66,7 @@ Item {
             id: player2CardsDropArea
 
             onDropped: {
-                if (drop.source.previousState === "PlayerThreeTop") {
+                if (drop.source.previousState === "ThreeTop") {
                     Engine.removeTopCard(drop.source);
                     drop.accept();
                 }
@@ -116,7 +116,7 @@ Item {
             id: player2ThreeDropArea
 
             onDropped: {
-                if (drop.source.previousState === "PlayerHand" && player2ThreeTop.children.length < 3) {
+                if (drop.source.previousState === "Hand" && player2ThreeTop.children.length < 3) {
                     Engine.chooseTopCard(drop.source);
                     drop.accept();
                 }
@@ -146,21 +146,6 @@ Item {
         anchors {
             verticalCenter: parent.verticalCenter
         }
-
-        //        states: [
-
-        //            // If there are no cards on play area
-        //            State {
-        //                when: playedCards.length === 0
-
-        //                PropertyChanges {
-        //                    target: game
-        //                    topCard: undefined
-        ////                    stackLevel: 0
-        //                }
-        //            }
-
-        //        ]
     }
 
     Item {
@@ -214,7 +199,7 @@ Item {
             id: player1ThreeDropArea
 
             onDropped: {
-                if (drop.source.previousState === "PlayerHand" && player1ThreeTop.children.length < 3) {
+                if (drop.source.previousState === "Hand" && player1ThreeTop.children.length < 3) {
                     Engine.chooseTopCard(drop.source);
                     drop.accept();
                 }
@@ -265,7 +250,7 @@ Item {
             id: player1CardsDropArea
 
             onDropped: {
-                if (drop.source.previousState === "PlayerThreeTop") {
+                if (drop.source.previousState === "ThreeTop") {
                     Engine.removeTopCard(drop.source);
                     drop.accept();
                 }

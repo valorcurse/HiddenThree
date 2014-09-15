@@ -1,8 +1,5 @@
 Qt.include("GameProperties.js");
 
-//var player1;
-//var player2;
-
 function startNewGame() {
     
     
@@ -39,7 +36,7 @@ function dealHiddenCards(player) {
         
         var card = stackOfCards.pop();
         
-        card.state = "PlayerThreeBottom";
+        card.state = "ThreeBottom";
         card.player = player;
         
         player.bottom.cards.push(card)
@@ -52,7 +49,7 @@ function dealCards(player, numberOfCards) {
 
             var card = stackOfCards.pop();
             card.player = player;
-            card.state = "PlayerHand";
+            card.state = "Hand";
 
             player.hand.cards.push(card);
         }
@@ -69,7 +66,7 @@ function createStackOfCards() {
     if (component.status === Component.Ready) {
         
         //        for (var i = 0; i < cardsInfo.length; i++) {
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 18; i++) {
             var card = component.createObject(stackOfCardsArea, {cardObject: cardsInfo[i]});
             
             if (card === null) {
@@ -97,7 +94,7 @@ function chooseTopCard(card) {
     var player = card.player;
 
     if (player.top.cards.length < 3) {
-        card.state = "PlayerThreeTop";
+        card.state = "ThreeTop";
 
         var cardIndex = player.hand.cards.indexOf(card);
         removeIndex(player.hand.cards, cardIndex);
@@ -107,7 +104,7 @@ function chooseTopCard(card) {
 
 function removeTopCard(card) {
     var player = card.player;
-    card.state = "PlayerHand";
+    card.state = "Hand";
 
     var cardIndex = player.top.cards.indexOf(card);
     removeIndex(player.top.cards, cardIndex);
@@ -117,18 +114,24 @@ function removeTopCard(card) {
 function playCard(card) {
     
     if (card.playable) {
+
+//        if (card.state === "ThreeBottom") {
+//            card.state = "ThreeTop";
+//            playCard(card);
+//            return;
+//        }
         
         // Remove card from player's hand
         var player = card.player;
         var cardContainer;
 
-        if (card.state === "PlayerHand") {
+        if (card.state === "Hand") {
             cardContainer = player.hand.cards;
         }
-        else if (card.state === "PlayerThreeTop") {
+        else if (card.state === "ThreeTop") {
             cardContainer = player.top.cards;
         }
-        else if (card.state === "PlayerThreeBottom") {
+        else if (card.state === "ThreeBottom") {
             cardContainer = player.bottom.cards;
         }
 
@@ -165,7 +168,7 @@ function handlePreTurn() {
             var currentCard = playedCards.pop();
 
             currentCard.player = currentPlayer;
-            currentCard.state = "PlayerHand";
+            currentCard.state = "Hand";
             currentPlayer.hand.cards.push(currentCard);
         }
 
@@ -322,7 +325,7 @@ function isPlayable(card) {
     if (game.state === "chooseCards") {
 
         // And the card is in a player's hand
-        if (card.state === "PlayerHand" || card.state === "PlayerThreeTop")
+        if (card.state === "Hand" || card.state === "ThreeTop")
             return true;
         else
             return false;
@@ -344,7 +347,7 @@ function isPlayable(card) {
         console.log("1");
 
         // If card is part of top three and there are still cards in the hand/stack
-        if (card.state === "PlayerThreeTop"
+        if (card.state === "ThreeTop"
                 && (player.hand.cards.length > 0 || stackOfCards.length > 0)) {
             return false;
         }
@@ -352,7 +355,7 @@ function isPlayable(card) {
         console.log("2");
 
         // If card is part of bottom three and there are still top three cards
-        if (card.state === "PlayerThreeBottom")
+        if (card.state === "ThreeBottom")
             if (player.top.cards.length > 0)
                 return false;
             else

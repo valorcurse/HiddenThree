@@ -4,18 +4,28 @@ import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
 import "GameProperties.js" as GameProperties
 
-Rectangle {
+Item {
     id: app
 
-    height: Screen.height
+    height: Screen.height / 2
     width: Screen.width / 2
 
-//    onCompleted: {
-//        GameProperties.cardHeight = height;
-//        GameProperties.cardWidth = width;
-//    }
-
     SystemPalette { id: activePalette }
+
+    Component.onCompleted: {
+        console.log("completed");
+        GameProperties.cardHeight = app.height / 6;
+        GameProperties.cardWidth = GameProperties.cardHeight / 1.54;
+
+        var playerObject = Qt.createComponent("Player.qml");
+        var player;
+        if (playerObject.status === Component.Ready)
+//            GameProperties.player1 = playerObject.createObject({id: 1});
+        player = playerObject.createObject({id: 1});
+        player.id = 2;
+        console.log(player.id);
+
+    }
 
     Loader {
         id: pageLoader
@@ -27,9 +37,7 @@ Rectangle {
         }
 
         onLoaded: {
-            GameProperties.cardHeight = app.height / 6;
-            GameProperties.cardWidth = GameProperties.cardHeight / 1.54;
-            areaBinder.target = pageLoader.item
+            areaBinder.target = pageLoader.item;
         }
     }
 

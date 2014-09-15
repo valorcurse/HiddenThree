@@ -74,12 +74,12 @@ var cardsRules = {
     "a"	: 	["4", "5", "6", "7", "8", "9", "j", "q", "k"]
 };
 
-var player1 = {
-    id: 1,
-    hand: { cards: [], area: {} },
-    top: { cards: [], area: {} },
-    bottom: { cards: [], area: {} }
-};
+//var player1 = {
+//    id: 1,
+//    hand: { cards: [], area: {} },
+//    top: { cards: [], area: {} },
+//    bottom: { cards: [], area: {} }
+//};
 
 
 var player2 = {
@@ -88,6 +88,13 @@ var player2 = {
     top: { cards: [], area: {} },
     bottom: { cards: [], area: {} }
 };
+
+//var playerObject  = Qt.createComponent("Player.qml");
+var player1;
+//if (playerObject.status === Component.Ready)
+//    player = playerObject.createObject({id: 1});
+
+//console.log(player1.id);
 
 var cardHeight;
 var cardWidth;

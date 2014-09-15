@@ -85,7 +85,7 @@ Rectangle {
         onClicked: {
             console.log("clicked - player: " + player.id)
 
-            if (game.state === "chooseCards" && cardItem.state === "PlayerThreeTop") {
+            if (game.state === "chooseCards" && cardItem.state === "ThreeTop") {
                 chosen = !chosen;
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
             }
@@ -120,7 +120,7 @@ Rectangle {
         },
 
         State {
-            name: "PlayerHand"
+            name: "Hand"
 
             PropertyChanges {
                 target: cardItem
@@ -137,7 +137,7 @@ Rectangle {
         },
 
         State {
-            name: "PlayerThreeTop"
+            name: "ThreeTop"
 
             PropertyChanges {
                 target: cardItem
@@ -148,13 +148,12 @@ Rectangle {
                 target: cardItem
                 anchors {
                     verticalCenter: parent.verticalCenter
-                    //                    horizontalCenter: parent.horizontalCenter
                 }
             }
         },
 
         State {
-            name: "PlayerThreeBottom"
+            name: "ThreeBottom"
 
             PropertyChanges {
                 target: cardItem
@@ -175,7 +174,6 @@ Rectangle {
                 parent: playArea
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
-//                player: null
             }
 
             AnchorChanges {
