@@ -13,17 +13,15 @@ Item {
     SystemPalette { id: activePalette }
 
     Component.onCompleted: {
-        console.log("completed");
         GameProperties.cardHeight = app.height / 6;
         GameProperties.cardWidth = GameProperties.cardHeight / 1.54;
 
-        var playerObject = Qt.createComponent("Player.qml");
-        var player;
-        if (playerObject.status === Component.Ready)
-//            GameProperties.player1 = playerObject.createObject({id: 1});
-        player = playerObject.createObject({id: 1});
-        player.id = 2;
-        console.log(player.id);
+//        var playerObject = Qt.createComponent("Player.qml");
+//        var player;
+//        if (playerObject.status === Component.Ready)
+//            GameProperties.player1 = playerObject.createObject(undefined, {id: 1});
+//        //            player = playerObject.createObject(undefined, {id: 1});
+//        console.log(GameProperties.player1.id);
 
     }
 

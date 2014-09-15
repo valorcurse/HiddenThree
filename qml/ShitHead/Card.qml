@@ -141,7 +141,7 @@ Rectangle {
 
             PropertyChanges {
                 target: cardItem
-                parent: player.top.area
+                parent: player.threeTop.area
             }
 
             AnchorChanges {
@@ -157,7 +157,7 @@ Rectangle {
 
             PropertyChanges {
                 target: cardItem
-                parent: player.bottom.area
+                parent: player.threeBottom.area
             }
 
             PropertyChanges {

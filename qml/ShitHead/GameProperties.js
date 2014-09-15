@@ -82,15 +82,16 @@ var cardsRules = {
 //};
 
 
-var player2 = {
-    id: 2,
-    hand: { cards: [], area: {} },
-    top: { cards: [], area: {} },
-    bottom: { cards: [], area: {} }
-};
+//var player2 = {
+//    id: 2,
+//    hand: { cards: [], area: {} },
+//    top: { cards: [], area: {} },
+//    bottom: { cards: [], area: {} }
+//};
 
 //var playerObject  = Qt.createComponent("Player.qml");
 var player1;
+var player2;
 //if (playerObject.status === Component.Ready)
 //    player = playerObject.createObject({id: 1});
 

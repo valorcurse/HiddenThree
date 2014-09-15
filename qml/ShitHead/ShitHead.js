@@ -2,7 +2,6 @@ Qt.include("GameProperties.js");
 
 function startNewGame() {
     
-    
     //  Initialize Board
     createStackOfCards();
     
@@ -10,16 +9,20 @@ function startNewGame() {
     shuffle(stackOfCards);
     
     // Create players
+    player1 = game.players[0];
     player1.hand.area =  game.player1CardsArea;
-    player1.top.area =  game.player1ThreeTop;
-    player1.bottom.area =  game.player1ThreeBottom;
-    game.players.push(player1);
+    player1.threeTop.area =  game.player1ThreeTop;
+    player1.threeBottom.area =  game.player1ThreeBottom;
+//    game.players.push(player1);
     game.currentPlayer = player1;
+
+    console.log("id: " + game.players[0].id);
     
+    player2 = game.players[1];
     player2.hand.area =  game.player2CardsArea;
-    player2.top.area =  game.player2ThreeTop;
-    player2.bottom.area =  game.player2ThreeBottom;
-    game.players.push(player2);
+    player2.threeTop.area =  game.player2ThreeTop;
+    player2.threeBottom.area =  game.player2ThreeBottom;
+//    game.players.push(player2);
     
     dealHiddenCards(player1);
     dealHiddenCards(player2);
@@ -39,7 +42,7 @@ function dealHiddenCards(player) {
         card.state = "ThreeBottom";
         card.player = player;
         
-        player.bottom.cards.push(card)
+        player.threeBottom.cards.push(card)
     }
 }
 
@@ -132,7 +135,7 @@ function playCard(card) {
             cardContainer = player.top.cards;
         }
         else if (card.state === "ThreeBottom") {
-            cardContainer = player.bottom.cards;
+            cardContainer = player.threeBottom.cards;
         }
 
         var cardIndex = cardContainer.indexOf(card);
@@ -255,7 +258,7 @@ function quartetPlayed() {
 function isPlayPossible(player) {
     var cards = player.hand.cards;
     cards = cards.concat(player.top.cards);
-    cards = cards.concat(player.bottom.cards);
+    cards = cards.concat(player.threeBottom.cards);
     
     console.log("Number of cards in hand: " + cards.length);
 

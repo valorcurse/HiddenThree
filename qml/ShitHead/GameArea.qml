@@ -30,13 +30,34 @@ Item {
     property bool topCardsAreChosen: false
 
     // Fake enum
-    property var turn: {"preTurn", "playTurn"}
+    property var turn: {"preTurn": 0, "playTurn": 1}
     property var currentTurn: turn.preTurn
 
     signal cardPlayed
 
+//    Component.onCompleted: {
+//    }
+
     onCardPlayed: {
         Engine.handlePlay(topCard);
+    }
+
+    Repeater {
+        model: 2
+
+        Player {
+            id: player
+            playerID: index
+
+            Component.onCompleted: {
+                game.players.push(player);
+            }
+        }
+
+        Component.onCompleted: {
+            console.log("Player created: " + game.players.length);
+            Engine.startNewGame();
+        }
     }
 
     StackView {
@@ -53,7 +74,7 @@ Item {
             objectName: "player2CardsArea"
 
 
-            spacing: Engine.calculateSpacing(player1CardsArea)
+            spacing: Engine.calculateSpacing(player2CardsArea)
             layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
             anchors {
@@ -283,13 +304,13 @@ Item {
     }
 
     states: [
-        State {
-            name: "dealCards"
+//        State {
+//            name: "dealCards"
 
-            onCompleted: {
-                Engine.startNewGame()
-            }
-        },
+//            onCompleted: {
+//                Engine.startNewGame()
+//            }
+//        },
 
         State {
             name: "chooseCards"
