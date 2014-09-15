@@ -2,23 +2,20 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
+import "GameProperties.js" as GameProperties
 
 Rectangle {
     id: app
 
-    //    property int screenWidth: 540
-    //    property int screenHeight: 720
+    height: Screen.height
+    width: Screen.width / 2
 
-    //    width: Screen.width;
-    //    height: Screen.height
-    //    width: 540
-    //    height: 720
+//    onCompleted: {
+//        GameProperties.cardHeight = height;
+//        GameProperties.cardWidth = width;
+//    }
 
     SystemPalette { id: activePalette }
-
-    anchors {
-        fill: parent
-    }
 
     Loader {
         id: pageLoader
@@ -27,13 +24,11 @@ Rectangle {
 
         anchors {
             fill: parent
-            //            left: parent.left
-            //            right: parent.right
-            //            top: parent.top
-            //            bottom: toolBar.top
         }
 
         onLoaded: {
+            GameProperties.cardHeight = app.height / 6;
+            GameProperties.cardWidth = GameProperties.cardHeight / 1.54;
             areaBinder.target = pageLoader.item
         }
     }
@@ -52,20 +47,4 @@ Rectangle {
         source: "textures/woodBackground.png"
         fillMode: Image.PreserveAspectCrop
     }
-
-    //    Rectangle {
-    //        id: toolBar
-    //        z: 2
-    //        width: parent.width; height: 30
-    //        color: activePalette.window
-    //        anchors.bottom: app.bottom
-
-    //        Button {
-    //            anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-    //            text: "New Game"
-    //            onClicked: {
-    //                pageLoader.source = "GameArea.qml"
-    //            }
-    //        }
-    //    }
 }

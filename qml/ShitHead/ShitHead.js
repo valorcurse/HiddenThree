@@ -388,7 +388,7 @@ function isPlayable(card) {
 function calculateSpacing(area) {
     //    if (area === player2Area) return 0;
 
-    var cardWidth = 100; // TODO: Fix this
+    var cardWidth = cardHeight / 1.54; // TODO: Fix this
     var widthOverflow = game.width / area.children.length;
     
     if (area.children.length * cardWidth > game.width)

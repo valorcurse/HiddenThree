@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
+import "GameProperties.js" as GameProperties
 
 Item {
     id: game
@@ -16,7 +18,6 @@ Item {
     property alias player1CardsArea: player1CardsArea
     property alias graveyard: graveyard
 
-//    property string currentState: game.state
     property int stackLevel: playedCards.length
     property var topCard
     property var stackOfCards: []
@@ -79,7 +80,7 @@ Item {
 
     StackView {
         id: player2ThreeStack
-        height: 154
+        height: GameProperties.cardHeight
 
         anchors {
             bottom: playArea.top
@@ -177,7 +178,7 @@ Item {
 
     StackView {
         id: player1ThreeStack
-        height: 154
+        height: GameProperties.cardHeight
 
         anchors {
             top: playArea.bottom
@@ -289,7 +290,7 @@ Item {
         objectName: "graveyard"
 
         width: 100
-        height: 154
+        height: GameProperties.cardHeight
 
         anchors {
             right: parent.left

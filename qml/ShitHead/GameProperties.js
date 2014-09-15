@@ -88,3 +88,6 @@ var player2 = {
     top: { cards: [], area: {} },
     bottom: { cards: [], area: {} }
 };
+
+var cardHeight;
+var cardWidth;
