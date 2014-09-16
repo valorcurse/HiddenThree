@@ -7,22 +7,20 @@ import "GameProperties.js" as GameProperties
 Rectangle {
     id: cardItem
 
-//    property alias cardHeight: cardHeight
-//    property alias cardWidth: cardWidth
-
     property var cardObject
     property var player
     property bool playable: Engine.isPlayable(cardItem)
     property bool chosen: false
     property string previousState: state
 
-    height: GameProperties.cardHeight
-    width: GameProperties.cardWidth
+    height: GameProperties.cardHeight;
+    width: GameProperties.cardWidth;
 
     color: "transparent"
     border.color: {
         if (playable) {
-            if (game.state === "chooseCards" && chosen) {
+                console.log("playable: " + cardObject.number);
+            if (game.state === "ChooseCards" && chosen) {
                 return "orange";
             }
 
@@ -85,7 +83,7 @@ Rectangle {
         onClicked: {
             console.log("clicked - player: " + player.id)
 
-            if (game.state === "chooseCards" && cardItem.state === "ThreeTop") {
+            if (game.state === "ChooseCards" && cardItem.state === "ThreeTop") {
                 chosen = !chosen;
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
             }

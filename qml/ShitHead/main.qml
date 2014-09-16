@@ -12,19 +12,6 @@ Item {
 
     SystemPalette { id: activePalette }
 
-    Component.onCompleted: {
-        GameProperties.cardHeight = app.height / 6;
-        GameProperties.cardWidth = GameProperties.cardHeight / 1.54;
-
-//        var playerObject = Qt.createComponent("Player.qml");
-//        var player;
-//        if (playerObject.status === Component.Ready)
-//            GameProperties.player1 = playerObject.createObject(undefined, {id: 1});
-//        //            player = playerObject.createObject(undefined, {id: 1});
-//        console.log(GameProperties.player1.id);
-
-    }
-
     Loader {
         id: pageLoader
         z: 1
@@ -35,6 +22,8 @@ Item {
         }
 
         onLoaded: {
+//            GameProperties.cardHeight = Screen.height / 6;
+//            GameProperties.cardWidth =  GameProperties.cardHeight / 1.54;;
             areaBinder.target = pageLoader.item;
         }
     }

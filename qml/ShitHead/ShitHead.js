@@ -16,7 +16,7 @@ function startNewGame() {
 //    game.players.push(player1);
     game.currentPlayer = player1;
 
-    console.log("id: " + game.players[0].id);
+    console.log("id: " + game.players[0].playerID);
     
     player2 = game.players[1];
     player2.hand.area =  game.player2CardsArea;
@@ -31,14 +31,20 @@ function startNewGame() {
     dealCards(player1, 6);
     dealCards(player2, 6);
 
+    console.log("Stack of cards: " + stackOfCards.length);
+
     game.cardsAreDealt = true;
 }
 
 function dealHiddenCards(player) {
+//    console.log(player.hand.area);
+
     for (var i = 0; i < 3; i++) {
         
         var card = stackOfCards.pop();
         
+        console.log("Card sizes: " + card.width + "x" + card.height);
+
         card.state = "ThreeBottom";
         card.player = player;
         
@@ -69,7 +75,7 @@ function createStackOfCards() {
     if (component.status === Component.Ready) {
         
         //        for (var i = 0; i < cardsInfo.length; i++) {
-        for (var i = 0; i < 18; i++) {
+        for (var i = 0; i < 20; i++) {
             var card = component.createObject(stackOfCardsArea, {cardObject: cardsInfo[i]});
             
             if (card === null) {
@@ -96,12 +102,12 @@ function createStackOfCards() {
 function chooseTopCard(card) {
     var player = card.player;
 
-    if (player.top.cards.length < 3) {
+    if (player.threeTop.cards.length < 3) {
         card.state = "ThreeTop";
 
         var cardIndex = player.hand.cards.indexOf(card);
         removeIndex(player.hand.cards, cardIndex);
-        player.top.cards.push(card);
+        player.threeTop.cards.push(card);
     }
 }
 
@@ -109,8 +115,8 @@ function removeTopCard(card) {
     var player = card.player;
     card.state = "Hand";
 
-    var cardIndex = player.top.cards.indexOf(card);
-    removeIndex(player.top.cards, cardIndex);
+    var cardIndex = player.threeTop.cards.indexOf(card);
+    removeIndex(player.threeTop.cards, cardIndex);
     player.hand.cards.push(card);
 }
 
@@ -132,7 +138,7 @@ function playCard(card) {
             cardContainer = player.hand.cards;
         }
         else if (card.state === "ThreeTop") {
-            cardContainer = player.top.cards;
+            cardContainer = player.threeTop.cards;
         }
         else if (card.state === "ThreeBottom") {
             cardContainer = player.threeBottom.cards;
@@ -162,7 +168,7 @@ function handlePreTurn() {
 
     // If the next player does not have a possible play
     if (!isPlayPossible(currentPlayer)
-            && (currentPlayer.hand.cards.length > 0 || currentPlayer.top.cards.length > 0)) {
+            && (currentPlayer.hand.cards.length > 0 || currentplayer.threeTop.cards.length > 0)) {
 
         console.log("player: " + currentPlayer.id + " cannot play.");
 
@@ -257,7 +263,7 @@ function quartetPlayed() {
 
 function isPlayPossible(player) {
     var cards = player.hand.cards;
-    cards = cards.concat(player.top.cards);
+    cards = cards.concat(player.threeTop.cards);
     cards = cards.concat(player.threeBottom.cards);
     
     console.log("Number of cards in hand: " + cards.length);
@@ -325,7 +331,7 @@ function isPlayable(card) {
     var player = card.player;
 
     // If it's the phase to choose the top cards
-    if (game.state === "chooseCards") {
+    if (game.state === "ChooseCards") {
 
         // And the card is in a player's hand
         if (card.state === "Hand" || card.state === "ThreeTop")
@@ -359,7 +365,7 @@ function isPlayable(card) {
 
         // If card is part of bottom three and there are still top three cards
         if (card.state === "ThreeBottom")
-            if (player.top.cards.length > 0)
+            if (player.threeTop.cards.length > 0)
                 return false;
             else
                 return true;

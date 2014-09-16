@@ -35,9 +35,6 @@ Item {
 
     signal cardPlayed
 
-//    Component.onCompleted: {
-//    }
-
     onCardPlayed: {
         Engine.handlePlay(topCard);
     }
@@ -51,12 +48,12 @@ Item {
 
             Component.onCompleted: {
                 game.players.push(player);
+                console.log("Number of players: " + game.players.length);
             }
         }
 
         Component.onCompleted: {
-            console.log("Player created: " + game.players.length);
-            Engine.startNewGame();
+            console.log("Players created: " + game.players.length);
         }
     }
 
@@ -295,7 +292,7 @@ Item {
         id: graveyard
         objectName: "graveyard"
 
-        width: 100
+        width: GameProperties.cardWidth
         height: GameProperties.cardHeight
 
         anchors {
@@ -304,51 +301,51 @@ Item {
     }
 
     states: [
-//        State {
-//            name: "dealCards"
+        State {
+            name: "DealCards"
+            when: game.players.length > 1 && !cardsAreDealt
 
-//            onCompleted: {
-//                Engine.startNewGame()
-//            }
-//        },
+            onCompleted: {
+                console.log("entered: DealCards");
+                Engine.startNewGame();
+            }
+        },
 
         State {
-            name: "chooseCards"
+            name: "ChooseCards"
             when: cardsAreDealt && !topCardsAreChosen
+
+            onCompleted: {
+                console.log("entered: ChooseCards");
+            }
         },
 
         State {
             name: "Play"
             when: topCardsAreChosen && currentTurn === turn.preTurn
 
-//            PropertyChanges {
-//                target: game
-//                currentTurn: Turn.preTurn
-//            }
-
             onCompleted: {
-//                Engine.handlePreTurn();
                 Engine.switchPlayerTurn(0);
                 console.log("entered: play");
             }
         },
 
-//        State {
-//            name: "playTurn"
-//            when: topCardsAreChosen && currentTurn === turn.playTurn
+        //        State {
+        //            name: "playTurn"
+        //            when: topCardsAreChosen && currentTurn === turn.playTurn
 
-////            PropertyChanges {
-////                target: game
-////                currentTurn: Turn.playTurn
-////            }
+        ////            PropertyChanges {
+        ////                target: game
+        ////                currentTurn: Turn.playTurn
+        ////            }
 
-//            onCompleted: {
-//                console.log("entered: playTurn");
-//            }
-//        },
+        //            onCompleted: {
+        //                console.log("entered: playTurn");
+        //            }
+        //        },
 
         State {
-            name: "gameOver"
+            name: "GameOver"
             when: {
                 if (topCardsAreChosen)
                     for (var id in players) {
@@ -361,7 +358,7 @@ Item {
             }
 
             onCompleted: {
-                console.log("entered: gameOver");
+                console.log("entered: GameOver");
             }
         }
     ]
