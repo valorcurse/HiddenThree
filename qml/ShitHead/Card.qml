@@ -19,7 +19,7 @@ Rectangle {
     color: "transparent"
     border.color: {
         if (playable) {
-                console.log("playable: " + cardObject.number);
+//                console.log("playable: " + cardObject.number);
             if (game.state === "ChooseCards" && chosen) {
                 return "orange";
             }
@@ -81,7 +81,9 @@ Rectangle {
         //        }
 
         onClicked: {
-            console.log("clicked - player: " + player.id)
+            console.log("Clicked | Player: " + player.id
+                        + " | Playable: " + Engine.isPlayable(cardItem)
+                        + " | State: " + cardItem.state);
 
             if (game.state === "ChooseCards" && cardItem.state === "ThreeTop") {
                 chosen = !chosen;

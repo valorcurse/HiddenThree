@@ -322,7 +322,7 @@ Item {
 
         State {
             name: "Play"
-            when: topCardsAreChosen && currentTurn === turn.preTurn
+            when: topCardsAreChosen /*&& currentTurn === turn.preTurn*/
 
             onCompleted: {
                 Engine.switchPlayerTurn(0);

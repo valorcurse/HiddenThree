@@ -7,7 +7,7 @@ import "GameProperties.js" as GameProperties
 Item {
     id: app
 
-    height: Screen.height / 2
+    height: Screen.height / 1.5
     width: Screen.width / 2
 
     SystemPalette { id: activePalette }
@@ -20,19 +20,6 @@ Item {
         anchors {
             fill: parent
         }
-
-        onLoaded: {
-//            GameProperties.cardHeight = Screen.height / 6;
-//            GameProperties.cardWidth =  GameProperties.cardHeight / 1.54;;
-            areaBinder.target = pageLoader.item;
-        }
-    }
-
-    Binding {
-        id: areaBinder
-
-        property: "state"
-        value: "dealCards"
     }
 
     Image {
