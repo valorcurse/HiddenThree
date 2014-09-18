@@ -26,6 +26,7 @@ Item {
     property var players: []
     property var currentPlayer
 
+    property bool playersAdded: false
     property bool cardsAreDealt: false
     property bool topCardsAreChosen: false
 
@@ -39,7 +40,14 @@ Item {
         Engine.handlePlay(topCard);
     }
 
+//    onPlayersChanged: {
+//        console.log("Player added");
+//        if (players.length > 1)
+//            playersAdded = true;
+//    }
+
     Repeater {
+        id: playersRepeater
         model: 2
 
         Player {
@@ -47,13 +55,23 @@ Item {
             playerID: index
 
             Component.onCompleted: {
-                game.players.push(player);
-                console.log("Number of players: " + game.players.length);
+                //                game.players.push(player);
+                //                player.state = "Hand";
             }
         }
 
         Component.onCompleted: {
+            console.log("Repeater count: " + playersRepeater.count);
+
+            for (var i = 0; i < playersRepeater.count; i++) {
+                console.log("Adding player");
+                game.players.push(playersRepeater.itemAt(i));
+            }
+
+            playersAdded = true;
+
             console.log("Players created: " + game.players.length);
+            console.log("Number of players: " + game.players.length);
         }
     }
 
@@ -303,7 +321,7 @@ Item {
     states: [
         State {
             name: "DealCards"
-            when: game.players.length > 1 && !cardsAreDealt
+            when: playersAdded && !cardsAreDealt
 
             onCompleted: {
                 console.log("entered: DealCards");
@@ -317,6 +335,7 @@ Item {
 
             onCompleted: {
                 console.log("entered: ChooseCards");
+                console.log("State: " + players[0].state);
             }
         },
 

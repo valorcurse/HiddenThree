@@ -56,6 +56,8 @@ Rectangle {
         drag.target: parent
 
         onReleased: {
+            console.log("Condition: " + (player.threeTop.cards.length > 0 && player.hand.cards.length === 0));
+
             if (typeof(cardItem.Drag.target) === "null" || cardItem.Drag.drop() === Qt.IgnoreAction) {
                 cardItem.state = previousState;
             }
@@ -83,7 +85,8 @@ Rectangle {
         onClicked: {
             console.log("Clicked | Player: " + player.id
                         + " | Playable: " + Engine.isPlayable(cardItem)
-                        + " | State: " + cardItem.state);
+                        + " | State: " + cardItem.player.state
+                        + " | Cards hand: " + cardItem.player.hand.cards.length);
 
             if (game.state === "ChooseCards" && cardItem.state === "ThreeTop") {
                 chosen = !chosen;

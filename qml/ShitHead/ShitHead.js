@@ -10,9 +10,9 @@ function startNewGame() {
     
     // Create players
     player1 = game.players[0];
-    player1.hand.area =  game.player1CardsArea;
-    player1.threeTop.area =  game.player1ThreeTop;
-    player1.threeBottom.area =  game.player1ThreeBottom;
+    player1.hand.area = game.player1CardsArea;
+    player1.threeTop.area = game.player1ThreeTop;
+    player1.threeBottom.area = game.player1ThreeBottom;
 //    game.players.push(player1);
     game.currentPlayer = player1;
 
