@@ -13,7 +13,7 @@ function startNewGame() {
     player1.hand.area = game.player1CardsArea;
     player1.threeTop.area = game.player1ThreeTop;
     player1.threeBottom.area = game.player1ThreeBottom;
-//    game.players.push(player1);
+    //    game.players.push(player1);
     game.currentPlayer = player1;
 
     console.log("id: " + game.players[0].playerID);
@@ -22,7 +22,7 @@ function startNewGame() {
     player2.hand.area =  game.player2CardsArea;
     player2.threeTop.area =  game.player2ThreeTop;
     player2.threeBottom.area =  game.player2ThreeBottom;
-//    game.players.push(player2);
+    //    game.players.push(player2);
     
     dealHiddenCards(player1);
     dealHiddenCards(player2);
@@ -37,18 +37,18 @@ function startNewGame() {
 }
 
 function dealHiddenCards(player) {
-//    console.log(player.hand.area);
+    //    console.log(player.hand.area);
 
     for (var i = 0; i < 3; i++) {
         
         var card = stackOfCards.pop();
         
-//        console.log("Card sizes: " + card.width + "x" + card.height);
+        //        console.log("Card sizes: " + card.width + "x" + card.height);
 
         card.state = "ThreeBottom";
         card.player = player;
         
-        player.threeBottom.cards.push(card)
+        player.threeBottom.cards.append(card)
     }
 }
 
@@ -60,7 +60,7 @@ function dealCards(player, numberOfCards) {
             card.player = player;
             card.state = "Hand";
 
-            player.hand.cards.push(card);
+            player.hand.cards.append(card);
         }
 }
 
@@ -106,8 +106,9 @@ function chooseTopCard(card) {
         card.state = "ThreeTop";
 
         var cardIndex = player.hand.cards.indexOf(card);
-        removeIndex(player.hand.cards, cardIndex);
-        player.threeTop.cards.push(card);
+        //        removeIndex(player.hand.cards, cardIndex);
+        player.hand.cards.remove(cardIndex);
+        player.threeTop.cards.append(card);
     }
 }
 
@@ -116,19 +117,20 @@ function removeTopCard(card) {
     card.state = "Hand";
 
     var cardIndex = player.threeTop.cards.indexOf(card);
-    removeIndex(player.threeTop.cards, cardIndex);
-    player.hand.cards.push(card);
+    //    removeIndex(player.threeTop.cards, cardIndex);
+    player.threeTop.cards.remove(cardIndex);
+    player.hand.cards.append(card);
 }
 
 function playCard(card) {
     
     if (card.playable) {
 
-//        if (card.state === "ThreeBottom") {
-//            card.state = "ThreeTop";
-//            playCard(card);
-//            return;
-//        }
+        //        if (card.state === "ThreeBottom") {
+        //            card.state = "ThreeTop";
+        //            playCard(card);
+        //            return;
+        //        }
         
         // Remove card from player's hand
         var player = card.player;
@@ -145,8 +147,8 @@ function playCard(card) {
         }
 
         var cardIndex = cardContainer.indexOf(card);
-        removeIndex(cardContainer, cardIndex);
-
+        //        removeIndex(cardContainer, cardIndex);
+        cardContainer.remove(cardIndex);
         // Add it to the played cards stack
         game.playedCards.push(card);
 
@@ -178,7 +180,7 @@ function handlePreTurn() {
 
             currentCard.player = game.currentPlayer;
             currentCard.state = "Hand";
-            game.currentPlayer.hand.cards.push(currentCard);
+            game.currentPlayer.hand.cards.append(currentCard);
         }
 
         // Reset the play area
@@ -272,7 +274,7 @@ function isPlayPossible(player) {
         //        console.log("looping hand cards - " + i);
 
         if (cards[i].playable) {
-//            console.log("Player: " + player.playerID +" | Card is playable: " + cards[i].cardObject.number);
+            //            console.log("Player: " + player.playerID +" | Card is playable: " + cards[i].cardObject.number);
             return true;
         }
     }
@@ -329,7 +331,7 @@ function findCardState(cards, state) {
 
 function isPlayable(card) {
     var player = card.player;
-//    console.log("State: " + game.state);
+    //    console.log("State: " + game.state);
 
     // If it's the phase to choose the top cards
     if (game.state === "ChooseCards") {
@@ -343,20 +345,20 @@ function isPlayable(card) {
     // If it's the play phase
     else if (game.state === "Play") {
 
-//        console.log("Player: " + player.playerID +
-//                    " | Card: " + card.cardObject.number +
-//                    " | State: " + card.state);
+        //        console.log("Player: " + player.playerID +
+        //                    " | Card: " + card.cardObject.number +
+        //                    " | State: " + card.state);
 
-//        console.log("0");
+        //        console.log("0");
 
         // If card is not owned by any player or it's not this player's turn
         if (typeof(player) === 'undefined' ||
                 player !== game.currentPlayer) return false;
 
-//        console.log("1");
+        //        console.log("1");
 
-//        if (card.state !== player.state)
-//            return false;
+        //        if (card.state !== player.state)
+        //            return false;
 
         // If card is part of top three and there are still cards in the hand/stack
         if (card.state === "ThreeTop"
@@ -364,7 +366,7 @@ function isPlayable(card) {
             return false;
         }
 
-//        console.log("2");
+        //        console.log("2");
 
         // If card is part of bottom three and there are still top three cards
         if (card.state === "ThreeBottom")
@@ -373,12 +375,12 @@ function isPlayable(card) {
             else
                 return true;
 
-//        console.log("3");
+        //        console.log("3");
 
         // If the play area is empty
         if (game.topCard === undefined) return true;
 
-//        console.log("4");
+        //        console.log("4");
 
         // Get cards' values
         var topCardValue = game.topCard.cardObject.number;
@@ -390,7 +392,7 @@ function isPlayable(card) {
         // Check if this card cannot be played
         if (topCardRules.indexOf(playCardValue) > -1) return false;
 
-//        console.log("5");
+        //        console.log("5");
 
         // If none of the constraints above apply
         return true;

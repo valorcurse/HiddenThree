@@ -68,7 +68,7 @@ Item {
                 game.players.push(playersRepeater.itemAt(i));
             }
 
-            playersAdded = true;
+            game.state = "DealCards";
 
             console.log("Players created: " + game.players.length);
             console.log("Number of players: " + game.players.length);
@@ -321,7 +321,7 @@ Item {
     states: [
         State {
             name: "DealCards"
-            when: playersAdded && !cardsAreDealt
+//            when: playersAdded && !cardsAreDealt
 
             onCompleted: {
                 console.log("entered: DealCards");

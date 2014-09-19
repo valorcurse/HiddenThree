@@ -4,11 +4,13 @@ Item {
     id: player
 
     property int playerID
+    property alias hand: hand
+    property alias threeTop: threeTop
+    property alias threeBottom: threeBottom
+
 //    property var hand: { "cards": [], "area": {} }
 //    property var threeTop: { "cards": [], "area": {} }
 //    property var threeBottom: { "cards": [], "area": {} }
-
-//    property alias handCards: player.hand.cards
 
     CardArea {
         id: hand
@@ -45,7 +47,7 @@ Item {
 //            ScriptAction: {
 //                console.log("Entered player Hand state");
 //            }
-        }/*,
+        },
 
         State {
             name: "ThreeTop"
@@ -55,6 +57,6 @@ Item {
         State {
             name: "ThreeBottom"
             when: threeBottom.cards.length > 0 && threeTop.cards.length === 0
-        }*/
+        }
     ]
 }

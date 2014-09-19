@@ -18,7 +18,7 @@ Rectangle {
 
     color: "transparent"
     border.color: {
-        if (playable) {
+        if (playable || player.state === "ThreeBottom") {
 //                console.log("playable: " + cardObject.number);
             if (game.state === "ChooseCards" && chosen) {
                 return "orange";
@@ -56,7 +56,7 @@ Rectangle {
         drag.target: parent
 
         onReleased: {
-            console.log("Condition: " + (player.threeTop.cards.length > 0 && player.hand.cards.length === 0));
+//            console.log("Condition: " + (player.threeTop.cards.length > 0 && player.hand.cards.length === 0));
 
             if (typeof(cardItem.Drag.target) === "null" || cardItem.Drag.drop() === Qt.IgnoreAction) {
                 cardItem.state = previousState;
@@ -83,10 +83,10 @@ Rectangle {
         //        }
 
         onClicked: {
-            console.log("Clicked | Player: " + player.id
+            console.log("Clicked | Player: " + player.playerID
                         + " | Playable: " + Engine.isPlayable(cardItem)
-                        + " | State: " + cardItem.player.state
-                        + " | Cards hand: " + cardItem.player.hand.cards.length);
+                        + " | State: " + cardItem.state
+                        + " | Cards hand: " + cardItem.player.hand.cards.get(0).cardObject.number);
 
             if (game.state === "ChooseCards" && cardItem.state === "ThreeTop") {
                 chosen = !chosen;
