@@ -61,7 +61,7 @@ Item {
         }
 
         Component.onCompleted: {
-            console.log("Repeater count: " + playersRepeater.count);
+//            console.log("Repeater count: " + playersRepeater.count);
 
             for (var i = 0; i < playersRepeater.count; i++) {
                 console.log("Adding player");
@@ -71,7 +71,7 @@ Item {
             game.state = "DealCards";
 
             console.log("Players created: " + game.players.length);
-            console.log("Number of players: " + game.players.length);
+//            console.log("Number of players: " + game.players.length);
         }
     }
 
@@ -236,6 +236,7 @@ Item {
 
             onDropped: {
                 if (drop.source.previousState === "Hand" && player1ThreeTop.children.length < 3) {
+                    console.log("Still space for three top");
                     Engine.chooseTopCard(drop.source);
                     drop.accept();
                 }

@@ -102,11 +102,14 @@ function createStackOfCards() {
 function chooseTopCard(card) {
     var player = card.player;
 
-    if (player.threeTop.cards.length < 3) {
+//    console.log("Adding: " + playr.hand.cards[cardIndex]);
+
+    if (player.threeTop.cardCount < 3) {
         card.state = "ThreeTop";
 
         var cardIndex = player.hand.cards.indexOf(card);
         //        removeIndex(player.hand.cards, cardIndex);
+        console.log("Adding: " + player.hand.cards[cardIndex]);
         player.hand.cards.remove(cardIndex);
         player.threeTop.cards.append(card);
     }
@@ -118,6 +121,7 @@ function removeTopCard(card) {
 
     var cardIndex = player.threeTop.cards.indexOf(card);
     //    removeIndex(player.threeTop.cards, cardIndex);
+    console.log("Removing: " + player.threeTop.cards[cardIndex]);
     player.threeTop.cards.remove(cardIndex);
     player.hand.cards.append(card);
 }
