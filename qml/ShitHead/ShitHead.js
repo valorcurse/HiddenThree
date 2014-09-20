@@ -48,7 +48,7 @@ function dealHiddenCards(player) {
         card.state = "ThreeBottom";
         card.player = player;
         
-        player.threeBottom.cards.append(card)
+        player.threeBottom.cards.append({"object": card})
     }
 }
 
@@ -60,13 +60,23 @@ function dealCards(player, numberOfCards) {
             card.player = player;
             card.state = "Hand";
 
-            player.hand.cards.append(card);
+            player.hand.cards.append({"object": card});
         }
 }
 
 function removeIndex(array, index) {
     if (index !== -1)
         array.splice(index, 1);
+}
+
+function indexOfListModel(item, list) {
+    for (var i = 0; i < list.count; i++) {
+        if (item === list.get(i).object) {
+            return i;
+        }
+    }
+
+    return undefined;
 }
 
 function createStackOfCards() {
@@ -104,14 +114,15 @@ function chooseTopCard(card) {
 
 //    console.log("Adding: " + playr.hand.cards[cardIndex]);
 
-    if (player.threeTop.cardCount < 3) {
+    if (player.threeTop.cards.count < 3) {
         card.state = "ThreeTop";
 
-        var cardIndex = player.hand.cards.indexOf(card);
-        //        removeIndex(player.hand.cards, cardIndex);
-        console.log("Adding: " + player.hand.cards[cardIndex]);
+        var cardIndex = indexOfListModel(card, player.hand.cards);
+
+//        console.log("Choosing top cardIndex: " + cardIndex);
+
         player.hand.cards.remove(cardIndex);
-        player.threeTop.cards.append(card);
+        player.threeTop.cards.append({"object": card});
     }
 }
 
@@ -119,11 +130,12 @@ function removeTopCard(card) {
     var player = card.player;
     card.state = "Hand";
 
-    var cardIndex = player.threeTop.cards.indexOf(card);
-    //    removeIndex(player.threeTop.cards, cardIndex);
+    var cardIndex = indexOfListModel(card, player.threeTop.cards);
+
     console.log("Removing: " + player.threeTop.cards[cardIndex]);
+
     player.threeTop.cards.remove(cardIndex);
-    player.hand.cards.append(card);
+    player.hand.cards.append({"object": card});
 }
 
 function playCard(card) {
@@ -150,8 +162,10 @@ function playCard(card) {
             cardContainer = player.threeBottom.cards;
         }
 
-        var cardIndex = cardContainer.indexOf(card);
+//        var cardIndex = cardContainer.indexOf(card);
         //        removeIndex(cardContainer, cardIndex);
+
+        var cardIndex = indexOfListModel(card, cardContainer);
         cardContainer.remove(cardIndex);
         // Add it to the played cards stack
         game.playedCards.push(card);
@@ -184,7 +198,7 @@ function handlePreTurn() {
 
             currentCard.player = game.currentPlayer;
             currentCard.state = "Hand";
-            game.currentPlayer.hand.cards.append(currentCard);
+            game.currentPlayer.hand.cards.append({"object": currentCard});
         }
 
         // Reset the play area
@@ -242,7 +256,6 @@ function switchPlayerTurn(numberOfTimes) {
 
     game.currentTurn = turn.preTurn;
     handlePreTurn();
-
 }
 
 function quartetPlayed() {
@@ -268,9 +281,17 @@ function quartetPlayed() {
 }
 
 function isPlayPossible(player) {
-    var cards = player.hand.cards;
-    cards = cards.concat(player.threeTop.cards);
-    cards = cards.concat(player.threeBottom.cards);
+    var cards = [];
+
+    for (var container in player.cardContainers) {
+        for (var i = 0; i < container.count; i++) {
+            cards.push(container.get(i).object);
+        }
+    }
+
+//    var cards = player.hand.cards;
+//    cards = cards.concat(player.threeTop.cards);
+//    cards = cards.concat(player.threeBottom.cards);
     
     console.log("Number of cards in hand: " + cards.length);
 
@@ -291,10 +312,15 @@ function areTopCardsChosen() {
     for (var player in game.players) {
         var cards = game.players[player].threeTop.cards;
 
-        if (cards.length < 3) return false;
+        console.log("Player " + game.players[player].playerID +  " - There are " + cards.count + " cards");
 
-        for (var card in cards) {
-            if (!cards[card].chosen) {
+        if (cards.count < 3) return false;
+
+        for (var i = 0; i < cards.count; i++) {
+            console.log("card id: " + cards.get(i).object);
+            console.log(cards.get(i).object.chosen);
+
+            if (!cards.get(i).object.chosen) {
                 return false;
             }
         }
@@ -323,14 +349,6 @@ function shuffle(array) {
     }
     
     return array;
-}
-
-function findCardState(cards, state) {
-    for (var i = 0; i < cards.length; i++) {
-        if (cards[i].state === state) return true;
-    }
-
-    return false;
 }
 
 function isPlayable(card) {

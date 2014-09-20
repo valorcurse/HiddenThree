@@ -18,7 +18,7 @@ Rectangle {
 
     color: "transparent"
     border.color: {
-        if (playable || player.state === "ThreeBottom") {
+        if (playable || (player !== undefined && player.state === "ThreeBottom")) {
 //                console.log("playable: " + cardObject.number);
             if (game.state === "ChooseCards" && chosen) {
                 return "orange";
@@ -83,19 +83,22 @@ Rectangle {
         //        }
 
         onClicked: {
-            console.log("Clicked | Player: " + player.playerID
-                        + " | Playable: " + Engine.isPlayable(cardItem)
-                        + " | State: " + cardItem.state
-                        + " | Cards hand: " + cardItem.player.hand.cards.get(0).cardObject.number);
 
             if (game.state === "ChooseCards" && cardItem.state === "ThreeTop") {
                 chosen = !chosen;
+
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
             }
 
             else if (game.state === "Play" && currentTurn === turn.playTurn) {
                 Engine.playCard(cardItem);
             }
+
+//            console.log("Clicked | Player: " + player.playerID
+//                        + " | Playable: " + Engine.isPlayable(cardItem)
+//                        + " | State: " + cardItem.state
+//                        + " | Card: " + cardItem.cardObject.number
+//                        + " | Chosen: " + cardItem.chosen);
         }
     }
 

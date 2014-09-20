@@ -8,6 +8,8 @@ Item {
     property alias threeTop: threeTop
     property alias threeBottom: threeBottom
 
+    property var cardContainers: [hand, threeTop, threeBottom]
+
 //    property var hand: { "cards": [], "area": {} }
 //    property var threeTop: { "cards": [], "area": {} }
 //    property var threeBottom: { "cards": [], "area": {} }
@@ -42,7 +44,7 @@ Item {
     states: [
         State {
             name: "Hand"
-            when: hand.cards.length > 0
+            when: hand.cards.count > 0
 
 //            ScriptAction: {
 //                console.log("Entered player Hand state");
@@ -51,12 +53,12 @@ Item {
 
         State {
             name: "ThreeTop"
-            when: player.threeTop.cards.length > 0 && player.hand.cards.length === 0
+            when: player.threeTop.cards.count > 0 && player.hand.cards.count=== 0
         },
 
         State {
             name: "ThreeBottom"
-            when: threeBottom.cards.length > 0 && threeTop.cards.length === 0
+            when: threeBottom.cards.count > 0 && threeTop.cards.count === 0
         }
     ]
 }

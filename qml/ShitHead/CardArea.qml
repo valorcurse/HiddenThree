@@ -4,7 +4,7 @@ Item {
     //    property var cards: []
     property var area
     property alias cards: cards
-        property int cardCount: 0
+//        property int cardCount: 0
     //    onCardsChanged: {
     //        console.log("Card added");
     //    }
@@ -13,13 +13,13 @@ Item {
         id: cards
 
         onRowsInserted: {
-            console.log("Card added");
-            cardCount++;
+//            console.log("Card added");
+//            cardCount++;
         }
 
         onRowsRemoved: {
-            console.log("Card removed");
-            cardCount--;
+//            console.log("Card removed");
+//            cardCount--;
         }
 
         //        onCountChanged: {
