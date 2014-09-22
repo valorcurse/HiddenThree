@@ -239,24 +239,19 @@ Rectangle {
 //                duration: 1000
 //            }
 
+
+
             AnchorAnimation {
                 duration: 500
             }
 
-
-
             RotationAnimation {
-//                id: rotanim
+                id: rotanim
                 duration: 500
 
                 to: cardItem.rotation
             }
 
-//            ScriptAction {
-//                script: {
-//                    console.log("Rotation end: " + rotanim.to);
-//                }
-//            }
 
             //            NumberAnimation {
             //                target: cardItem
@@ -264,6 +259,12 @@ Rectangle {
             ////                to: newParent.y
             //                duration: 500
             //                    }
+        }
+
+        ScriptAction {
+            script: {
+                console.log("Rotation end: " + rotanim.to + " | Rotation property: " + cardItem.rotation);
+            }
         }
         //        }
     }
