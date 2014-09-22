@@ -251,13 +251,13 @@ Item {
             }
         }
 
-        Rectangle {
-            id: player1ThreeHighlight
-            anchors.fill: parent
-            color: "blue"
-            opacity: 0.5
-            visible: player1ThreeDropArea.containsDrag
-        }
+//        Rectangle {
+//            id: player1ThreeHighlight
+//            anchors.fill: parent
+//            color: "blue"
+//            opacity: 0.5
+//            visible: player1ThreeDropArea.containsDrag
+//        }
     }
 
     StackView {
@@ -298,13 +298,13 @@ Item {
             }
         }
 
-        Rectangle {
-            id: player1HandHighlight
-            anchors.fill: parent
-            color: "blue"
-            opacity: 0.5
-            visible: player1CardsDropArea.containsDrag
-        }
+//        Rectangle {
+//            id: player1HandHighlight
+//            anchors.fill: parent
+//            color: "blue"
+//            opacity: 0.5
+//            visible: player1CardsDropArea.containsDrag
+//        }
     }
 
     Item {

@@ -19,7 +19,7 @@ Rectangle {
     color: "transparent"
     border.color: {
         if (playable || (player !== undefined && player.state === "ThreeBottom")) {
-//                console.log("playable: " + cardObject.number);
+            //                console.log("playable: " + cardObject.number);
             if (game.state === "ChooseCards" && chosen) {
                 return "orange";
             }
@@ -56,7 +56,7 @@ Rectangle {
         drag.target: parent
 
         onReleased: {
-//            console.log("Condition: " + (player.threeTop.cards.length > 0 && player.hand.cards.length === 0));
+            //            console.log("Condition: " + (player.threeTop.cards.length > 0 && player.hand.cards.length === 0));
 
             if (typeof(cardItem.Drag.target) === "null" || cardItem.Drag.drop() === Qt.IgnoreAction) {
                 cardItem.state = previousState;
@@ -94,11 +94,11 @@ Rectangle {
                 Engine.playCard(cardItem);
             }
 
-//            console.log("Clicked | Player: " + player.playerID
-//                        + " | Playable: " + Engine.isPlayable(cardItem)
-//                        + " | State: " + cardItem.state
-//                        + " | Card: " + cardItem.cardObject.number
-//                        + " | Chosen: " + cardItem.chosen);
+            console.log("Clicked | Player: " + (player === undefined ? "no player" : player.playerID)
+                        //                        console.log("Clicked | Playable: " + Engine.isPlayable(cardItem)
+                        + " | State: " + cardItem.state
+                        + " | Card: " + cardItem.cardObject.number
+                        + " | Chosen: " + cardItem.chosen);
         }
     }
 
@@ -216,4 +216,55 @@ Rectangle {
             }
         }
     ]
+
+//    Behavior on rotation {
+//             PropertyAnimation { duration: 1000 }
+//         }
+
+    transitions: Transition {
+        //        from: "ThreeTop"
+        to: "Played"
+
+        ParentAnimation {
+            target: cardItem
+            newParent: playArea
+            //            via: game
+
+            //            ParallelAnimation {
+//            PropertyAnimation {
+//                easing.type: Easing.InQuad
+                //                target: cardItem
+//                properties: "x, y"
+                //                to: newParent.x
+//                duration: 1000
+//            }
+
+            AnchorAnimation {
+                duration: 500
+            }
+
+
+
+            RotationAnimation {
+//                id: rotanim
+                duration: 500
+
+                to: cardItem.rotation
+            }
+
+//            ScriptAction {
+//                script: {
+//                    console.log("Rotation end: " + rotanim.to);
+//                }
+//            }
+
+            //            NumberAnimation {
+            //                target: cardItem
+            //                properties: "y"
+            ////                to: newParent.y
+            //                duration: 500
+            //                    }
+        }
+        //        }
+    }
 }

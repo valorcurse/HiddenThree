@@ -23,3 +23,6 @@ OTHER_FILES += \
 
 HEADERS += \
     networking.h
+
+#QT += widgets
+#CONFIG += console
