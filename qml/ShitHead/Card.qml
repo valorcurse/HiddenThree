@@ -41,7 +41,16 @@ Rectangle {
         }
     }
 
-    Behavior on rotation {}
+
+    transform: Rotation {
+        id: rot
+        origin.x: cardItem.x / 2;
+        origin.y: cardItem.y / 2;
+        axis.x:0; axis.y:1; axis.z:0
+        angle:0
+
+        Behavior on angle { PropertyAnimation{} }
+    }
 
     Image {
         id: img
@@ -188,8 +197,8 @@ Rectangle {
             PropertyChanges {
                 target: cardItem
 
-                z: game.stackLevel
                 explicit: true
+                z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
             }
 
@@ -234,31 +243,44 @@ Rectangle {
         }
     ]
 
-    //    Behavior on rotation {
-    //             PropertyAnimation { duration: 1000 }
-    //         }
-
-    transitions: Transition {
-        //        from: "ThreeTop"
-        to: "Played"
-
-
-        ParallelAnimation {
+    transitions: [
+        Transition {
+            //                from: "ThreeTop"
+            to: "Played"
 
             ParentAnimation {
                 AnchorAnimation {
                     duration: 500
                 }
+
+                RotationAnimation {
+                    duration: 500
+                }
+            }
+        },
+
+        Transition {
+            from: "ThreeBottom"
+            to: "Played"
+
+            ParentAnimation {
+                AnchorAnimation {
+                    duration: 500
+                }
+
+                ScriptAction {
+                    script: {
+                        rot.angle = 180;
+                        img.source = cardObject.source;
+                    }
+                }
+//                RotationAnimation {
+//                    duration: 500
+//                }
             }
 
-            //            ScriptAction {
-            //                script: { cardItem.rotation = Math.floor(Math.random() * 360) + 1; }
-            //            }
-
-                        PropertyAnimation {
-                            duration: 500
-                            property: "rotation"
-                        }
+//            RotationAnimation {
+//            }
         }
-    }
+    ]
 }
