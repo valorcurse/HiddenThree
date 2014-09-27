@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
         viewer.setGeometry(lastScreen->geometry());
     }
 
-        viewer.showFullScreen();
-//    viewer.showExpanded();
+//        viewer.showFullScreen();
+    viewer.showExpanded();
 
     return app.exec();
 }

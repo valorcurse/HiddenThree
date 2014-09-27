@@ -41,6 +41,8 @@ Rectangle {
         }
     }
 
+    Behavior on rotation {}
+
     Image {
         id: img
         anchors.fill: parent
@@ -98,7 +100,8 @@ Rectangle {
                         //                        console.log("Clicked | Playable: " + Engine.isPlayable(cardItem)
                         + " | State: " + cardItem.state
                         + " | Card: " + cardItem.cardObject.number
-                        + " | Chosen: " + cardItem.chosen);
+                        + " | Chosen: " + cardItem.chosen
+                        + " | Parent: " + cardItem.parent);
         }
     }
 
@@ -106,14 +109,20 @@ Rectangle {
         State {
             name: "Stack"
 
-            PropertyChanges {
+            ParentChange {
                 target: cardItem
                 parent: stackOfCardsArea
+            }
+
+            PropertyChanges {
+                target: cardItem
+
                 x: stackOfCards.indexOf(cardItem) * 0.2
             }
 
             AnchorChanges {
                 target: cardItem
+
                 anchors {
                     verticalCenter: parent.verticalCenter
                 }
@@ -128,7 +137,7 @@ Rectangle {
         State {
             name: "Hand"
 
-            PropertyChanges {
+            ParentChange {
                 target: cardItem
                 parent: player.hand.area
             }
@@ -145,7 +154,7 @@ Rectangle {
         State {
             name: "ThreeTop"
 
-            PropertyChanges {
+            ParentChange {
                 target: cardItem
                 parent: player.threeTop.area
             }
@@ -161,7 +170,7 @@ Rectangle {
         State {
             name: "ThreeBottom"
 
-            PropertyChanges {
+            ParentChange {
                 target: cardItem
                 parent: player.threeBottom.area
             }
@@ -174,16 +183,24 @@ Rectangle {
 
         State {
             name: "Played"
+
+
             PropertyChanges {
                 target: cardItem
 
-                parent: playArea
                 z: game.stackLevel
+                explicit: true
                 rotation: Math.floor(Math.random() * 360) + 1
+            }
+
+            ParentChange {
+                target: cardItem
+                parent: playArea
             }
 
             AnchorChanges {
                 target: cardItem
+
                 anchors {
                     verticalCenter: parent.verticalCenter
                     horizontalCenter: parent.horizontalCenter
@@ -217,55 +234,31 @@ Rectangle {
         }
     ]
 
-//    Behavior on rotation {
-//             PropertyAnimation { duration: 1000 }
-//         }
+    //    Behavior on rotation {
+    //             PropertyAnimation { duration: 1000 }
+    //         }
 
     transitions: Transition {
         //        from: "ThreeTop"
         to: "Played"
 
-        ParentAnimation {
-            target: cardItem
-            newParent: playArea
-            //            via: game
 
-            //            ParallelAnimation {
-//            PropertyAnimation {
-//                easing.type: Easing.InQuad
-                //                target: cardItem
-//                properties: "x, y"
-                //                to: newParent.x
-//                duration: 1000
-//            }
+        ParallelAnimation {
 
-
-
-            AnchorAnimation {
-                duration: 500
+            ParentAnimation {
+                AnchorAnimation {
+                    duration: 500
+                }
             }
 
-            RotationAnimation {
-                id: rotanim
-                duration: 500
+            //            ScriptAction {
+            //                script: { cardItem.rotation = Math.floor(Math.random() * 360) + 1; }
+            //            }
 
-                to: cardItem.rotation
-            }
-
-
-            //            NumberAnimation {
-            //                target: cardItem
-            //                properties: "y"
-            ////                to: newParent.y
-            //                duration: 500
-            //                    }
+                        PropertyAnimation {
+                            duration: 500
+                            property: "rotation"
+                        }
         }
-
-        ScriptAction {
-            script: {
-                console.log("Rotation end: " + rotanim.to + " | Rotation property: " + cardItem.rotation);
-            }
-        }
-        //        }
     }
 }

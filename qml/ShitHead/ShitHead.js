@@ -60,7 +60,9 @@ function dealCards(player, numberOfCards) {
             card.player = player;
             card.state = "Hand";
 
-            player.hand.cards.append({"object": card});
+//            player.hand.cards.append({"object": card});
+            chooseTopCard(card);
+            card.chosen = true;
         }
 }
 

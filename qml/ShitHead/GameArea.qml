@@ -170,14 +170,12 @@ Item {
     }
 
 
-    Rectangle {
+    Item {
         id: playArea
         objectName: "playArea"
 
         height: parent.height / 3
         width: parent.width - stackOfCardsArea.width
-
-        color: "transparent"
 
         anchors {
             verticalCenter: parent.verticalCenter
