@@ -4,7 +4,7 @@ import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
 import "GameProperties.js" as GameProperties
 
-Rectangle {
+Flipable {
     id: cardItem
 
     property var cardObject
@@ -16,20 +16,19 @@ Rectangle {
     height: GameProperties.cardHeight;
     width: GameProperties.cardWidth;
 
-    color: "transparent"
-    border.color: {
-        if (playable || (player !== undefined && player.state === "ThreeBottom")) {
-            //                console.log("playable: " + cardObject.number);
-            if (game.state === "ChooseCards" && chosen) {
-                return "orange";
-            }
+    //    border.color: {
+    //        if (playable || (player !== undefined && player.state === "ThreeBottom")) {
+    //            //                console.log("playable: " + cardObject.number);
+    //            if (game.state === "ChooseCards" && chosen) {
+    //                return "orange";
+    //            }
 
-            return "green";
-        } else {
-            return "transparent";
-        }
-    }
-    border.width: 5
+    //            return "green";
+    //        } else {
+    //            return "transparent";
+    //        }
+    //    }
+    //    border.width: 5
 
     Drag.active: mouseArea.drag.active
     Drag.hotSpot.x: width / 2
@@ -43,20 +42,50 @@ Rectangle {
 
 
     transform: Rotation {
-        id: rot
-        origin.x: cardItem.x / 2;
-        origin.y: cardItem.y / 2;
-        axis.x:0; axis.y:1; axis.z:0
-        angle:0
+        id: flipCard
+        axis { x:0; y:1; z:0 }
 
-        Behavior on angle { PropertyAnimation{} }
+        origin {
+            y: cardItem.height / 2
+            x: cardItem.width/ 2
+        }
+
+        angle: 0
     }
 
-    Image {
+    front: Image {
         id: img
         anchors.fill: parent
         source: cardObject.source
         mipmap: true
+    }
+
+    back: Image {
+        anchors.fill: parent
+        source: "textures/cards/backside.png"
+        mipmap: true
+    }
+
+    RectangularGlow {
+        anchors.fill: parent
+        color: {
+            if (playable || (player !== undefined && player.state === "ThreeBottom")) {
+                if (game.state === "ChooseCards" && chosen) {
+                    return "orange";
+                }
+
+                return "green";
+            } else {
+                return "transparent";
+            }
+        }
+
+        glowRadius: 5
+        spread: 0.2
+
+        visible: playable
+        opacity: 0.8
+        z: -1
     }
 
     MouseArea {
@@ -67,8 +96,6 @@ Rectangle {
         drag.target: parent
 
         onReleased: {
-            //            console.log("Condition: " + (player.threeTop.cards.length > 0 && player.hand.cards.length === 0));
-
             if (typeof(cardItem.Drag.target) === "null" || cardItem.Drag.drop() === Qt.IgnoreAction) {
                 cardItem.state = previousState;
             }
@@ -125,8 +152,12 @@ Rectangle {
 
             PropertyChanges {
                 target: cardItem
-
                 x: stackOfCards.indexOf(cardItem) * 0.2
+            }
+
+            PropertyChanges {
+                target: flipCard
+                angle: 180
             }
 
             AnchorChanges {
@@ -135,11 +166,6 @@ Rectangle {
                 anchors {
                     verticalCenter: parent.verticalCenter
                 }
-            }
-
-            PropertyChanges {
-                target: img
-                source: "textures/cards/backside.png"
             }
         },
 
@@ -185,8 +211,8 @@ Rectangle {
             }
 
             PropertyChanges {
-                target: img
-                source: "textures/cards/backside.png"
+                target: flipCard
+                angle: 180
             }
         },
 
@@ -245,7 +271,6 @@ Rectangle {
 
     transitions: [
         Transition {
-            //                from: "ThreeTop"
             to: "Played"
 
             ParentAnimation {
@@ -270,17 +295,29 @@ Rectangle {
 
                 ScriptAction {
                     script: {
-                        rot.angle = 180;
-                        img.source = cardObject.source;
+                        flipCard.angle = 180;
                     }
                 }
-//                RotationAnimation {
-//                    duration: 500
-//                }
-            }
 
-//            RotationAnimation {
-//            }
+                NumberAnimation {
+                    target: flipCard
+                    property: "angle"
+                }
+            }
+        },
+
+        Transition {
+            to: "Hand"
+
+            ParentAnimation {
+                AnchorAnimation {
+                    duration: 500
+                }
+
+                RotationAnimation {
+                    duration: 500
+                }
+            }
         }
     ]
 }
