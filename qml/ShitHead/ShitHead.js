@@ -1,13 +1,13 @@
 Qt.include("GameProperties.js");
 
 function startNewGame() {
-    
+
     //  Initialize Board
     createStackOfCards();
-    
+
     // Shuffle cards
     shuffle(stackOfCards);
-    
+
     // Create players
     player1 = game.players[0];
     player1.hand.area = game.player1CardsArea;
@@ -17,16 +17,16 @@ function startNewGame() {
     game.currentPlayer = player1;
 
     console.log("id: " + game.players[0].playerID);
-    
+
     player2 = game.players[1];
     player2.hand.area =  game.player2CardsArea;
     player2.threeTop.area =  game.player2ThreeTop;
     player2.threeBottom.area =  game.player2ThreeBottom;
     //    game.players.push(player2);
-    
+
     dealHiddenCards(player1);
     dealHiddenCards(player2);
-    
+
     // Deals cards to players
     dealCards(player1, 6);
     dealCards(player2, 6);
@@ -40,15 +40,8 @@ function dealHiddenCards(player) {
     //    console.log(player.hand.area);
 
     for (var i = 0; i < 3; i++) {
-        
         var card = stackOfCards.pop();
-        
-        //        console.log("Card sizes: " + card.width + "x" + card.height);
-
-        card.player = player;
-        card.state = "ThreeBottom";
-        
-        player.threeBottom.cards.append({"object": card})
+        player.addToThreeBottom(card);
     }
 }
 
@@ -57,12 +50,7 @@ function dealCards(player, numberOfCards) {
         for (var i = 0; i < numberOfCards; i++) {
 
             var card = stackOfCards.pop();
-            card.player = player;
-            card.state = "Hand";
-
-                        player.hand.cards.append({"object": card});
-//            chooseTopCard(card);
-//            card.chosen = true;
+            player.addToHand(card);
         }
 }
 
@@ -71,29 +59,18 @@ function removeIndex(array, index) {
         array.splice(index, 1);
 }
 
-function indexOfListModel(item, list) {
-    for (var i = 0; i < list.count; i++) {
-        if (item === list.get(i).object) {
-            return i;
-        }
-    }
-
-    return undefined;
-}
-
 function createStackOfCards() {
     var component = Qt.createComponent("Card.qml");
-    
+
     if (component.status === Component.Ready) {
-        
-                for (var i = 0; i < cardsInfo.length; i++) {
-//        for (var i = 0; i < 12; i++) {
+
+        for (var i = 0; i < cardsInfo.length; i++) {
             var card = component.createObject(stackOfCardsArea, {cardObject: cardsInfo[i]});
-            
+
             if (card === null) {
                 console.log("error creating block");
                 console.log(component.errorString());
-                
+
                 return false;
             }
 
@@ -104,44 +81,15 @@ function createStackOfCards() {
     } else {
         console.log("error loading block component");
         console.log(component.errorString());
-        
+
         return false;
     }
-    
+
     return true;
 }
 
-function chooseTopCard(card) {
-    var player = card.player;
-
-    //    console.log("Adding: " + playr.hand.cards[cardIndex]);
-
-    if (player.threeTop.cards.count < 3) {
-        card.state = "ThreeTop";
-
-        var cardIndex = indexOfListModel(card, player.hand.cards);
-
-        //        console.log("Choosing top cardIndex: " + cardIndex);
-
-        player.hand.cards.remove(cardIndex);
-        player.threeTop.cards.append({"object": card});
-    }
-}
-
-function removeTopCard(card) {
-    var player = card.player;
-    card.state = "Hand";
-
-    var cardIndex = indexOfListModel(card, player.threeTop.cards);
-
-    console.log("Removing: " + player.threeTop.cards[cardIndex]);
-
-    player.threeTop.cards.remove(cardIndex);
-    player.hand.cards.append({"object": card});
-}
-
 function playCard(card) {
-    
+
     if (card.playable) {
 
         // Remove card from player's hand
@@ -149,18 +97,18 @@ function playCard(card) {
         var cardContainer;
 
         if (card.state === "Hand") {
-            cardContainer = player.hand.cards;
+            cardContainer = player.hand;
         }
         else if (card.state === "ThreeTop") {
-            cardContainer = player.threeTop.cards;
+            cardContainer = player.threeTop;
         }
         else if (card.state === "ThreeBottom") {
-            cardContainer = player.threeBottom.cards;
+            cardContainer = player.threeBottom;
         }
 
         // Remove card from current container
-        var cardIndex = indexOfListModel(card, cardContainer);
-        cardContainer.remove(cardIndex);
+        var cardIndex = cardContainer.indexOf(card);
+        cardContainer.cards.remove(cardIndex);
 
         // Add it to the played cards stack
         game.playedCards.push(card);
@@ -203,7 +151,7 @@ function handlePlay() {
     var cardValue = card.cardObject.number;
 
     var numberOfTurnsToSkip = 1;
-    
+
     if (isCardPlayable(card)) {
 
         // Don't set new topcard
@@ -271,18 +219,18 @@ function isPlayable(card) {
     // If it's the play phase
     else if (game.state === "Play") {
 
-//        console.log("Player: " + player.playerID +
-//                    " | Card: " + card.cardObject.number +
-//                    " | State: " + card.state);
+        //        console.log("Player: " + player.playerID +
+        //                    " | Card: " + card.cardObject.number +
+        //                    " | State: " + card.state);
 
-//        console.log("0");
+        //        console.log("0");
 
         // If it's not this player's turn
         if (player !== game.currentPlayer) return false;
 
         if (card.state !== player.state) return false;
 
-//        console.log("1");
+        //        console.log("1");
 
         // If card is part of top three and there are still cards in the hand/stack
         if (card.state === "ThreeTop"
@@ -290,7 +238,7 @@ function isPlayable(card) {
             return false;
         }
 
-//        console.log("2");
+        //        console.log("2");
 
         // If card is part of bottom three and there are still top three cards
         if (card.state === "ThreeBottom")
@@ -299,7 +247,7 @@ function isPlayable(card) {
             else
                 return true;
 
-//        console.log("3");
+        //        console.log("3");
 
         return isCardPlayable(card);
 
@@ -394,7 +342,7 @@ function isPlayPossible(player) {
             return true;
         }
     }
-    
+
     //    console.log("Player is not able to play");
     return false;
 }
@@ -425,20 +373,20 @@ function shuffle(array) {
     var currentIndex = array.length,
             temporaryValue,
             randomIndex;
-    
+
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-        
+
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        
+
         // And swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-    
+
     return array;
 }
 
@@ -448,7 +396,7 @@ function calculateSpacing(area) {
 
     var cardWidth = cardHeight / 1.54; // TODO: Fix this
     var widthOverflow = game.width / area.children.length;
-    
+
     if (area.children.length * cardWidth > game.width)
         return -(cardWidth - widthOverflow / 1.5);
     else

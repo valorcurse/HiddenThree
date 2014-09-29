@@ -102,8 +102,9 @@ Item {
             id: player2CardsDropArea
 
             onDropped: {
-                if (drop.source.previousState === "ThreeTop") {
-                    Engine.removeTopCard(drop.source);
+                var droppedCard = drop.source;
+                if (droppedCard.previousState === "ThreeTop") {
+                    droppedCard.setAsHandCard();
                     drop.accept();
                 }
             }
@@ -152,8 +153,9 @@ Item {
             id: player2ThreeDropArea
 
             onDropped: {
-                if (drop.source.previousState === "Hand" && player2ThreeTop.children.length < 3) {
-                    Engine.chooseTopCard(drop.source);
+                var droppedCard = drop.source;
+                if (droppedCard.previousState === "Hand" && player2ThreeTop.children.length < 3) {
+                    droppedCard.setAsTopCard();
                     drop.accept();
                 }
             }
@@ -233,9 +235,9 @@ Item {
             id: player1ThreeDropArea
 
             onDropped: {
-                if (drop.source.previousState === "Hand" && player1ThreeTop.children.length < 3) {
-                    console.log("Still space for three top");
-                    Engine.chooseTopCard(drop.source);
+                var droppedCard = drop.source;
+                if (droppedCard.previousState === "Hand" && player1ThreeTop.children.length < 3) {
+                    droppedCard.setAsTopCard();
                     drop.accept();
                 }
             }
@@ -249,13 +251,6 @@ Item {
             }
         }
 
-//        Rectangle {
-//            id: player1ThreeHighlight
-//            anchors.fill: parent
-//            color: "blue"
-//            opacity: 0.5
-//            visible: player1ThreeDropArea.containsDrag
-//        }
     }
 
     StackView {
@@ -285,8 +280,9 @@ Item {
             id: player1CardsDropArea
 
             onDropped: {
-                if (drop.source.previousState === "ThreeTop") {
-                    Engine.removeTopCard(drop.source);
+                var droppedCard = drop.source;
+                if (droppedCard.previousState === "ThreeTop") {
+                    droppedCard.setAsHandCard();
                     drop.accept();
                 }
             }
@@ -295,14 +291,6 @@ Item {
                 fill: parent
             }
         }
-
-//        Rectangle {
-//            id: player1HandHighlight
-//            anchors.fill: parent
-//            color: "blue"
-//            opacity: 0.5
-//            visible: player1CardsDropArea.containsDrag
-//        }
     }
 
     Item {
@@ -347,20 +335,6 @@ Item {
                 console.log("entered: play");
             }
         },
-
-        //        State {
-        //            name: "playTurn"
-        //            when: topCardsAreChosen && currentTurn === turn.playTurn
-
-        ////            PropertyChanges {
-        ////                target: game
-        ////                currentTurn: Turn.playTurn
-        ////            }
-
-        //            onCompleted: {
-        //                console.log("entered: playTurn");
-        //            }
-        //        },
 
         State {
             name: "GameOver"

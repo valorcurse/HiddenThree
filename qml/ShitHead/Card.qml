@@ -5,13 +5,29 @@ import "ShitHead.js" as Engine
 import "GameProperties.js" as GameProperties
 
 Flipable {
-    id: cardItem
+    id: card
 
     property var cardObject
     property var player
-    property bool playable: Engine.isPlayable(cardItem)
+    property bool playable: Engine.isPlayable(card)
     property bool chosen: false
     property string previousState: state
+
+    function setAsTopCard() {
+        if (player.threeTop.cards.count < 3) {
+
+            var cardIndex = player.hand.indexOf(card);
+            player.hand.cards.remove(cardIndex);
+
+            player.addToThreeTop(card);
+        }
+    }
+
+    function setAsHandCard() {
+        var cardIndex = player.threeTop.indexOf(card);
+        player.threeTop.cards.remove(cardIndex);
+        player.addToHand(card);
+    }
 
     height: GameProperties.cardHeight;
     width: GameProperties.cardWidth;
@@ -35,8 +51,11 @@ Flipable {
     Drag.hotSpot.y: height / 2
 
     onStateChanged: {
-        if (cardItem.state !== "Dragged" && cardItem.state !== "") {
-            previousState = cardItem.state;
+
+        //        console.log("Card " + cardObject.number + " from Player: " + player.playerID + " | New state: " + state);
+
+        if (card.state !== "Dragged" && card.state !== "") {
+            previousState = card.state;
         }
     }
 
@@ -46,8 +65,8 @@ Flipable {
         axis { x:0; y:1; z:0 }
 
         origin {
-            y: cardItem.height / 2
-            x: cardItem.width/ 2
+            y: card.height / 2
+            x: card.width/ 2
         }
 
         angle: 0
@@ -96,48 +115,48 @@ Flipable {
         drag.target: parent
 
         onReleased: {
-            if (typeof(cardItem.Drag.target) === "null" || cardItem.Drag.drop() === Qt.IgnoreAction) {
-                cardItem.state = previousState;
+            if (typeof(card.Drag.target) === "null" || card.Drag.drop() === Qt.IgnoreAction) {
+                card.state = previousState;
             }
         }
 
         //        onEntered: {
         //            if (playable) {
-        //                if (cardItem.player.id === 1)
-        //                    cardItem.anchors.topMargin -= 20;
-        //                else if (cardItem.player.id === 2)
-        //                    cardItem.anchors.topMargin += 20;
+        //                if (card.player.id === 1)
+        //                    card.anchors.topMargin -= 20;
+        //                else if (card.player.id === 2)
+        //                    card.anchors.topMargin += 20;
 
         //            }
         //        }
 
         //        onExited: {
         //            if (playable) {
-        //                if (cardItem.player.id === 1)
-        //                    cardItem.anchors.topMargin += 20
-        //                else if (cardItem.player.id === 2)
-        //                    cardItem.anchors.topMargin -= 20
+        //                if (card.player.id === 1)
+        //                    card.anchors.topMargin += 20
+        //                else if (card.player.id === 2)
+        //                    card.anchors.topMargin -= 20
         //            }
         //        }
 
         onClicked: {
 
-            if (game.state === "ChooseCards" && cardItem.state === "ThreeTop") {
+            if (game.state === "ChooseCards" && card.state === "ThreeTop") {
                 chosen = !chosen;
 
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
             }
 
             else if (game.state === "Play" && currentTurn === turn.playTurn) {
-                Engine.playCard(cardItem);
+                Engine.playCard(card);
             }
 
             console.log("Clicked | Player: " + (player === undefined ? "no player" : player.playerID)
-                        //                        console.log("Clicked | Playable: " + Engine.isPlayable(cardItem)
-                        + " | State: " + cardItem.state
-                        + " | Card: " + cardItem.cardObject.number
-                        + " | Chosen: " + cardItem.chosen
-                        + " | Parent: " + cardItem.parent);
+                        //                        console.log("Clicked | Playable: " + Engine.isPlayable(card)
+                        + " | State: " + card.state
+                        + " | Card: " + card.cardObject.number
+                        + " | Chosen: " + card.chosen
+                        + " | Parent: " + card.parent);
         }
     }
 
@@ -146,13 +165,13 @@ Flipable {
             name: "Stack"
 
             ParentChange {
-                target: cardItem
+                target: card
                 parent: stackOfCardsArea
             }
 
             PropertyChanges {
-                target: cardItem
-                x: stackOfCards.indexOf(cardItem) * 0.2
+                target: card
+                x: stackOfCards.indexOf(card) * 0.2
             }
 
             PropertyChanges {
@@ -161,7 +180,7 @@ Flipable {
             }
 
             AnchorChanges {
-                target: cardItem
+                target: card
 
                 anchors {
                     verticalCenter: parent.verticalCenter
@@ -173,12 +192,12 @@ Flipable {
             name: "Hand"
 
             ParentChange {
-                target: cardItem
+                target: card
                 parent: player.hand.area
             }
 
             AnchorChanges {
-                target: cardItem
+                target: card
                 anchors {
                     top: parent.top
                 }
@@ -190,12 +209,12 @@ Flipable {
             name: "ThreeTop"
 
             ParentChange {
-                target: cardItem
+                target: card
                 parent: player.threeTop.area
             }
 
             AnchorChanges {
-                target: cardItem
+                target: card
                 anchors {
                     verticalCenter: parent.verticalCenter
                 }
@@ -206,7 +225,7 @@ Flipable {
             name: "ThreeBottom"
 
             ParentChange {
-                target: cardItem
+                target: card
                 parent: player.threeBottom.area
             }
 
@@ -219,22 +238,21 @@ Flipable {
         State {
             name: "Played"
 
+            ParentChange {
+                target: card
+                parent: playArea
+            }
 
             PropertyChanges {
-                target: cardItem
+                target: card
 
                 explicit: true
                 z: game.stackLevel
                 rotation: Math.floor(Math.random() * 360) + 1
             }
 
-            ParentChange {
-                target: cardItem
-                parent: playArea
-            }
-
             AnchorChanges {
-                target: cardItem
+                target: card
 
                 anchors {
                     verticalCenter: parent.verticalCenter
@@ -247,22 +265,22 @@ Flipable {
             name: "Burned"
 
             PropertyChanges {
-                target: cardItem
+                target: card
                 parent: graveyard
             }
         },
 
         State {
             name: "Dragged"
-            when: cardItem.Drag.active
+            when: card.Drag.active
 
             ParentChange {
-                target: cardItem
+                target: card
                 parent: game
             }
 
             AnchorChanges {
-                target: cardItem
+                target: card
                 anchors.horizontalCenter: undefined
                 anchors.verticalCenter: undefined
             }

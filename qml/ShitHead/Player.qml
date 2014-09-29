@@ -10,9 +10,29 @@ Item {
 
     property var cardContainers: [hand, threeTop, threeBottom]
 
-//    property var hand: { "cards": [], "area": {} }
-//    property var threeTop: { "cards": [], "area": {} }
-//    property var threeBottom: { "cards": [], "area": {} }
+    function addToHand(card) {
+        if (card.player !== player)
+            card.player = player;
+
+        card.state = "Hand";
+        hand.cards.append({"object": card});
+    }
+
+    function addToThreeBottom(card) {
+        if (card.player !== player)
+            card.player = player;
+
+        card.state = "ThreeBottom";
+        threeBottom.cards.append({"object": card});
+    }
+
+    function addToThreeTop(card) {
+        if (card.player !== player)
+            card.player = player;
+
+        card.state = "ThreeTop";
+        threeTop.cards.append({"object": card});
+    }
 
     CardArea {
         id: hand
