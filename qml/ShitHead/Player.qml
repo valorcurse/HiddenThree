@@ -26,29 +26,14 @@ Item {
         id: threeBottom
     }
 
-    Component.onCompleted: {
-//        console.log(playerID);
-    }
-
-
-//    onHandCardsChanged: {
-//        console.log("Hand has changed");
-//    }
-
     onStateChanged: {
         console.log("Player " + playerID + " state changed: " + state);
     }
-
-//    state: "Hand"
 
     states: [
         State {
             name: "Hand"
             when: hand.cards.count > 0
-
-//            ScriptAction: {
-//                console.log("Entered player Hand state");
-//            }
         },
 
         State {
@@ -59,6 +44,12 @@ Item {
         State {
             name: "ThreeBottom"
             when: threeBottom.cards.count > 0 && threeTop.cards.count === 0
+        },
+
+        State {
+            name: "Won"
+            when: player.threeTop.cards.count === 0 && player.hand.cards.count === 0 && threeBottom.cards.count === 0
         }
+
     ]
 }
