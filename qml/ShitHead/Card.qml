@@ -32,20 +32,6 @@ Flipable {
     height: GameProperties.cardHeight;
     width: GameProperties.cardWidth;
 
-    //    border.color: {
-    //        if (playable || (player !== undefined && player.state === "ThreeBottom")) {
-    //            //                console.log("playable: " + cardObject.number);
-    //            if (game.state === "ChooseCards" && chosen) {
-    //                return "orange";
-    //            }
-
-    //            return "green";
-    //        } else {
-    //            return "transparent";
-    //        }
-    //    }
-    //    border.width: 5
-
     Drag.active: mouseArea.drag.active
     Drag.hotSpot.x: width / 2
     Drag.hotSpot.y: height / 2
