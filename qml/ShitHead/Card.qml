@@ -15,10 +15,8 @@ Flipable {
 
     function setAsTopCard() {
         if (player.threeTop.cards.count < 3) {
-
             var cardIndex = player.hand.indexOf(card);
             player.hand.cards.remove(cardIndex);
-
             player.addToThreeTop(card);
         }
     }
@@ -44,6 +42,14 @@ Flipable {
             previousState = card.state;
         }
     }
+
+    //    Behavior on x {
+    ////            enabled: spawned;
+    ////            Num{ spring: 2; damping: 0.2 }
+    //        }
+    //        Behavior on y {
+    //            SpringAnimation{ spring: 2; damping: 0.2 }
+    //        }
 
 
     transform: Rotation {
@@ -155,10 +161,10 @@ Flipable {
                 parent: stackOfCardsArea
             }
 
-            PropertyChanges {
-                target: card
-                x: stackOfCards.indexOf(card) * 0.2
-            }
+            //            PropertyChanges {
+            //                target: card
+            //                x: stackOfCards.indexOf(card) * 0.2
+            //            }
 
             PropertyChanges {
                 target: flipCard
@@ -167,7 +173,6 @@ Flipable {
 
             AnchorChanges {
                 target: card
-
                 anchors {
                     verticalCenter: parent.verticalCenter
                 }
@@ -188,7 +193,6 @@ Flipable {
                     top: parent.top
                 }
             }
-
         },
 
         State {
@@ -311,17 +315,51 @@ Flipable {
         },
 
         Transition {
+            from: "Stack"
             to: "Hand"
+
+            ParentAnimation {
+                via: game
+//            ParallelAnimation {
+                AnchorAnimation {
+                    duration: 500
+                }
+
+//                NumberAnimation {
+//                    properties: "x, y"
+////                    from: stackOfCardsArea.x
+//                    duration: 500
+//                }
+
+                RotationAnimation {
+                    duration: 500
+                }
+            }
+        }/*,
+
+        Transition {
+            from: "Stack"
+            //            to: "Hand"
 
             ParentAnimation {
                 AnchorAnimation {
                     duration: 500
                 }
 
-                RotationAnimation {
+                NumberAnimation {
+                    properties: "x, y"
                     duration: 500
                 }
+
+                //                                NumberAnimation {
+                //                                    properties: "x"
+                //                                    duration: 500
+                //                                }
+
+                //                RotationAnimation {
+                //                    duration: 500
+                //                }
             }
-        }
+        }*/
     ]
 }

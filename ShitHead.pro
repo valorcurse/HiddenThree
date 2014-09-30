@@ -24,5 +24,7 @@ OTHER_FILES += \
 HEADERS += \
     networking.h
 
+DEFINES += QMLJSDEBUGGER
+
 #QT += widgets
 #CONFIG += console

@@ -266,6 +266,13 @@ Item {
             id: player1CardsArea
             objectName: "player1CardsArea"
 
+            add: Transition {
+                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
+            }
+
+            move: Transition {
+                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
+            }
 
             spacing: Engine.calculateSpacing(player1CardsArea)
             //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
