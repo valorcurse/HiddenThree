@@ -17,5 +17,7 @@ void ReceiveRequest::processPendingDatagrams() {
         udpSocket->readDatagram(datagram.data(), datagram.size());
         qDebug() << (tr("Received datagram: \"%1\"")
                              .arg(datagram.data()));
+
+        emit requestReceived();
     }
 }

@@ -17,12 +17,10 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<ReceiveRequest>("ReceiveRequest", 1, 0, "ReceiveRequest");
     qmlRegisterType<SendRequest>("SendRequest", 1, 0, "SendRequest");
 
-    std::cout << "Number of screens: " << app.screens().count() << std::endl;
-
-    if (app.screens().count() > 1) {
-        QScreen * lastScreen = app.screens().first();
-        viewer.setGeometry(lastScreen->geometry());
-    }
+//    if (app.screens().count() > 1) {
+//        QScreen * firstScreen = app.screens().first();
+//        viewer.setGeometry(firstScreen->geometry());
+//    }
 
 //        viewer.showFullScreen();
     viewer.showExpanded();
