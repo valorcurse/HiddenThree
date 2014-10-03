@@ -53,7 +53,8 @@ function createStackOfCards() {
 
     if (component.status === Component.Ready) {
 
-        for (var i = 0; i < cardsInfo.length; i++) {
+//        for (var i = 0; i < cardsInfo.length; i++) {
+            for (var i = 0; i < 18; i++) {
             var card = component.createObject(stackOfCardsArea, {cardObject: cardsInfo[i]});
 
             if (card === null) {

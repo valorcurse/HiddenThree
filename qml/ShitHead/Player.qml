@@ -68,7 +68,7 @@ Item {
 
         State {
             name: "Won"
-            when: player.threeTop.cards.count === 0 && player.hand.cards.count === 0 && threeBottom.cards.count === 0
+            when: threeTop.cards.count === 0 && hand.cards.count === 0 && threeBottom.cards.count === 0
         }
 
     ]

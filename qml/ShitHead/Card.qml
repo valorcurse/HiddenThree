@@ -175,6 +175,7 @@ Flipable {
                 target: card
                 anchors {
                     verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
                 }
             }
         },
@@ -186,6 +187,12 @@ Flipable {
                 target: card
                 parent: player.hand.area
             }
+
+//            PropertyChanges {
+//                target: card
+//                x: parent.x
+//                y: parent.y
+//            }
 
             AnchorChanges {
                 target: card
@@ -319,21 +326,29 @@ Flipable {
             to: "Hand"
 
             ParentAnimation {
-                via: game
-//            ParallelAnimation {
-                AnchorAnimation {
+//                                via: game
+
+                                AnchorAnimation {
+                                    duration: 500
+                                }
+
+                NumberAnimation {
+                    property: "x, y"
+//                    from: stackOfCardsArea.x
+//                    to: parent.x
                     duration: 500
                 }
 
-//                NumberAnimation {
-//                    properties: "x, y"
-////                    from: stackOfCardsArea.x
-//                    duration: 500
-//                }
-
-                RotationAnimation {
-                    duration: 500
+                ScriptAction {
+                    script: {
+                        console.log(" from: " + stackOfCardsArea.y
+                                    + " to: " + parent.y);
+                    }
                 }
+
+                //                RotationAnimation {
+                //                    duration: 500
+                //                }
             }
         }/*,
 

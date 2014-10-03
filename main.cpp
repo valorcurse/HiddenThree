@@ -1,10 +1,11 @@
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
-//#include <QDesktopWidget>
-//#include <QApplication>
 #include <QScreen>
+#include <QQmlEngine>
+#include <QtQml>
 
 #include <iostream>
+#include "networking.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +13,8 @@ int main(int argc, char *argv[])
 
     QtQuick2ApplicationViewer viewer;
     viewer.setMainQmlFile(QStringLiteral("qml/ShitHead/main.qml"));
+
+//    qmlRegisterType<Networking>("networking", 1, 0, "Networking");
 
     std::cout << "Number of screens: " << app.screens().count() << std::endl;
 

@@ -40,11 +40,11 @@ Item {
         Engine.handlePlay(topCard);
     }
 
-//    onPlayersChanged: {
-//        console.log("Player added");
-//        if (players.length > 1)
-//            playersAdded = true;
-//    }
+    //    onPlayersChanged: {
+    //        console.log("Player added");
+    //        if (players.length > 1)
+    //            playersAdded = true;
+    //    }
 
     Repeater {
         id: playersRepeater
@@ -61,7 +61,7 @@ Item {
         }
 
         Component.onCompleted: {
-//            console.log("Repeater count: " + playersRepeater.count);
+            //            console.log("Repeater count: " + playersRepeater.count);
 
             for (var i = 0; i < playersRepeater.count; i++) {
                 console.log("Adding player");
@@ -71,7 +71,7 @@ Item {
             game.state = "DealCards";
 
             console.log("Players created: " + game.players.length);
-//            console.log("Number of players: " + game.players.length);
+            //            console.log("Number of players: " + game.players.length);
         }
     }
 
@@ -195,6 +195,23 @@ Item {
             left: playArea.right
             verticalCenter: playArea.verticalCenter
         }
+
+        Text {
+            text: stackOfCards.length
+            color: "white"
+            font.family: "Helvetica"
+            font.pointSize: 24
+            style: Text.Outline
+            styleColor: "black"
+
+            anchors {
+
+                verticalCenter: parent.verticalCenter
+                horizontalCenter: parent.horizontalCenter
+            }
+
+            z: 70
+        }
     }
 
     StackView {
@@ -267,12 +284,21 @@ Item {
             objectName: "player1CardsArea"
 
             add: Transition {
-                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
+                NumberAnimation { properties: "x, y";}
+                //                ScriptAction {
+                //                    script: {
+                //                        console.log("Transitions: " + ViewTransition.index)
+                //                    }
+                //                }
             }
 
-            move: Transition {
-                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
-            }
+            //            move: Transition {
+            //                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
+            //            }
+
+            //            populate: Transition {
+            //                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
+            //            }
 
             spacing: Engine.calculateSpacing(player1CardsArea)
             //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
@@ -315,7 +341,7 @@ Item {
     states: [
         State {
             name: "DealCards"
-//            when: playersAdded && !cardsAreDealt
+            //            when: playersAdded && !cardsAreDealt
 
             onCompleted: {
                 console.log("entered: DealCards");
