@@ -36,7 +36,7 @@ Item {
             }
 
             onClicked: {
-//                pageLoader.source = "GameArea.qml";
+                pageLoader.source = "SearchForGame.qml";
             }
         }
     }

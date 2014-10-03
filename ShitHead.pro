@@ -8,7 +8,9 @@ DEPLOYMENTFOLDERS = folder_01
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    networking.cpp
+    networking.cpp \
+    sendrequest.cpp \
+    receiverequest.cpp
 
 # Installation path
 # target.path =
@@ -22,7 +24,9 @@ OTHER_FILES += \
     NewGameArea.qml
 
 HEADERS += \
-    networking.h
+    networking.h \
+    sendrequest.h \
+    receiverequest.h
 
 DEFINES += QMLJSDEBUGGER
 

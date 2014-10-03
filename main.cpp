@@ -5,16 +5,17 @@
 #include <QtQml>
 
 #include <iostream>
-#include "networking.h"
+#include "receiverequest.h"
+#include "sendrequest.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     QtQuick2ApplicationViewer viewer;
     viewer.setMainQmlFile(QStringLiteral("qml/ShitHead/main.qml"));
 
-//    qmlRegisterType<Networking>("networking", 1, 0, "Networking");
+    qmlRegisterType<ReceiveRequest>("ReceiveRequest", 1, 0, "ReceiveRequest");
+    qmlRegisterType<SendRequest>("SendRequest", 1, 0, "SendRequest");
 
     std::cout << "Number of screens: " << app.screens().count() << std::endl;
 
