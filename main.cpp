@@ -1,12 +1,15 @@
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
 #include <QScreen>
+#include <QUuid>
 #include <QQmlEngine>
 #include <QtQml>
 
 #include <iostream>
+#include "appproperties.h"
 #include "receiverequest.h"
 #include "sendrequest.h"
+#include "networkcommand.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
@@ -16,11 +19,16 @@ int main(int argc, char *argv[]) {
 
     qmlRegisterType<ReceiveRequest>("ReceiveRequest", 1, 0, "ReceiveRequest");
     qmlRegisterType<SendRequest>("SendRequest", 1, 0, "SendRequest");
+    qmlRegisterType<NetworkCommand>("NetworkCommand", 1, 0, "NetworkCommand");
+//    qmlRegisterType<AppProperties>("AppProperties", 1, 0, "AppProperties");
+    qmlRegisterSingletonType<AppProperties>("AppProperties", 1, 0, "AppProperties",
+                                                   AppProperties::instance);
 
-//    if (app.screens().count() > 1) {
-//        QScreen * firstScreen = app.screens().first();
+    if (app.screens().count() > 1) {
+        QScreen * firstScreen = app.screens().first();
 //        viewer.setGeometry(firstScreen->geometry());
-//    }
+        viewer.setFramePosition(firstScreen->geometry().bottomRight());
+    }
 
 //        viewer.showFullScreen();
     viewer.showExpanded();

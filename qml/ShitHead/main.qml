@@ -10,6 +10,7 @@ Item {
     height: Screen.height / 1.5
     width: Screen.width / 2
 
+
     SystemPalette { id: activePalette }
 
     Loader {

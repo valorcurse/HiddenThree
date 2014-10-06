@@ -10,6 +10,19 @@ Item {
         }
 
         ReceiveRequest {
+            onRequestReceived: {
+                var json = JSON.parse(message);
+
+                if (json && typeof json === "object" && json !== null) {
+                    if (json.command === "findGame") {
+                        var jsonTest = {
+                            "name": "lalal"
+                        }
+
+                        answerRequest.sendCommand(jsonTest);
+                    }
+                }
+            }
         }
 
         SendRequest {
@@ -18,6 +31,6 @@ Item {
     }
 
     Component.onCompleted: {
-//        answerRequest.startBroadcasting();
+        //        answerRequest.startBroadcasting();
     }
 }

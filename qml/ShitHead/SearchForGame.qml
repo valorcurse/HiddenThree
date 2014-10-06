@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import SendRequest 1.0
 import ReceiveRequest 1.0
+import NetworkCommand 1.0
+import AppProperties 1.0
 
 Item {
     Column {
@@ -38,9 +40,9 @@ Item {
     }
     ListModel {
         id: libraryModel
-//        ListElement{ title: "A Masterpiece" ; creator: "Gabriel" }
-//        ListElement{ title: "Brilliance"    ; creator: "Jens" }
-//        ListElement{ title: "Outstanding"   ; creator: "Frederik" }
+        //        ListElement{ title: "A Masterpiece" ; creator: "Gabriel" }
+        //        ListElement{ title: "Brilliance"    ; creator: "Jens" }
+        //        ListElement{ title: "Outstanding"   ; creator: "Frederik" }
     }
 
     SendRequest {
@@ -50,9 +52,28 @@ Item {
     ReceiveRequest {
         id: receiveRequest
 
-//        onRequestReceived: {
-//            console.log("Received message");
-//        }
+        onRequestReceived: {
+//            console.log("onRequestReceived: " + message)
+
+            if (message) {
+                var json;
+
+                try {
+                    json = JSON.parse(message);
+                } catch (e) {
+                    return undefined;
+                }
+
+                if (json.uuid !== AppProperties.getUuid.toString())
+                    console.log("Someone's Uuid: " + AppProperties.getUuid)
+
+                //                console.log("Uuid: " + AppProperties.getUuid)
+
+                if (json.command === NetworkCommand.GAMEFOUND) {
+                    console.log("Found game");
+                }
+            }
+        }
     }
 
     Component.onCompleted: {

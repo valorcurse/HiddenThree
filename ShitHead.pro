@@ -10,7 +10,9 @@ DEPLOYMENTFOLDERS = folder_01
 SOURCES += main.cpp \
     networking.cpp \
     sendrequest.cpp \
-    receiverequest.cpp
+    receiverequest.cpp \
+    appproperties.cpp \
+    networkcommand.cpp
 
 # Installation path
 # target.path =
@@ -26,9 +28,13 @@ OTHER_FILES += \
 HEADERS += \
     networking.h \
     sendrequest.h \
-    receiverequest.h
+    receiverequest.h \
+    appproperties.h \
+    networkcommand.h
 
 DEFINES += QMLJSDEBUGGER
+
+CONFIG += c++11
 
 #QT += widgets
 #CONFIG += console
