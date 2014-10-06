@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import ReceiveRequest 1.0
 import SendRequest 1.0
+import NetworkCommand 1.0
 
 Item {
     Column {
@@ -14,12 +15,10 @@ Item {
                 var json = JSON.parse(message);
 
                 if (json && typeof json === "object" && json !== null) {
-                    if (json.command === "findGame") {
-                        var jsonTest = {
-                            "name": "lalal"
-                        }
-
-                        answerRequest.sendCommand(jsonTest);
+                    if (json.command === NetworkCommand.FINDGAME) {
+                        console.log("Someone is looking for a game")
+                        var command = new NetworkCommand(NetworkCommand.GAMEFOUND);
+                        answerRequest.broadcast(command);
                     }
                 }
             }

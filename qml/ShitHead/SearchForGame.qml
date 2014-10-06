@@ -64,10 +64,8 @@ Item {
                     return undefined;
                 }
 
-                if (json.uuid !== AppProperties.getUuid.toString())
-                    console.log("Someone's Uuid: " + AppProperties.getUuid)
-
-                //                console.log("Uuid: " + AppProperties.getUuid)
+                if (json.uuid === AppProperties.getUuid.toString())
+                    return;
 
                 if (json.command === NetworkCommand.GAMEFOUND) {
                     console.log("Found game");

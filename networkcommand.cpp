@@ -15,12 +15,5 @@ NetworkCommand::NetworkCommand(Type cmdType) {
 
 QByteArray NetworkCommand::toJson() {
     QJsonDocument jsonDoc(jsonObject);
-//    qDebug() << "Object: " << jsonDoc.toJson();
     return jsonDoc.toJson();
-}
-
-int NetworkCommand::size() {
-//    QJsonDocument jsonDoc(jsonObject);
-//    qDebug() << "Object size: " << jsonObject.size();
-    return jsonObject.size();
 }

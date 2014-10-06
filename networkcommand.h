@@ -26,7 +26,6 @@ public:
 
 
     QByteArray toJson();
-    int size();
 };
 
 #endif // NETWORKCOMMAND_H
