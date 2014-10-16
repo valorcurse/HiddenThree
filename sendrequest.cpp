@@ -9,9 +9,6 @@ SendRequest::SendRequest(QObject *parent) :
 
     connect(timer, SIGNAL(timeout()), this, SLOT(broadcastDatagram()));
     numberOfShots = 0;
-
-//    commandToSend = nullptr;
-    //    startBroadcasting();
 }
 
 void SendRequest::broadcast(NetworkCommand * command) {
@@ -24,11 +21,12 @@ void SendRequest::broadcastDatagram() {
         timer->stop();
         numberOfShots = 0;
     } else {
-//        NetworkCommand networkCmd(NetworkCommand::FINDGAME);
-        QByteArray networkCmdMessage = commandToSend->toJson();
+        if (commandToSend != nullptr) {
+            QByteArray networkCmdMessage = commandToSend->toJson();
 
-        udpSocket->writeDatagram(networkCmdMessage, networkCmdMessage.size(),
-                                 QHostAddress::Broadcast, 45454);
+            udpSocket->writeDatagram(networkCmdMessage, networkCmdMessage.size(),
+                                     QHostAddress::Broadcast, 45454);
+        }
 
         numberOfShots++;
     }
