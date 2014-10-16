@@ -17,7 +17,7 @@ class SendRequest : public QObject
 public:
     explicit SendRequest(QObject *parent = 0);
 
-    Q_INVOKABLE void broadcast(NetworkCommand command);
+    Q_INVOKABLE void broadcast(NetworkCommand *command);
     Q_INVOKABLE void sendCommand(QJsonObject message);
 
 private slots:
@@ -25,7 +25,7 @@ private slots:
 
 private:
     QUdpSocket *udpSocket;
-    NetworkCommand commandToSend;
+    NetworkCommand * commandToSend;
 
     QTimer *timer;
     int maxNumberOfShots,

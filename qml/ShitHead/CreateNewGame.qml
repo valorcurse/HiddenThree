@@ -17,8 +17,8 @@ Item {
                 if (json && typeof json === "object" && json !== null) {
                     if (json.command === NetworkCommand.FINDGAME) {
                         console.log("Someone is looking for a game")
-                        var command = new NetworkCommand(NetworkCommand.GAMEFOUND);
-                        answerRequest.broadcast(command);
+//                        var command = new NetworkCommand(NetworkCommand.GAMEFOUND);
+                        answerRequest.broadcast(NetworkCommand.GAMEFOUND);
                     }
                 }
             }

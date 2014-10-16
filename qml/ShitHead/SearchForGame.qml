@@ -24,7 +24,7 @@ Item {
             }
 
             onClicked: {
-                sendRequest.startBroadcasting();
+                sendRequest.broadcast();
             }
         }
 
@@ -53,8 +53,6 @@ Item {
         id: receiveRequest
 
         onRequestReceived: {
-//            console.log("onRequestReceived: " + message)
-
             if (message) {
                 var json;
 
@@ -74,7 +72,12 @@ Item {
         }
     }
 
+    NetworkCommand {
+        id: findGame
+        commandType: NetworkCommand.FINDGAME
+    }
+
     Component.onCompleted: {
-        sendRequest.startBroadcasting();
+        sendRequest.broadcast(findGame);
     }
 }

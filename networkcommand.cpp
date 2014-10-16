@@ -17,3 +17,12 @@ QByteArray NetworkCommand::toJson() {
     QJsonDocument jsonDoc(jsonObject);
     return jsonDoc.toJson();
 }
+
+void NetworkCommand::setCommandType(NetworkCommand::Type type) {
+    jsonObject["uuid"] = AppProperties::instance()->uuid.toString();
+    jsonObject["command"] = type;
+}
+
+NetworkCommand::Type NetworkCommand::commandType() {
+    return m_commandType;
+}
