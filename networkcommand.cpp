@@ -6,6 +6,9 @@
 NetworkCommand::NetworkCommand(QObject *parent) :
     QObject(parent)
 {
+    QObject::connect(this, SIGNAL(dataChanged(CommandData *)),
+                         this, SLOT(updateJson(CommandData *)));
+
     jsonObject["uuid"] = AppProperties::instance()->uuid.toString();
 }
 
@@ -29,8 +32,17 @@ NetworkCommand::Type NetworkCommand::commandType() {
 
 void NetworkCommand::setCommandData(CommandData *data) {
     m_commandData = data;
+
+//    emit dataChanged(data);
+//    jsonObject["data"] = data->toJson();
 }
 
 CommandData * NetworkCommand::commandData() const {
     return m_commandData;
+}
+
+void NetworkCommand::updateJson(QString data) {
+    jsonObject["data"] = data->toJson();
+    qDebug() << "Data nc: " << m_commandData->toJson();
+
 }

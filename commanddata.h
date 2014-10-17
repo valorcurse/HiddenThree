@@ -2,6 +2,9 @@
 #define COMMANDDATA_H
 
 #include <QObject>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QDebug>
 
 class CommandData : public QObject
 {
@@ -11,22 +14,23 @@ class CommandData : public QObject
 
 public:
     explicit CommandData(QObject *parent = 0);
-
-signals:
-
-public slots:
-
+    virtual QJsonValue toJson() = 0;
 };
 
 class FindGame : public CommandData {
     Q_OBJECT
-    Q_PROPERTY(QString gameName READ gameName WRITE setGameName)
+    Q_PROPERTY(QString gameName READ gameName WRITE setGameName NOTIFY dataChanged)
 
 public:
     FindGame(QObject * parent = 0);
 
     void setGameName(QString name);
     QString gameName() const;
+
+    virtual QJsonValue toJson();
+
+signals:
+    void dataChanged(QString data);
 
 private:
     QString m_gameName;

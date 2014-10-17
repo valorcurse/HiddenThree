@@ -31,7 +31,16 @@ Item {
 
             commandData: FindGame {
                 gameName: game.name
+
+                onDataChanged: {
+                    foundGame.updateJson(data);
+                    console.log("Command data changed!");
+                }
             }
+
+//            onCommandDataChanged: {
+//                foundGame.updateJson();
+//            }
         }
 
         SendRequest {

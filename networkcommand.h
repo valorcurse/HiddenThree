@@ -11,7 +11,7 @@ class NetworkCommand : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(NetworkCommand::Type commandType READ commandType WRITE setCommandType NOTIFY typeChosen)
-    Q_PROPERTY(CommandData * commandData READ commandData WRITE setCommandData)
+    Q_PROPERTY(CommandData * commandData READ commandData WRITE setCommandData NOTIFY dataChanged)
 
 public:
     typedef enum {
@@ -33,6 +33,10 @@ public:
 
 signals:
     void typeChosen(Type type);
+    void dataChanged(CommandData *);
+
+public slots:
+    void updateJson(QString);
 
 private:
     QJsonObject jsonObject;
