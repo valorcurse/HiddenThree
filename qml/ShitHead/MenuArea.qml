@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import "GameProperties.js" as GameProperties
+import QtQuick.Window 2.1
 
 Item {
 
@@ -8,13 +10,15 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-//         AnimatedImage { id: adnimation; source: "textures/waiting.gif" }
+        //         AnimatedImage { id: adnimation; source: "textures/waiting.gif" }
 
         Button {
             text: "New Game"
 
             onClicked: {
-                pageLoader.source = "NewGameArea.qml";
+                GameProperties.cardHeight = Screen.height / 6;
+                GameProperties.cardWidth =  GameProperties.cardHeight / 1.54;
+                pageLoader.source = "newgame/NewGame.qml";
             }
         }
     }

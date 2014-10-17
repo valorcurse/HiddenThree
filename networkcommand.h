@@ -5,12 +5,13 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "appproperties.h"
+#include "commanddata.h"
 
 class NetworkCommand : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(NetworkCommand::Type commandType READ commandType WRITE setCommandType NOTIFY typeChosen)
-
+    Q_PROPERTY(CommandData * commandData READ commandData WRITE setCommandData)
 
 public:
     typedef enum {
@@ -24,6 +25,10 @@ public:
 
     void setCommandType(NetworkCommand::Type type);
     NetworkCommand::Type commandType();
+
+    void setCommandData(CommandData * data);
+    CommandData * commandData() const;
+
     QByteArray toJson();
 
 signals:
@@ -32,6 +37,7 @@ signals:
 private:
     QJsonObject jsonObject;
     NetworkCommand::Type m_commandType;
+    CommandData * m_commandData;
 };
 
 #endif // NETWORKCOMMAND_H

@@ -35,22 +35,10 @@ Flipable {
     Drag.hotSpot.y: height / 2
 
     onStateChanged: {
-
-        //        console.log("Card " + cardObject.number + " from Player: " + player.playerID + " | New state: " + state);
-
         if (card.state !== "Dragged" && card.state !== "") {
             previousState = card.state;
         }
     }
-
-    //    Behavior on x {
-    ////            enabled: spawned;
-    ////            Num{ spring: 2; damping: 0.2 }
-    //        }
-    //        Behavior on y {
-    //            SpringAnimation{ spring: 2; damping: 0.2 }
-    //        }
-
 
     transform: Rotation {
         id: flipCard
@@ -319,7 +307,7 @@ Flipable {
                     property: "angle"
                 }
             }
-        },
+        }/*,
 
         Transition {
             from: "Stack"
@@ -350,7 +338,7 @@ Flipable {
                 //                    duration: 500
                 //                }
             }
-        }/*,
+        }*//*,
 
         Transition {
             from: "Stack"

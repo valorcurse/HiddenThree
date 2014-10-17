@@ -1,9 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Window 2.1
-import "GameProperties.js" as GameProperties
+import QtQuick.Controls 1.2
+import "../GameProperties.js" as GameProperties
+import ".."
 
 Item {
-
     Column {
         anchors {
             horizontalCenter: parent.horizontalCenter
@@ -25,7 +26,9 @@ Item {
 //                GameProperties.cardWidth =  GameProperties.cardHeight / 1.54;
 
 //                pageLoader.source = "GameArea.qml";
-                pageLoader.source = "CreateNewGame.qml";
+
+
+                newGameLoader.source = "CreateNewGame.qml";
             }
         }
 
@@ -37,7 +40,7 @@ Item {
             }
 
             onClicked: {
-                pageLoader.source = "SearchForGame.qml";
+                pageLoader.source = "../SearchForGame.qml";
             }
         }
     }

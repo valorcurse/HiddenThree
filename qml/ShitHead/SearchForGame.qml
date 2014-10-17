@@ -62,11 +62,12 @@ Item {
                     return undefined;
                 }
 
+                // If got own message back
                 if (json.uuid === AppProperties.getUuid.toString())
                     return;
 
                 if (json.command === NetworkCommand.GAMEFOUND) {
-                    console.log("Found game");
+                    console.log("Found game | uuid: " + json.commandData);
                 }
             }
         }

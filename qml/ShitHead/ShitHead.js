@@ -5,20 +5,24 @@ function startNewGame() {
     //  Initialize Board
     createStackOfCards();
 
+    console.log("number of cards: " + game.stackOfCards.length);
+
     // Shuffle cards
-    shuffle(stackOfCards);
+    shuffle(game.stackOfCards);
 
     // Create players
     player1 = game.players[0];
-    player1.hand.area = game.player1CardsArea;
-    player1.threeTop.area = game.player1ThreeTop;
-    player1.threeBottom.area = game.player1ThreeBottom;
+    player1.hand.area = gameArea.player1CardsArea;
+    player1.threeTop.area = gameArea.player1ThreeTop;
+    player1.threeBottom.area = gameArea.player1ThreeBottom;
     game.currentPlayer = player1;
 
+    console.log("current player: " + game.currentPlayer);
+
     player2 = game.players[1];
-    player2.hand.area =  game.player2CardsArea;
-    player2.threeTop.area =  game.player2ThreeTop;
-    player2.threeBottom.area =  game.player2ThreeBottom;
+    player2.hand.area =  gameArea.player2CardsArea;
+    player2.threeTop.area =  gameArea.player2ThreeTop;
+    player2.threeBottom.area =  gameArea.player2ThreeBottom;
 
     dealBottomCards(player1);
     dealBottomCards(player2);
@@ -27,23 +31,24 @@ function startNewGame() {
     dealCards(player1, 6);
     dealCards(player2, 6);
 
-    console.log("Stack of cards: " + stackOfCards.length);
+    console.log("Stack of cards: " + game.stackOfCards.length);
 
     game.cardsAreDealt = true;
 }
 
 function dealBottomCards(player) {
-    if (stackOfCards.length >= 3)
+    if (game.stackOfCards.length >= 3) {
         for (var i = 0; i < 3; i++) {
-            var card = stackOfCards.pop();
+            var card = game.stackOfCards.pop();
             player.addToThreeBottom(card);
         }
+    }
 }
 
 function dealCards(player, numberOfCards) {
-    if (stackOfCards.length >= numberOfCards)
+    if (game.stackOfCards.length >= numberOfCards)
         for (var i = 0; i < numberOfCards; i++) {
-            var card = stackOfCards.pop();
+            var card = game.stackOfCards.pop();
             player.addToHand(card);
         }
 }
@@ -53,9 +58,9 @@ function createStackOfCards() {
 
     if (component.status === Component.Ready) {
 
-//        for (var i = 0; i < cardsInfo.length; i++) {
-            for (var i = 0; i < 18; i++) {
-            var card = component.createObject(stackOfCardsArea, {cardObject: cardsInfo[i]});
+                for (var i = 0; i < cardsInfo.length; i++) {
+//        for (var i = 0; i < 18; i++) {
+            var card = component.createObject(gameArea.stackOfCardsArea, {cardObject: cardsInfo[i]});
 
             if (card === null) {
                 console.log("error creating block");
@@ -64,7 +69,7 @@ function createStackOfCards() {
                 return false;
             }
 
-            stackOfCards.push(card);
+            game.stackOfCards.push(card);
             card.state = "Stack";
         }
 
@@ -223,7 +228,7 @@ function isPlayable(card) {
 
         // If card is part of top three and there are still cards in the hand/stack
         if (card.state === "ThreeTop"
-                && (player.hand.cards.count > 0 || stackOfCards.length > 0)) {
+                && (player.hand.cards.count > 0 || game.stackOfCards.length > 0)) {
             return false;
         }
 

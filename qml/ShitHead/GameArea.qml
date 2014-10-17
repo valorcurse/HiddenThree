@@ -5,7 +5,7 @@ import "ShitHead.js" as Engine
 import "GameProperties.js" as GameProperties
 
 Item {
-    id: game
+    id: gameArea
 
     // Aliases to expose areas to others files
     property alias player2CardsArea: player2CardsArea
@@ -18,62 +18,11 @@ Item {
     property alias player1CardsArea: player1CardsArea
     property alias graveyard: graveyard
 
-    property int stackLevel: playedCards.length
-    property var topCard
-    property var stackOfCards: []
-    property var playedCards: []
+    property int stackLevel: game.playedCards.length
 
-    property var players: []
-    property var currentPlayer
-
-    property bool playersAdded: false
-    property bool cardsAreDealt: false
-    property bool topCardsAreChosen: false
-
-    // Fake enum
-    property var turn: {"preTurn": 0, "playTurn": 1}
-    property var currentTurn: turn.preTurn
-
-    signal cardPlayed
-
-    onCardPlayed: {
-        Engine.handlePlay(topCard);
-    }
-
-    //    onPlayersChanged: {
-    //        console.log("Player added");
-    //        if (players.length > 1)
-    //            playersAdded = true;
-    //    }
-
-    Repeater {
-        id: playersRepeater
-        model: 2
-
-        Player {
-            id: player
-            playerID: index
-
-            Component.onCompleted: {
-                //                game.players.push(player);
-                //                player.state = "Hand";
-            }
-        }
-
-        Component.onCompleted: {
-            //            console.log("Repeater count: " + playersRepeater.count);
-
-            for (var i = 0; i < playersRepeater.count; i++) {
-                console.log("Adding player");
-                game.players.push(playersRepeater.itemAt(i));
-            }
-
-            game.state = "DealCards";
-
-            console.log("Players created: " + game.players.length);
-            //            console.log("Number of players: " + game.players.length);
-        }
-    }
+//    Game {
+//        id: game
+//    }
 
     StackView {
         height: parent.height / 3
@@ -160,17 +109,12 @@ Item {
                 }
             }
 
-            onEntered: {
-                console.log("entered");
-            }
-
             anchors {
                 fill: parent
             }
         }
 
     }
-
 
     Item {
         id: playArea
@@ -197,7 +141,7 @@ Item {
         }
 
         Text {
-            text: stackOfCards.length
+            text: game.stackOfCards.length
             color: "white"
             font.family: "Helvetica"
             font.pointSize: 24
@@ -253,14 +197,12 @@ Item {
 
             onDropped: {
                 var droppedCard = drop.source;
-                if (droppedCard.previousState === "Hand" && player1ThreeTop.children.length < 3) {
+                if (droppedCard.previousState === "Hand" &&
+                        player1ThreeTop.children.length < 3) {
+
                     droppedCard.setAsTopCard();
                     drop.accept();
                 }
-            }
-
-            onEntered: {
-                console.log("entered");
             }
 
             anchors {
@@ -285,28 +227,15 @@ Item {
 
             add: Transition {
                 NumberAnimation { properties: "x, y";}
-                //                ScriptAction {
-                //                    script: {
-                //                        console.log("Transitions: " + ViewTransition.index)
-                //                    }
-                //                }
             }
 
-            //            move: Transition {
-            //                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
-            //            }
-
-            //            populate: Transition {
-            //                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
-            //            }
-
             spacing: Engine.calculateSpacing(player1CardsArea)
-            //            layoutDirection: Qt.RightToLeft // Else the card symbols are hidden
 
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 verticalCenter: parent.verticalCenter
             }
+
         }
 
         DropArea {
@@ -337,54 +266,4 @@ Item {
             right: parent.left
         }
     }
-
-    states: [
-        State {
-            name: "DealCards"
-            //            when: playersAdded && !cardsAreDealt
-
-            onCompleted: {
-                console.log("entered: DealCards");
-                Engine.startNewGame();
-            }
-        },
-
-        State {
-            name: "ChooseCards"
-            when: cardsAreDealt && !topCardsAreChosen
-
-            onCompleted: {
-                console.log("entered: ChooseCards");
-                console.log("State: " + players[0].state);
-            }
-        },
-
-        State {
-            name: "Play"
-            when: topCardsAreChosen /*&& currentTurn === turn.preTurn*/
-
-            onCompleted: {
-                Engine.switchPlayerTurn(0);
-                console.log("entered: play");
-            }
-        },
-
-        State {
-            name: "GameOver"
-            when: {
-                if (topCardsAreChosen)
-                    for (var id in players) {
-                        if (players[id].bottomCards.length === 0) {
-                            return true;
-                        }
-                    }
-
-                return false;
-            }
-
-            onCompleted: {
-                console.log("entered: GameOver");
-            }
-        }
-    ]
 }
