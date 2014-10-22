@@ -30,17 +30,13 @@ Item {
             commandType: NetworkCommand.GAMEFOUND
 
             commandData: FindGame {
+                id: findGameCommand
                 gameName: game.name
 
                 onDataChanged: {
-                    foundGame.updateJson(data);
-                    console.log("Command data changed!");
+                    foundGame.updateJson();
                 }
             }
-
-//            onCommandDataChanged: {
-//                foundGame.updateJson();
-//            }
         }
 
         SendRequest {

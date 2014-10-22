@@ -34,6 +34,7 @@ signals:
 
 private:
     QString m_gameName;
+    QJsonObject jsonObject;
 };
 
 #endif // COMMANDDATA_H

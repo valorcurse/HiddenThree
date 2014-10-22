@@ -31,12 +31,13 @@ public:
 
     QByteArray toJson();
 
+    Q_INVOKABLE void updateJson();
+
 signals:
     void typeChosen(Type type);
     void dataChanged(CommandData *);
 
 public slots:
-    void updateJson(QString);
 
 private:
     QJsonObject jsonObject;

@@ -9,6 +9,7 @@ Item {
     Column {
 
         spacing: 20
+        width: parent.width / 2
 
         anchors {
             verticalCenter: parent.verticalCenter
@@ -29,8 +30,10 @@ Item {
         }
 
         TableView {
+            width: parent.width
+
             TableViewColumn{ role: "title"  ; title: "Title" ; width: 100 }
-            TableViewColumn{ role: "author" ; title: "Creator" ; width: 100 }
+            TableViewColumn{ role: "uuid" ; title: "ID" ; width: 100 }
             model: libraryModel
 
             anchors {
@@ -40,9 +43,17 @@ Item {
     }
     ListModel {
         id: libraryModel
+
+        function indexOf(uuid) {
+            for (var i = 0; i < libraryModel.count; i++) {
+                if (uuid === libraryModel.get(i).uuid) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
         //        ListElement{ title: "A Masterpiece" ; creator: "Gabriel" }
-        //        ListElement{ title: "Brilliance"    ; creator: "Jens" }
-        //        ListElement{ title: "Outstanding"   ; creator: "Frederik" }
     }
 
     SendRequest {
@@ -63,11 +74,13 @@ Item {
                 }
 
                 // If got own message back
-                if (json.uuid === AppProperties.getUuid.toString())
+                if (json.uuid === AppProperties.getUuid.toString() ||
+                        libraryModel.indexOf(json.uuid) !== -1)
                     return;
 
                 if (json.command === NetworkCommand.GAMEFOUND) {
-                    console.log("Found game | uuid: " + json.commandData);
+                    console.log("Found game | uuid: " + json.commandData.gameName);
+                    libraryModel.append({"title": json.commandData.gameName, "uuid": json.uuid})
                 }
             }
         }
