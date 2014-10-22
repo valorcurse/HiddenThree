@@ -10,21 +10,21 @@
 class NetworkCommand : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(NetworkCommand::Type commandType READ commandType WRITE setCommandType NOTIFY typeChosen)
+//    Q_PROPERTY(NetworkCommand::Type commandType READ commandType WRITE setCommandType NOTIFY typeChosen)
     Q_PROPERTY(CommandData * commandData READ commandData WRITE setCommandData NOTIFY dataChanged)
 
 public:
-    typedef enum {
-        FINDGAME,
-        GAMEFOUND
-    } Type;
-    Q_ENUMS(Type)
+//    typedef enum {
+//        FINDGAME,
+//        GAMEFOUND
+//    } Type;
+//    Q_ENUMS(Type)
 
     explicit NetworkCommand(QObject *parent = 0);
-    NetworkCommand(NetworkCommand::Type cmdType);
+//    NetworkCommand(NetworkCommand::Type cmdType);
 
-    void setCommandType(NetworkCommand::Type type);
-    NetworkCommand::Type commandType();
+//    void setCommandType(NetworkCommand::Type type);
+//    NetworkCommand::Type commandType();
 
     void setCommandData(CommandData * data);
     CommandData * commandData() const;
@@ -34,14 +34,14 @@ public:
     Q_INVOKABLE void updateJson();
 
 signals:
-    void typeChosen(Type type);
+//    void typeChosen(Type type);
     void dataChanged(CommandData *);
 
 public slots:
 
 private:
     QJsonObject jsonObject;
-    NetworkCommand::Type m_commandType;
+//    NetworkCommand::Type m_commandType;
     CommandData * m_commandData;
 };
 

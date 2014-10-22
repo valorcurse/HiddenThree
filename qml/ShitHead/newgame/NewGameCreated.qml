@@ -17,7 +17,7 @@ Item {
                 var json = JSON.parse(message);
 
                 if (json && typeof json === "object" && json !== null) {
-                    if (json.command === NetworkCommand.FINDGAME) {
+                    if (json.command === CommandData.FINDGAME) {
                         console.log("Someone is looking for a game")
                         answerRequest.broadcast(foundGame);
                     }
@@ -27,15 +27,9 @@ Item {
 
         NetworkCommand {
             id: foundGame
-            commandType: NetworkCommand.GAMEFOUND
 
             commandData: FindGame {
                 id: findGameCommand
-                gameName: game.name
-
-                onDataChanged: {
-                    foundGame.updateJson();
-                }
             }
         }
 

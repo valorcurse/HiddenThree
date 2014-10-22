@@ -22,9 +22,11 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<SendRequest>("SendRequest", 1, 0, "SendRequest");
     qmlRegisterType<NetworkCommand>("NetworkCommand", 1, 0, "NetworkCommand");
     qmlRegisterUncreatableType<CommandData>("CommandData", 1, 0, "CommandData", "");
-    qmlRegisterType<FindGame>("CommandData", 1, 0, "FindGame");
     qmlRegisterSingletonType<AppProperties>("AppProperties", 1, 0, "AppProperties",
                                                    AppProperties::instance);
+    qmlRegisterType<FindGame>("CommandData", 1, 0, "FindGame");
+    qmlRegisterType<GameFound>("CommandData", 1, 0, "GameFound");
+    qmlRegisterType<JoinGame>("CommandData", 1, 0, "JoinGame");
 
     if (app.screens().count() > 1) {
         QScreen * firstScreen = app.screens().first();

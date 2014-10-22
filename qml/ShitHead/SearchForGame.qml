@@ -4,6 +4,7 @@ import SendRequest 1.0
 import ReceiveRequest 1.0
 import NetworkCommand 1.0
 import AppProperties 1.0
+import CommandData 1.0
 
 Item {
     Column {
@@ -53,7 +54,6 @@ Item {
 
             return -1;
         }
-        //        ListElement{ title: "A Masterpiece" ; creator: "Gabriel" }
     }
 
     SendRequest {
@@ -73,12 +73,12 @@ Item {
                     return undefined;
                 }
 
-                // If got own message back
+                // If got own message back or a previously received message
                 if (json.uuid === AppProperties.getUuid.toString() ||
                         libraryModel.indexOf(json.uuid) !== -1)
                     return;
 
-                if (json.command === NetworkCommand.GAMEFOUND) {
+                if (json.command === CommandData.GAMEFOUND) {
                     console.log("Found game | uuid: " + json.commandData.gameName);
                     libraryModel.append({"title": json.commandData.gameName, "uuid": json.uuid})
                 }
@@ -88,7 +88,15 @@ Item {
 
     NetworkCommand {
         id: findGame
-        commandType: NetworkCommand.FINDGAME
+
+        commandData: GameFound {
+            id: findGameCommand
+            gameName: game.name
+
+            onDataChanged: {
+                foundGame.updateJson();
+            }
+        }
     }
 
     Component.onCompleted: {
