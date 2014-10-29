@@ -21,12 +21,12 @@ Item {
                 if (json && typeof json === "object" && json !== null) {
                     if (json.commandData.commandType === CommandData.FINDGAME) {
                         console.log("Someone is looking for a game")
-                        answerRequest.broadcast(gameFound);
+                        answerRequest.send(gameFound, ip);
                     }
 
                     else if (json.commandData.commandType === CommandData.JOINGAME) {
                         console.log("Someone wants to join the game")
-                        answerRequest.broadcast(gameJoined);
+                        answerRequest.send(gameJoined, ip);
                     }
                 }
             }

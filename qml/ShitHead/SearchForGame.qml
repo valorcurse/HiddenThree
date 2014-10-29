@@ -44,7 +44,7 @@ Item {
             }
 
             onDoubleClicked: {
-                console.log(libraryModel.get(row).ip)
+                //                console.log(libraryModel.get(row).ip)
                 var rowObject = libraryModel.get(row);
                 sendRequest.send(joinGame, rowObject.ip);
             }
@@ -77,29 +77,24 @@ Item {
                     return undefined;
                 }
 
-                console.log("Join: " + JSON.stringify(json));
+//                console.log(AppProperties.getUuid.toString() +
+//                            " && " + json.uuid +
+//                            " = " + (AppProperties.getUuid.toString() === json.uuid));
 
                 // If got own message back or a previously received message
-                if (json.uuid === AppProperties.getUuid.toString() ||
-                        libraryModel.indexOf(json.uuid) !== -1)
+                if (json.uuid === AppProperties.getUuid.toString())
                     return;
 
+                console.log("Join: " + JSON.stringify(json));
+
                 if (json.commandData.commandType === CommandData.GAMEFOUND) {
-                    console.log("Found game | uuid: " + json.commandData.gameName);
+                    //                    console.log("Found game | uuid: " + json.commandData.gameName);
 
-//                    var game = Engine.createNewGame(json.commandData.gameName,
-//                                                    json.uuid,
-//                                                    ip)
-
-//                    game.gameName = json.commandData.gameName;
-//                    game.uuid = json.uuid;
-//                    game.ip = ip;
-
-                    libraryModel.append({"title": json.commandData.gameName,
-                                            "uuid": json.uuid,
-                                            "ip": ip})
-
-//                    sendRequest.broadcast(joinGame);
+                    if (libraryModel.indexOf(json.uuid) === -1) {
+                        libraryModel.append({"title": json.commandData.gameName,
+                                                "uuid": json.uuid,
+                                                "ip": ip})
+                    }
                 }
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
@@ -129,9 +124,9 @@ Item {
         }
     }
 
-//    Game {
-//        id: game
-//    }
+    //    Game {
+    //        id: game
+    //    }
 
     Component.onCompleted: {
         sendRequest.broadcast(findGame);
