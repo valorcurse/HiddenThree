@@ -40,7 +40,7 @@ Item {
             }
 
             onClicked: {
-                pageLoader.source = "../SearchForGame.qml";
+                newGameLoader.source = "../SearchForGame.qml";
             }
         }
     }

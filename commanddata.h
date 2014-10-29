@@ -17,7 +17,8 @@ public:
     typedef enum {
         FINDGAME,
         GAMEFOUND,
-        JOINGAME
+        JOINGAME,
+        GAMEJOINED
     } CommandType;
     Q_ENUMS(CommandType)
 
@@ -27,10 +28,17 @@ public:
     void setCommandType(CommandType type);
     CommandType commandType();
 
+    void setParent(QObject *);
+
 protected:
     QJsonObject jsonObject;
     CommandType m_commandType;
+
+signals:
+    void dataChanged();
 };
+
+// ##############################################################
 
 class FindGame : public CommandData {
     Q_OBJECT
@@ -52,6 +60,8 @@ private:
 //    QJsonObject jsonObject;
 };
 
+// ##############################################################
+
 class GameFound : public CommandData {
     Q_OBJECT
     Q_PROPERTY(QString gameName READ gameName WRITE setGameName NOTIFY dataChanged)
@@ -71,11 +81,24 @@ private:
     QString m_gameName;
 };
 
+// ##############################################################
+
 class JoinGame: public CommandData {
     Q_OBJECT
 
 public:
     JoinGame(QObject * parent = 0);
+
+    virtual QJsonValue toJson();
+};
+
+// ##############################################################
+
+class GameJoined: public CommandData {
+    Q_OBJECT
+
+public:
+    GameJoined(QObject * parent = 0);
 
     virtual QJsonValue toJson();
 };

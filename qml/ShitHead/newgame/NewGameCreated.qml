@@ -16,25 +16,39 @@ Item {
             onRequestReceived: {
                 var json = JSON.parse(message);
 
+                console.log("Create: " + JSON.stringify(json));
+
                 if (json && typeof json === "object" && json !== null) {
-                    if (json.command === CommandData.FINDGAME) {
+                    if (json.commandData.commandType === CommandData.FINDGAME) {
                         console.log("Someone is looking for a game")
-                        answerRequest.broadcast(foundGame);
+                        answerRequest.broadcast(gameFound);
+                    }
+
+                    else if (json.commandData.commandType === CommandData.JOINGAME) {
+                        console.log("Someone wants to join the game")
+                        answerRequest.broadcast(gameJoined);
                     }
                 }
             }
         }
 
-        NetworkCommand {
-            id: foundGame
+        SendRequest {
+            id: answerRequest
+        }
 
-            commandData: FindGame {
-                id: findGameCommand
+        NetworkCommand {
+            id: gameFound
+
+            commandData: GameFound {
+                gameName: game.name
             }
         }
 
-        SendRequest {
-            id: answerRequest
+        NetworkCommand {
+            id: gameJoined
+
+            commandData: GameJoined {
+            }
         }
     }
 }

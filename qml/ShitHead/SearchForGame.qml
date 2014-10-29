@@ -26,7 +26,7 @@ Item {
             }
 
             onClicked: {
-                sendRequest.broadcast();
+                sendRequest.broadcast(findGame);
             }
         }
 
@@ -56,10 +56,6 @@ Item {
         }
     }
 
-    SendRequest {
-        id: sendRequest
-    }
-
     ReceiveRequest {
         id: receiveRequest
 
@@ -73,29 +69,41 @@ Item {
                     return undefined;
                 }
 
+                console.log("Join: " + JSON.stringify(json));
+
                 // If got own message back or a previously received message
                 if (json.uuid === AppProperties.getUuid.toString() ||
                         libraryModel.indexOf(json.uuid) !== -1)
                     return;
 
-                if (json.command === CommandData.GAMEFOUND) {
+                if (json.commandData.commandType === CommandData.GAMEFOUND) {
                     console.log("Found game | uuid: " + json.commandData.gameName);
                     libraryModel.append({"title": json.commandData.gameName, "uuid": json.uuid})
+                    sendRequest.broadcast(joinGame);
+                }
+                else if (json.commandData.commandType === CommandData.GAMEJOINED) {
+                    console.log("Joined game!");
                 }
             }
         }
     }
 
+    SendRequest {
+        id: sendRequest
+    }
+
     NetworkCommand {
         id: findGame
+        objectName: "findGame"
 
-        commandData: GameFound {
-            id: findGameCommand
-            gameName: game.name
+        commandData: FindGame {
+        }
+    }
 
-            onDataChanged: {
-                foundGame.updateJson();
-            }
+    NetworkCommand {
+        id: joinGame
+
+        commandData: JoinGame {
         }
     }
 

@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<FindGame>("CommandData", 1, 0, "FindGame");
     qmlRegisterType<GameFound>("CommandData", 1, 0, "GameFound");
     qmlRegisterType<JoinGame>("CommandData", 1, 0, "JoinGame");
+    qmlRegisterType<GameJoined>("CommandData", 1, 0, "GameJoined");
 
     if (app.screens().count() > 1) {
         QScreen * firstScreen = app.screens().first();
