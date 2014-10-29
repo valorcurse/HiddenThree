@@ -19,6 +19,7 @@ public:
 
     Q_INVOKABLE void broadcast(NetworkCommand *command);
     Q_INVOKABLE void sendCommand(QJsonObject message);
+    Q_INVOKABLE void send(NetworkCommand * command, QString ip);
 
 private slots:
     void broadcastDatagram();

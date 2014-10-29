@@ -6,6 +6,8 @@ import NetworkCommand 1.0
 import AppProperties 1.0
 import CommandData 1.0
 
+import "ShitHead.js" as Engine
+
 Item {
     Column {
 
@@ -39,6 +41,12 @@ Item {
 
             anchors {
                 horizontalCenter: parent.horizontalCenter
+            }
+
+            onDoubleClicked: {
+                console.log(libraryModel.get(row).ip)
+                var rowObject = libraryModel.get(row);
+                sendRequest.send(joinGame, rowObject.ip);
             }
         }
     }
@@ -78,8 +86,20 @@ Item {
 
                 if (json.commandData.commandType === CommandData.GAMEFOUND) {
                     console.log("Found game | uuid: " + json.commandData.gameName);
-                    libraryModel.append({"title": json.commandData.gameName, "uuid": json.uuid})
-                    sendRequest.broadcast(joinGame);
+
+//                    var game = Engine.createNewGame(json.commandData.gameName,
+//                                                    json.uuid,
+//                                                    ip)
+
+//                    game.gameName = json.commandData.gameName;
+//                    game.uuid = json.uuid;
+//                    game.ip = ip;
+
+                    libraryModel.append({"title": json.commandData.gameName,
+                                            "uuid": json.uuid,
+                                            "ip": ip})
+
+//                    sendRequest.broadcast(joinGame);
                 }
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
@@ -87,7 +107,9 @@ Item {
             }
         }
     }
-
+    //    Game {
+    //        id: game
+    //    }
     SendRequest {
         id: sendRequest
     }
@@ -106,6 +128,10 @@ Item {
         commandData: JoinGame {
         }
     }
+
+//    Game {
+//        id: game
+//    }
 
     Component.onCompleted: {
         sendRequest.broadcast(findGame);

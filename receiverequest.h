@@ -13,7 +13,7 @@ public:
     explicit ReceiveRequest(QObject *parent = 0);
 
 signals:
-    void requestReceived(QString message);
+    void requestReceived(QString message, QString ip);
 
 private slots:
     void processPendingDatagrams();

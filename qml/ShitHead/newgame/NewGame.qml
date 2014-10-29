@@ -4,10 +4,6 @@ import QtQuick.Controls 1.2
 import ".."
 
 Item {
-    Game {
-        id: game
-    }
-
     Loader {
         id: newGameLoader
         source: "CreateOrSearchMenu.qml"

@@ -5,6 +5,8 @@ Item {
     id: game
 
     property string name
+    property string ip
+    property string uuid
 
     property var topCard
     property var stackOfCards: []

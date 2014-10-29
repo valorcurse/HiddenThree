@@ -40,7 +40,8 @@ Item {
             id: gameFound
 
             commandData: GameFound {
-                gameName: game.name
+//                gameName: game.name
+                gameName: "lolol"
             }
         }
 

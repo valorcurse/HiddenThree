@@ -28,7 +28,7 @@ Item {
 
             onClicked: {
                 if (gameName.text !== "") {
-                    game.name = gameName.text;
+//                    game.name = gameName.text;
 
                     newGameLoader.source = "NewGameCreated.qml";
                 }

@@ -14,8 +14,9 @@ void ReceiveRequest::processPendingDatagrams() {
     while (udpSocket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocket->pendingDatagramSize());
-        udpSocket->readDatagram(datagram.data(), datagram.size());
+        QHostAddress ip;
+        udpSocket->readDatagram(datagram.data(), datagram.size(), &ip);
 
-        emit requestReceived(datagram.data());
+        emit requestReceived(datagram.data(), ip.toString());
     }
 }

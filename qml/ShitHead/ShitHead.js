@@ -1,5 +1,31 @@
 Qt.include("GameProperties.js");
 
+function createNewGame(gameName, ip, uuid) {
+    var component = Qt.createComponent("Game.qml");
+    var game;
+    if (component.status === Component.Ready) {
+
+        game = component.createObject(null,
+                                          {gameName: gameName,
+                                              ip: ip,
+                                              uuid: uuid});
+
+        if (game === null) {
+            console.log("error creating block");
+            console.log(component.errorString());
+
+            return undefined;
+        }
+    } else {
+        console.log("error loading block component");
+        console.log(component.errorString());
+
+        return undefined;
+    }
+
+    return game;
+}
+
 function startNewGame() {
 
     //  Initialize Board
@@ -58,8 +84,8 @@ function createStackOfCards() {
 
     if (component.status === Component.Ready) {
 
-                for (var i = 0; i < cardsInfo.length; i++) {
-//        for (var i = 0; i < 18; i++) {
+        for (var i = 0; i < cardsInfo.length; i++) {
+            //        for (var i = 0; i < 18; i++) {
             var card = component.createObject(gameArea.stackOfCardsArea, {cardObject: cardsInfo[i]});
 
             if (card === null) {

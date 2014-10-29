@@ -32,6 +32,16 @@ void SendRequest::broadcastDatagram() {
     }
 }
 
+void SendRequest::send(NetworkCommand * command, QString ip) {
+    if (command != nullptr) {
+        QByteArray networkCmdMessage = command->toJson();
+
+        QHostAddress host(ip);
+        udpSocket->writeDatagram(networkCmdMessage, networkCmdMessage.size(),
+                                 host, 45454);
+    }
+}
+
 void SendRequest::sendCommand(QJsonObject message) {
     qDebug() << "Send message: " << message["name"];
 }
