@@ -25,6 +25,8 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<GameFound>("MultiplayerNetwork", 1, 0, "GameFound");
     qmlRegisterType<JoinGame>("MultiplayerNetwork", 1, 0, "JoinGame");
     qmlRegisterType<GameJoined>("MultiplayerNetwork", 1, 0, "GameJoined");
+    qmlRegisterType<PlayCard>("MultiplayerNetwork", 1, 0, "PlayCard");
+    qmlRegisterType<CardPlayed>("MultiplayerNetwork", 1, 0, "CardPlayed");
 
     QGuiApplication app(argc, argv);
     QtQuick2ApplicationViewer viewer;

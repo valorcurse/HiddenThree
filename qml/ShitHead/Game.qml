@@ -31,9 +31,17 @@ Item {
         }
     }
 
-//    NetworkCommand {
-//        commandData:
-//    }
+    NetworkCommand {
+        commandData: PlayCard {
+
+        }
+    }
+
+    NetworkCommand {
+        commandData: CardPlayed {
+
+        }
+    }
 
     signal cardPlayed
     onCardPlayed: {
