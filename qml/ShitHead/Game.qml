@@ -42,20 +42,22 @@ Item {
                 console.log("Adding player");
                 game.players.push(playerCreator.itemAt(i));
             }
-
-//            game.state = "DealCards";
         }
     }
 
     states: [
         State {
-            name: "DealCards"
-
-            onCompleted: {
-                console.log("entered: DealCards");
-                Engine.startNewGame();
-            }
+            name: "SettingUp"
         },
+
+//        State {
+//            name: "DealCards"
+
+//            onCompleted: {
+//                console.log("entered: DealCards");
+//                Engine.startNewGame();
+//            }
+//        },
 
         State {
             name: "ChooseCards"

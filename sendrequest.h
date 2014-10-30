@@ -7,9 +7,9 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QString>
-#include "appproperties.h"
-#include "networkcommand.h"
+#include <QHostInfo>
 
+class NetworkCommand;
 
 class SendRequest : public QObject
 {

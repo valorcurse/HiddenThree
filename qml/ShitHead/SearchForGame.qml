@@ -9,6 +9,12 @@ import CommandData 1.0
 import "ShitHead.js" as Engine
 
 Item {
+
+//    Game {
+//        id: game
+//        state: "SettingUp"
+//    }
+
     Column {
 
         spacing: 20
@@ -44,7 +50,6 @@ Item {
             }
 
             onDoubleClicked: {
-                //                console.log(libraryModel.get(row).ip)
                 var rowObject = libraryModel.get(row);
                 sendRequest.send(joinGame, rowObject.ip);
             }
@@ -77,34 +82,32 @@ Item {
                     return undefined;
                 }
 
-//                console.log(AppProperties.getUuid.toString() +
-//                            " && " + json.uuid +
-//                            " = " + (AppProperties.getUuid.toString() === json.uuid));
-
                 // If got own message back or a previously received message
                 if (json.uuid === AppProperties.getUuid.toString())
                     return;
 
-                console.log("Join: " + JSON.stringify(json));
+//                console.log("Join: " + JSON.stringify(json));
 
                 if (json.commandData.commandType === CommandData.GAMEFOUND) {
-                    //                    console.log("Found game | uuid: " + json.commandData.gameName);
-
                     if (libraryModel.indexOf(json.uuid) === -1) {
-                        libraryModel.append({"title": json.commandData.gameName,
-                                                "uuid": json.uuid,
-                                                "ip": ip})
+
+                        game.name = json.commandData.gameName;
+                        game.ip = ip;
+                        game.uuid = json.uuid;
+
+                        libraryModel.append({"title": game.name,
+                                                "uuid": game.uuid,
+                                                "ip": game.ip})
                     }
                 }
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
+                    pageLoader.source = "GameArea.qml";
                 }
             }
         }
     }
-    //    Game {
-    //        id: game
-    //    }
+
     SendRequest {
         id: sendRequest
     }
@@ -123,10 +126,6 @@ Item {
         commandData: JoinGame {
         }
     }
-
-    //    Game {
-    //        id: game
-    //    }
 
     Component.onCompleted: {
         sendRequest.broadcast(findGame);

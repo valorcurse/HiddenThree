@@ -1,4 +1,6 @@
 #include "sendrequest.h"
+#include "appproperties.h"
+#include "networkcommand.h"
 
 SendRequest::SendRequest(QObject *parent) :
     QObject(parent)

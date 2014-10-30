@@ -20,9 +20,9 @@ Item {
 
     property int stackLevel: game.playedCards.length
 
-//    Game {
-//        id: game
-//    }
+    Component.onCompleted: {
+        Engine.startNewGame();
+    }
 
     StackView {
         height: parent.height / 3

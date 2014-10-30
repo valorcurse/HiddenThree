@@ -16,7 +16,7 @@ Item {
             onRequestReceived: {
                 var json = JSON.parse(message);
 
-                console.log("Create: " + JSON.stringify(json));
+                console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
 
                 if (json && typeof json === "object" && json !== null) {
                     if (json.commandData.commandType === CommandData.FINDGAME) {
@@ -27,6 +27,7 @@ Item {
                     else if (json.commandData.commandType === CommandData.JOINGAME) {
                         console.log("Someone wants to join the game")
                         answerRequest.send(gameJoined, ip);
+                        pageLoader.source = "GameArea.qml";
                     }
                 }
             }

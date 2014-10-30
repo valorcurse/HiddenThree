@@ -13,6 +13,11 @@ Item {
 
     SystemPalette { id: activePalette }
 
+    Game {
+        id: game
+        state: "SettingUp"
+    }
+
     Loader {
         id: pageLoader
         z: 1
