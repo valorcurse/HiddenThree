@@ -82,15 +82,23 @@ public:
 
 class GameJoined: public CommandData {
     Q_OBJECT
+    Q_PROPERTY(int newPlayerID READ newPlayerID WRITE setNewPlayerID)
 
 public:
     GameJoined(QObject * parent = 0);
+
+    void setNewPlayerID(int newPlayerID);
+    int newPlayerID() const;
+
+private:
+    int m_newPlayerID;
 };
 
 // ##############################################################
 
 class PlayCard: public CommandData {
     Q_OBJECT
+    Q_PROPERTY(int playerID READ playerID WRITE setPlayerID)
     Q_PROPERTY(QString number READ number WRITE setNumber)
     Q_PROPERTY(QString type READ type WRITE setType)
     Q_PROPERTY(PlayAction action READ action WRITE setAction)
@@ -104,6 +112,9 @@ public:
     } PlayAction;
     Q_ENUMS(PlayAction)
 
+    void setPlayerID(int playerID);
+    int playerID() const;
+
     void setNumber(QString number);
     QString number() const;
 
@@ -114,6 +125,7 @@ public:
     PlayAction action() const;
 
 private:
+    int m_playerID;
     QString m_number, m_type;
     PlayAction m_action;
 };

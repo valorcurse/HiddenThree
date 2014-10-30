@@ -36,6 +36,8 @@ Item {
             if (json && typeof json === "object" && json !== null) {
                 if (json.commandData.commandType === CommandData.PLAYCARD) {
                     console.log("Opponent is trying to play card");
+
+
                 }
             }
         }
@@ -60,6 +62,7 @@ Item {
 
     signal cardPlayed(var card)
     onCardPlayed: {
+//        playCard.commandData.playerID =
         playCard.commandData.number = card.cardObject.number;
         playCard.commandData.type = card.cardObject.type;
         playCard.commandData.action = PlayCard.PLAY;
@@ -69,22 +72,22 @@ Item {
         Engine.handlePlay(game.topCard);
     }
 
-    Repeater {
-        id: playerCreator
-        model: 2
+//    Repeater {
+//        id: playerCreator
+//        model: 2
 
-        Player {
-            id: player
-            playerID: index
-        }
+//        Player {
+//            id: player
+//            playerID: index
+//        }
 
-        Component.onCompleted: {
-            for (var i = 0; i < playerCreator.count; i++) {
-                console.log("Adding player");
-                game.players.push(playerCreator.itemAt(i));
-            }
-        }
-    }
+//        Component.onCompleted: {
+//            for (var i = 0; i < playerCreator.count; i++) {
+//                console.log("Adding player");
+//                game.players.push(playerCreator.itemAt(i));
+//            }
+//        }
+//    }
 
     states: [
         State {

@@ -6,9 +6,9 @@ function createNewGame(gameName, ip, uuid) {
     if (component.status === Component.Ready) {
 
         game = component.createObject(null,
-                                          {gameName: gameName,
-                                              ip: ip,
-                                              uuid: uuid});
+                                      {gameName: gameName,
+                                          ip: ip,
+                                          uuid: uuid});
 
         if (game === null) {
             console.log("error creating block");
@@ -24,6 +24,13 @@ function createNewGame(gameName, ip, uuid) {
     }
 
     return game;
+}
+
+function createNewPlayer(newPlayerID) {
+    var component = Qt.createComponent("Player.qml");
+    var newPlayer = component.createObject(null,
+                                           {playerID: newPlayerID});
+    game.players.push(newPlayer);
 }
 
 function startNewGame() {
@@ -82,28 +89,18 @@ function dealCards(player, numberOfCards) {
 function createStackOfCards() {
     var component = Qt.createComponent("Card.qml");
 
-    if (component.status === Component.Ready) {
+    for (var i = 0; i < cardsInfo.length; i++) {
+        var card = component.createObject(gameArea.stackOfCardsArea, {cardObject: cardsInfo[i]});
 
-        for (var i = 0; i < cardsInfo.length; i++) {
-            //        for (var i = 0; i < 18; i++) {
-            var card = component.createObject(gameArea.stackOfCardsArea, {cardObject: cardsInfo[i]});
+        if (card === null) {
+            console.log("error creating block");
+            console.log(component.errorString());
 
-            if (card === null) {
-                console.log("error creating block");
-                console.log(component.errorString());
-
-                return false;
-            }
-
-            game.stackOfCards.push(card);
-            card.state = "Stack";
+            return false;
         }
 
-    } else {
-        console.log("error loading block component");
-        console.log(component.errorString());
-
-        return false;
+        game.stackOfCards.push(card);
+        card.state = "Stack";
     }
 
     return true;

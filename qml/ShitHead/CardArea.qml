@@ -4,14 +4,25 @@ Item {
     property var area
     property alias cards: cards
 
-    function indexOf(item) {
+    function indexOf(card) {
         for (var i = 0; i < cards.count; i++) {
-            if (item === cards.get(i).object) {
+            if (card === cards.get(i).object) {
                 return i;
             }
         }
 
-        return undefined;
+        return -1;
+    }
+
+    function indexOf(number, type) {
+        for (var i = 0; i < cards.count; i++) {
+            if (number === cards.get(i).object.cardObject.number &&
+                    type === cards.get(i).object.cardObject.type) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     ListModel {

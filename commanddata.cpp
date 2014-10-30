@@ -73,12 +73,35 @@ GameJoined::GameJoined(QObject * parent)
     setCommandType(CommandType::GAMEJOINED);
 }
 
+
+void GameJoined::setNewPlayerID(int newPlayerID) {
+    m_newPlayerID = newPlayerID;
+    jsonObject["newPlayerID"] = m_newPlayerID;
+
+    emit dataChanged();
+}
+
+int GameJoined::newPlayerID() const {
+    return m_newPlayerID;
+}
+
 // ##############################################################
 
 PlayCard::PlayCard(QObject * parent)
     : CommandData(parent)
 {
     setCommandType(CommandType::PLAYCARD);
+}
+
+void PlayCard::setPlayerID(int playerID) {
+    m_playerID = playerID;
+    jsonObject["playerID"] = m_playerID;
+
+    emit dataChanged();
+}
+
+int PlayCard::playerID() const {
+    return m_playerID;
 }
 
 void PlayCard::setNumber(QString number) {

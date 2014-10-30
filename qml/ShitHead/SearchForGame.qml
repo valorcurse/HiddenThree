@@ -94,6 +94,9 @@ Item {
                 }
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
+
+                    Engine.createNewPlayer(json.commandData.newPlayerID);
+
                     pageLoader.source = "GameArea.qml";
                 }
             }

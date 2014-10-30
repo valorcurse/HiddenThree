@@ -1,8 +1,14 @@
 import QtQuick 2.0
 import MultiplayerNetwork 1.0
+
 import ".."
+import "../ShitHead.js" as Engine
 
 Item {
+    Component.onCompleted: {
+        createNewPlayer(game.players.length);
+    }
+
     Column {
         anchors {
             horizontalCenter: parent.horizontalCenter
@@ -18,11 +24,18 @@ Item {
                 if (json && typeof json === "object" && json !== null) {
                     if (json.commandData.commandType === CommandData.FINDGAME) {
                         console.log("Someone is looking for a game")
+
                         answerRequest.send(gameFound, ip);
                     }
 
                     else if (json.commandData.commandType === CommandData.JOINGAME) {
                         console.log("Someone wants to join the game")
+
+                        var newPlayerID = game.players.length;
+                        gameJoined.commandData.newPlayerID = newPlayerID;
+
+                        Engine.createNewPlayer(newPlayerID);
+
                         answerRequest.send(gameJoined, ip);
                         pageLoader.source = "../GameArea.qml";
                     }
@@ -38,7 +51,7 @@ Item {
             id: gameFound
 
             commandData: GameFound {
-//                gameName: game.name
+                //                gameName: game.name
                 gameName: "lolol"
             }
         }

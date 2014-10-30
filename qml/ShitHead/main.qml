@@ -18,6 +18,15 @@ Item {
         state: "SettingUp"
     }
 
+    Player {
+        id: myself
+//        playerID: game.players.length
+
+        Component.onCompleted: {
+            game.players.push(myself);
+        }
+    }
+
     Loader {
         id: pageLoader
         z: 1
