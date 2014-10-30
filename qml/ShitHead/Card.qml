@@ -14,6 +14,9 @@ Flipable {
     property string previousState: state
 
     function setAsTopCard() {
+
+        console.log("top player hand: " + player.hand);
+
         if (player.threeTop.cards.count < 3) {
             var cardIndex = player.hand.indexOf(card);
             player.hand.cards.remove(cardIndex);

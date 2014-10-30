@@ -57,6 +57,9 @@ function startNewGame() {
     player2.threeTop.area =  gameArea.player2ThreeTop;
     player2.threeBottom.area =  gameArea.player2ThreeBottom;
 
+    console.log("Player 0 id: " + game.players[0].playerID);
+    console.log("Player 1 id: " + game.players[1].playerID);
+
     dealBottomCards(player1);
     dealBottomCards(player2);
 
