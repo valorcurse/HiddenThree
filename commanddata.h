@@ -91,9 +91,31 @@ public:
 
 class PlayCard: public CommandData {
     Q_OBJECT
+    Q_PROPERTY(QString number READ number WRITE setNumber)
+    Q_PROPERTY(QString type READ type WRITE setType)
+    Q_PROPERTY(PlayAction action READ action WRITE setAction)
 
 public:
     PlayCard(QObject * parent = 0);
+
+    typedef enum {
+        TOP,
+        PLAY
+    } PlayAction;
+    Q_ENUMS(PlayAction)
+
+    void setNumber(QString number);
+    QString number() const;
+
+    void setType(QString type);
+    QString type() const;
+
+    void setAction(PlayAction action);
+    PlayAction action() const;
+
+private:
+    QString m_number, m_type;
+    PlayAction m_action;
 };
 
 // ##############################################################

@@ -127,7 +127,7 @@ Flipable {
                 game.topCardsAreChosen = Engine.areTopCardsChosen();
             }
 
-            else if (game.state === "Play" && currentTurn === turn.playTurn) {
+            else if (game.state === "Play" && game.currentTurn === game.turn.playTurn) {
                 Engine.playCard(card);
             }
 

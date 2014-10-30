@@ -138,8 +138,10 @@ function playCard(card) {
         card.state = "Played";
         //        card.player = undefined;
 
+        console.log("Card: " + typeof(card));
+
         // Invoke card played signal
-        game.cardPlayed();
+        game.cardPlayed(card);
     }
 }
 

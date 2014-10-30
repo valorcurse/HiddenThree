@@ -26,12 +26,19 @@ Item {
     property var currentTurn: turn.preTurn
 
     ReceiveRequest {
+        id: receiveRequest
+
         onRequestReceived: {
 
         }
     }
 
+    SendRequest {
+        id: sendRequest
+    }
+
     NetworkCommand {
+        id: playCard
         commandData: PlayCard {
 
         }
@@ -43,8 +50,14 @@ Item {
         }
     }
 
-    signal cardPlayed
+    signal cardPlayed(var card)
     onCardPlayed: {
+        playCard.commandData.number = card.cardObject.number;
+        playCard.commandData.type = card.cardObject.type;
+        playCard.commandData.action = PlayCard.PLAY;
+
+        sendRequest.send(playCard, ip);
+
         Engine.handlePlay(game.topCard);
     }
 

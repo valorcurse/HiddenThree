@@ -81,6 +81,38 @@ PlayCard::PlayCard(QObject * parent)
     setCommandType(CommandType::PLAYCARD);
 }
 
+void PlayCard::setNumber(QString number) {
+    m_number = number;
+    jsonObject["number"] = m_number;
+
+    emit dataChanged();
+}
+
+QString PlayCard::number() const {
+    return m_number;
+}
+
+void PlayCard::setType(QString type) {
+    m_type = type;
+    jsonObject["type"] = m_type;
+
+    emit dataChanged();
+}
+QString PlayCard::type() const {
+    return m_type;
+}
+
+void PlayCard::setAction(PlayCard::PlayAction action) {
+    m_action = action;
+    jsonObject["action"] = m_action;
+
+    emit dataChanged();
+}
+
+PlayCard::PlayAction PlayCard::action() const {
+    return m_action;
+}
+
 // ##############################################################
 
 CardPlayed::CardPlayed(QObject * parent)
