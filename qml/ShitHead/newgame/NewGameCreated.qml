@@ -27,7 +27,7 @@ Item {
                     else if (json.commandData.commandType === CommandData.JOINGAME) {
                         console.log("Someone wants to join the game")
                         answerRequest.send(gameJoined, ip);
-                        pageLoader.source = "GameArea.qml";
+                        pageLoader.source = "../GameArea.qml";
                     }
                 }
             }
