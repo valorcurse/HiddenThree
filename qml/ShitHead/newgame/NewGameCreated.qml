@@ -1,8 +1,5 @@
 import QtQuick 2.0
-import ReceiveRequest 1.0
-import SendRequest 1.0
-import NetworkCommand 1.0
-import CommandData 1.0
+import MultiplayerNetwork 1.0
 import ".."
 
 Item {

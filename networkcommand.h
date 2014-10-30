@@ -20,11 +20,6 @@ public:
 
     QByteArray toJson();
 
-//    Q_INVOKABLE void updateJson();
-
-signals:
-//    void dataChanged();
-
 public slots:
     void updateJson();
 

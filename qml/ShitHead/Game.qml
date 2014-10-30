@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import MultiplayerNetwork 1.0
+
 import "ShitHead.js" as Engine
 
 Item {
@@ -22,6 +24,16 @@ Item {
     // Fake enum
     property var turn: {"preTurn": 0, "playTurn": 1}
     property var currentTurn: turn.preTurn
+
+    ReceiveRequest {
+        onRequestReceived: {
+
+        }
+    }
+
+//    NetworkCommand {
+//        commandData:
+//    }
 
     signal cardPlayed
     onCardPlayed: {

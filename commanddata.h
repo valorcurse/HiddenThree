@@ -18,13 +18,16 @@ public:
         FINDGAME,
         GAMEFOUND,
         JOINGAME,
-        GAMEJOINED
+        GAMEJOINED,
+        PLAYCARD,
+        CARDPLAYED
     } CommandType;
     Q_ENUMS(CommandType)
 
     explicit CommandData(QObject *parent = 0);
 
-    virtual QJsonValue toJson() = 0;
+    QJsonValue toJson();
+
     void setCommandType(CommandType type);
     CommandType commandType();
 
@@ -42,40 +45,25 @@ signals:
 
 class FindGame : public CommandData {
     Q_OBJECT
-//    Q_PROPERTY(QString gameName READ gameName WRITE setGameName NOTIFY dataChanged)
 
 public:
     FindGame(QObject * parent = 0);
 
-//    void setGameName(QString name);
-//    QString gameName() const;
-
-    virtual QJsonValue toJson();
-
-signals:
-//    void dataChanged(QString data);
-
 private:
     QString m_gameName;
-//    QJsonObject jsonObject;
 };
 
 // ##############################################################
 
 class GameFound : public CommandData {
     Q_OBJECT
-    Q_PROPERTY(QString gameName READ gameName WRITE setGameName NOTIFY dataChanged)
+    Q_PROPERTY(QString gameName READ gameName WRITE setGameName)
 
 public:
     GameFound(QObject * parent = 0);
 
     void setGameName(QString name);
     QString gameName() const;
-
-    virtual QJsonValue toJson();
-
-signals:
-    void dataChanged(QString data);
 
 private:
     QString m_gameName;
@@ -88,8 +76,6 @@ class JoinGame: public CommandData {
 
 public:
     JoinGame(QObject * parent = 0);
-
-    virtual QJsonValue toJson();
 };
 
 // ##############################################################
@@ -99,8 +85,24 @@ class GameJoined: public CommandData {
 
 public:
     GameJoined(QObject * parent = 0);
+};
 
-    virtual QJsonValue toJson();
+// ##############################################################
+
+class PlayCard: public CommandData {
+    Q_OBJECT
+
+public:
+    PlayCard(QObject * parent = 0);
+};
+
+// ##############################################################
+
+class CardPlayed: public CommandData {
+    Q_OBJECT
+
+public:
+    CardPlayed(QObject * parent = 0);
 };
 
 

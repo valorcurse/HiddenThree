@@ -13,21 +13,22 @@
 #include "commanddata.h"
 
 int main(int argc, char *argv[]) {
-    QGuiApplication app(argc, argv);
 
-    QtQuick2ApplicationViewer viewer;
-    viewer.setMainQmlFile(QStringLiteral("qml/ShitHead/main.qml"));
-
-    qmlRegisterType<ReceiveRequest>("ReceiveRequest", 1, 0, "ReceiveRequest");
-    qmlRegisterType<SendRequest>("SendRequest", 1, 0, "SendRequest");
-    qmlRegisterType<NetworkCommand>("NetworkCommand", 1, 0, "NetworkCommand");
-    qmlRegisterUncreatableType<CommandData>("CommandData", 1, 0, "CommandData", "");
     qmlRegisterSingletonType<AppProperties>("AppProperties", 1, 0, "AppProperties",
                                                    AppProperties::instance);
-    qmlRegisterType<FindGame>("CommandData", 1, 0, "FindGame");
-    qmlRegisterType<GameFound>("CommandData", 1, 0, "GameFound");
-    qmlRegisterType<JoinGame>("CommandData", 1, 0, "JoinGame");
-    qmlRegisterType<GameJoined>("CommandData", 1, 0, "GameJoined");
+
+    qmlRegisterType<ReceiveRequest>("MultiplayerNetwork", 1, 0, "ReceiveRequest");
+    qmlRegisterType<SendRequest>("MultiplayerNetwork", 1, 0, "SendRequest");
+    qmlRegisterType<NetworkCommand>("MultiplayerNetwork", 1, 0, "NetworkCommand");
+    qmlRegisterUncreatableType<CommandData>("MultiplayerNetwork", 1, 0, "CommandData", "");
+    qmlRegisterType<FindGame>("MultiplayerNetwork", 1, 0, "FindGame");
+    qmlRegisterType<GameFound>("MultiplayerNetwork", 1, 0, "GameFound");
+    qmlRegisterType<JoinGame>("MultiplayerNetwork", 1, 0, "JoinGame");
+    qmlRegisterType<GameJoined>("MultiplayerNetwork", 1, 0, "GameJoined");
+
+    QGuiApplication app(argc, argv);
+    QtQuick2ApplicationViewer viewer;
+    viewer.setMainQmlFile(QStringLiteral("qml/ShitHead/main.qml"));
 
     if (app.screens().count() > 1) {
         QScreen * firstScreen = app.screens().first();

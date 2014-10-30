@@ -131,12 +131,12 @@ Flipable {
                 Engine.playCard(card);
             }
 
-            console.log("Clicked | Player: " + (player === undefined ? "no player" : player.playerID)
-                        //                        console.log("Clicked | Playable: " + Engine.isPlayable(card)
-                        + " | State: " + card.state
-                        + " | Card: " + card.cardObject.number
-                        + " | Chosen: " + card.chosen
-                        + " | Parent: " + card.parent);
+//            console.log("Clicked | Player: " + (player === undefined ? "no player" : player.playerID)
+//                        //                        console.log("Clicked | Playable: " + Engine.isPlayable(card)
+//                        + " | State: " + card.state
+//                        + " | Card: " + card.cardObject.number
+//                        + " | Chosen: " + card.chosen
+//                        + " | Parent: " + card.parent);
         }
     }
 
