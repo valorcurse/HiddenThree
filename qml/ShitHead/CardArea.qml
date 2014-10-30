@@ -14,7 +14,7 @@ Item {
         return -1;
     }
 
-    function indexOf(number, type) {
+    function getCard(number, type) {
         for (var i = 0; i < cards.count; i++) {
             if (number === cards.get(i).object.cardObject.number &&
                     type === cards.get(i).object.cardObject.type) {
