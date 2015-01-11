@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 
 import MultiplayerNetwork 1.0
-import ".."
+import "../Components"
 
 Item {
 
@@ -26,8 +26,9 @@ Item {
 
             onClicked: {
                 if (gameName.text !== "") {
-                    game.name = gameName.text;
+//                    game.name = gameName.text;
 
+                    myself.gameOwner = true;
                     newGameLoader.source = "NewGameCreated.qml";
                 }
             }

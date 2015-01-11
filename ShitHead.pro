@@ -1,11 +1,17 @@
 # Add more folders to ship with the application, here
-folder_01.source = qml/ShitHead
-folder_01.target = qml
+rootFolder.source = qml/ShitHead
+rootFolder.target = qml
 
-folder_02.source = qml/ShitHead/newgame
-folder_02.target = qml
+componentsFolder.source = qml/ShitHead/Components
+componentsFolder.target = qml
 
-DEPLOYMENTFOLDERS = folder_01 folder_02
+uiFolder.source = qml/ShitHead/UI
+uiFolder.target = qml
+
+jsFolder.source = qml/ShitHead/JS
+jsFolder.target = js
+
+DEPLOYMENTFOLDERS = rootFolder componentsFolder uiFolder jsFolder
 
 # Additional import path used to resolve QML modules in Creator's code model
 #QML_IMPORT_PATH =
@@ -26,9 +32,11 @@ SOURCES += main.cpp \
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
-OTHER_FILES += \
-    qml/ShitHead/GameProperties.js \
-    qml/ShitHead/newgame/CreateOrSearchMenu.qml
+#include(qml/ShitHead/Components)
+
+#OTHER_FILES += \
+#    qml/ShitHead/GameProperties.js \
+#    qml/ShitHead/newgame/CreateOrSearchMenu.qml
 
 HEADERS += \
     networking.h \
@@ -44,3 +52,6 @@ CONFIG += c++11
 
 QT += core
 #CONFIG += console
+
+OTHER_FILES += \
+    qml/ShitHead/UI/PlayerCards.qml

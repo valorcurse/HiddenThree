@@ -3,7 +3,7 @@ import QtQuick.Controls 1.2
 import MultiplayerNetwork 1.0
 import AppProperties 1.0
 
-import "ShitHead.js" as Engine
+import "../JS/ShitHead.js" as Engine
 
 Item {
 
@@ -47,6 +47,7 @@ Item {
             }
         }
     }
+
     ListModel {
         id: libraryModel
 
@@ -95,9 +96,12 @@ Item {
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
 
-                    Engine.createNewPlayer(json.commandData.newPlayerID);
 
-                    pageLoader.source = "GameArea.qml";
+
+//                    Engine.createNewPlayer(json.commandData.newPlayerID);
+
+                    pageLoader.source = "NewGameCreated.qml";
+//                    pageLoader.source = "GameArea.qml";
                 }
             }
         }

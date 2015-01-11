@@ -1,36 +1,47 @@
 Qt.include("GameProperties.js");
 
-function createNewGame(gameName, ip, uuid) {
-    var component = Qt.createComponent("Game.qml");
-    var game;
+//function createNewGame(gameName, ip, uuid) {
+//    var component = Qt.createComponent("Game.qml");
+//    var game;
+//    if (component.status === Component.Ready) {
+
+//        game = component.createObject(null,
+//                                      {gameName: gameName,
+//                                          ip: ip,
+//                                          uuid: uuid});
+
+//        if (game === null) {
+//            console.log("error creating block");
+//            console.log(component.errorString());
+
+//            return undefined;
+//        }
+//    } else {
+//        console.log("error loading block component");
+//        console.log(component.errorString());
+
+//        return undefined;
+//    }
+
+//    return game;
+//}
+
+function createNewPlayer(ip, uuid) {
+    var newPlayerID = game.players.length;
+    var component = Qt.createComponent("../Components/Player.qml");
+
     if (component.status === Component.Ready) {
-
-        game = component.createObject(null,
-                                      {gameName: gameName,
-                                          ip: ip,
-                                          uuid: uuid});
-
-        if (game === null) {
-            console.log("error creating block");
-            console.log(component.errorString());
-
-            return undefined;
-        }
-    } else {
-        console.log("error loading block component");
+        var newPlayer = component.createObject(null,
+                                               {playerID: newPlayerID,
+                                                   ip: ip,
+                                                   uuid: uuid});
+        game.players.push(newPlayer);
+        return newPlayer;
+    }
+    else {
         console.log(component.errorString());
-
         return undefined;
     }
-
-    return game;
-}
-
-function createNewPlayer(newPlayerID) {
-    var component = Qt.createComponent("Player.qml");
-    var newPlayer = component.createObject(null,
-                                           {playerID: newPlayerID});
-    game.players.push(newPlayer);
 }
 
 function startNewGame() {
@@ -67,7 +78,7 @@ function startNewGame() {
 
     console.log("Stack of cards: " + game.stackOfCards.length);
 
-//    game.cardsAreDealt = true;
+    //    game.cardsAreDealt = true;
 }
 
 function dealBottomCards(player) {

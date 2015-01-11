@@ -1,13 +1,13 @@
 import QtQuick 2.0
 import MultiplayerNetwork 1.0
 
-import "ShitHead.js" as Engine
+import "../JS/ShitHead.js" as Engine
 
 Item {
     id: game
 
     property string name
-    property string ip
+//    property string ip
     property string uuid
 
     property var topCard
@@ -24,6 +24,11 @@ Item {
     // Fake enum
     property var turn: {"preTurn": 0, "playTurn": 1}
     property var currentTurn: turn.preTurn
+
+    Component.onCompleted: {
+//        myself.playerID = players.length;
+//        players.push(myself);
+    }
 
     ReceiveRequest {
         id: receiveRequest
@@ -48,12 +53,12 @@ Item {
         id: sendRequest
     }
 
-    NetworkCommand {
-        id: shuffleDeck
-        commandData: ShuffledDeck {
+//    NetworkCommand {
+//        id: shuffleDeck
+//        commandData: ShuffledDeck {
 
-        }
-    }
+//        }
+//    }
 
     NetworkCommand {
         id: playCard
@@ -72,7 +77,6 @@ Item {
     signal gameCreated(var cardIndexes)
     onGameCreated: {
         cardsAreDealt = true;
-
     }
 
     signal cardPlayed(var card)
@@ -86,29 +90,30 @@ Item {
         Engine.handlePlay(game.topCard);
     }
 
-    Repeater {
-        id: playerCreator
-        model: 2
+//    Repeater {
+//        id: playerCreator
+//        model: 2
 
-        Player {
-            id: player
-            playerID: index
-        }
+//        Player {
+//            id: player
+//            playerID: index
+//        }
 
-        Component.onCompleted: {
-            for (var i = 0; i < playerCreator.count; i++) {
-                console.log("Adding player");
-                game.players.push(playerCreator.itemAt(i));
-            }
-        }
-    }
+//        Component.onCompleted: {
+//            for (var i = 0; i < playerCreator.count; i++) {
+//                console.log("Adding player");
+//                game.players.push(playerCreator.itemAt(i));
+//            }
+//        }
+//    }
 
     states: [
         State {
             name: "SettingUp"
 
             onCompleted: {
-                shuffledDeck: Engine.shuffleIndexes()
+//                shuffleDeck.commandData.shuffledDeck = Engine.shuffleIndexes();
+//                sendRequest.send(shuffleDeck, ip);
             }
         },
 

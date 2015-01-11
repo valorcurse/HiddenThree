@@ -1,5 +1,6 @@
 import QtQuick 2.0
-import "GameProperties.js" as GameProperties
+import "../JS/GameProperties.js" as GameProperties
+import "../Components"
 import QtQuick.Window 2.1
 
 Item {
@@ -18,7 +19,7 @@ Item {
             onClicked: {
                 GameProperties.cardHeight = Screen.height / 6;
                 GameProperties.cardWidth =  GameProperties.cardHeight / 1.54;
-                pageLoader.source = "newgame/NewGame.qml";
+                pageLoader.source = "NewGame.qml";
             }
         }
     }

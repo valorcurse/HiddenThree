@@ -85,6 +85,21 @@ int GameJoined::newPlayerID() const {
     return m_newPlayerID;
 }
 
+//void GameJoined::setPlayers(QVariantList players) {
+//    m_players = players;
+
+//    for (QVariant player : players) {
+//        QJsonValue
+//        jsonObject["newPlayerID"] = m_newPlayerID;
+//        jsonObject["players"][""]
+//    }
+//    emit dataChanged();
+//}
+
+//int GameJoined::players() const {
+//    return m_newPlayerID;
+//}
+
 // ##############################################################
 
 ShuffledDeck::ShuffledDeck(QObject * parent)

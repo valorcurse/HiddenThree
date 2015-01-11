@@ -1,8 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Window 2.1
 import QtQuick.Controls 1.2
-import "../GameProperties.js" as GameProperties
-import ".."
+import "../JS/GameProperties.js" as GameProperties
+import "../Components"
 
 Item {
     Column {

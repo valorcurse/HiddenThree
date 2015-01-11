@@ -1,8 +1,8 @@
 import QtQuick 2.3
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.1
-import "ShitHead.js" as Engine
-import "GameProperties.js" as GameProperties
+import "../JS/ShitHead.js" as Engine
+import "../JS/GameProperties.js" as GameProperties
 
 Flipable {
     id: card

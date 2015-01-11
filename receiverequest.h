@@ -7,7 +7,6 @@
 
 class ReceiveRequest : public QObject {
     Q_OBJECT
-//    Q_PROPERTY(QString requestMessage NOTIFY requestReceived)
 
 public:
     explicit ReceiveRequest(QObject *parent = 0);

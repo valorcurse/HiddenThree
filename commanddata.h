@@ -85,6 +85,7 @@ public:
 class GameJoined: public CommandData {
     Q_OBJECT
     Q_PROPERTY(int newPlayerID READ newPlayerID WRITE setNewPlayerID)
+//    Q_PROPERTY(QVariantList players READ players WRITE setPlayers)
 
 public:
     GameJoined(QObject * parent = 0);
@@ -92,8 +93,11 @@ public:
     void setNewPlayerID(int newPlayerID);
     int newPlayerID() const;
 
+//    void setPlayers(QVariantList players);
+//    int players() const;
 private:
     int m_newPlayerID;
+//    QVariantList m_players;
 };
 
 // ##############################################################
