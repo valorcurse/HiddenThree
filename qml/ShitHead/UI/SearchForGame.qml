@@ -99,7 +99,10 @@ Item {
 
 
 //                    Engine.createNewPlayer(json.commandData.newPlayerID);
-
+                    for (var player in json.players) {
+                        console.log("New Player: " + json.players[player]);
+                        //                        game.players.push()
+                    }
                     pageLoader.source = "NewGameCreated.qml";
 //                    pageLoader.source = "GameArea.qml";
                 }

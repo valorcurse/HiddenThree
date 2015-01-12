@@ -68,8 +68,6 @@ Item {
 
     ReceiveRequest {
 
-        //        enabled: myself.gameOwner
-
         onRequestReceived: {
             var json = JSON.parse(message);
 
@@ -90,14 +88,10 @@ Item {
                             return;
 
 //                        console.log("Someone wants to join the game")
-//                        console.log("Nr Players: " + game.players.length);
-
-//                        joinedPlayersList.addPlayer(json.uuid, ip, json.uuid);
 
                         var playersJson = [];
                         for (var player in game.players) {
-//                            console.log("player: " + player);
-                            playersJson.push(game.players[player].toJson());
+                           playersJson.push(game.players[player].toJson());
                         }
 
                         console.log(JSON.stringify(playersJson));
@@ -107,6 +101,7 @@ Item {
                                                     newPlayer.ip,
                                                     newPlayer.uuid);
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
+                        gameJoined.commandData.players = JSON.stringify(playersJson);
 
 //                        answerRequest.send(gameJoined, ip);
 
