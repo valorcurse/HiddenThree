@@ -94,6 +94,7 @@ Item {
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
 
+                    console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
 
 
                     //                    Engine.createNewPlayer(json.commandData.newPlayerID);
@@ -102,9 +103,6 @@ Item {
 
                     for (var playerIndex in json.players) {
                         var player = json.players[playerIndex];
-
-                        var name = (player.uuid === AppProperties.getUuid.toString())
-                                ? "me" : player.playerID
 
                         Engine.createNewPlayer(player.playerID,
                                                player.ip,

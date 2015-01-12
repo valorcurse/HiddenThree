@@ -10,29 +10,18 @@ Item {
     Component.onCompleted: {
         myself.playerID = game.players.length;
         game.players.push(myself);
-        //        joinedPlayersList.addPlayer(myself.playerID,
-        //                                    myself.ip,
-        //                                    AppProperties.getUuid.toString());
-//        joinedPlayersList.addPlayer(myself.playerID,
-//                                    myself.playerID,
-//                                    myself.ip,
-//                                    AppProperties.getUuid.toString());
 
         for (var playerIndex in game.players) {
             var player = game.players[playerIndex];
 
+            var name = (player.uuid === AppProperties.getUuid.toString())
+                    ? "me" : player.playerID
+
             joinedPlayersList.addPlayer(player.playerID,
-                                        player.playerID,
+                                        name,
                                         player.ip,
                                         player.uuid);
         }
-
-
-        //        console.log("Nr Players: " + game.players.length);
-        //        for (var player in game.players) {
-        //             console.log("player: " + game.players[player]);
-        ////            playersJson.push(game.players[player].toJson());
-        //        }
     }
 
     Column {
@@ -113,7 +102,7 @@ Item {
                             playersJson.push(game.players[player].toJson());
                         }
 
-                        console.log(JSON.stringify(playersJson));
+//                        console.log(JSON.stringify(playersJson));
 
                         var newPlayer = Engine.createNewPlayer(game.players.length,
                                                                ip,
@@ -127,10 +116,9 @@ Item {
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
                         gameJoined.commandData.players = playersJson;
 
-                        answerRequest.send(gameJoined, ip);
+                        console.log("GameJoined: " + JSON.stringify(gameJoined.commandData));
 
-                        //                    game.state = "SettingUp";
-                        //                    pageLoader.source = "../GameArea.qml";
+                        answerRequest.send(gameJoined, ip);
                     }
                 }
             }

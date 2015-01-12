@@ -36,7 +36,7 @@ Item {
         onRequestReceived: {
             var json = JSON.parse(message);
 
-            console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
+//            console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
 
             if (json && typeof json === "object" && json !== null) {
                 if (json.commandData.commandType === CommandData.SHUFFLEDDECK) {
