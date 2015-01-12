@@ -96,12 +96,10 @@ Item {
 
                     console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
 
-
-                    //                    Engine.createNewPlayer(json.commandData.newPlayerID);
-                    console.log("json player:" + JSON.stringify(json));
                     myself.playerID = json.commandData.newPlayerID;
 
-                    for (var playerIndex in json.players) {
+                    for (var playerIndex in json.commandData.players) {
+
                         var player = json.players[playerIndex];
 
                         Engine.createNewPlayer(player.playerID,
