@@ -102,6 +102,10 @@ Item {
 
                     for (var playerIndex in json.players) {
                         var player = json.players[playerIndex];
+
+                        var name = (player.uuid === AppProperties.getUuid.toString())
+                                ? "me" : player.playerID
+
                         Engine.createNewPlayer(player.playerID,
                                                player.ip,
                                                player.uuid);
