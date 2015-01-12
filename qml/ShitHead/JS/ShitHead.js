@@ -26,13 +26,12 @@ Qt.include("GameProperties.js");
 //    return game;
 //}
 
-function createNewPlayer(ip, uuid) {
-    var newPlayerID = game.players.length;
+function createNewPlayer(id, ip, uuid) {
     var component = Qt.createComponent("../Components/Player.qml");
 
     if (component.status === Component.Ready) {
         var newPlayer = component.createObject(null,
-                                               {playerID: newPlayerID,
+                                               {playerID: id,
                                                    ip: ip,
                                                    uuid: uuid});
         game.players.push(newPlayer);

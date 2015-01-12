@@ -79,8 +79,6 @@ Item {
                 if (json.uuid === AppProperties.getUuid.toString())
                     return;
 
-                //                console.log("Join: " + JSON.stringify(json));
-
                 if (json.commandData.commandType === CommandData.GAMEFOUND) {
                     if (libraryModel.indexOf(json.uuid) > -1)
                         return;
@@ -100,15 +98,18 @@ Item {
 
                     //                    Engine.createNewPlayer(json.commandData.newPlayerID);
                     console.log("json player:" + JSON.stringify(json));
-                    myself.playerID = json.newPlayerID;
+                    myself.playerID = json.commandData.newPlayerID;
 
-                    for (var player in json.players) {
+                    for (var playerIndex in json.players) {
                         console.log("New Player: " + json.players[player]);
-                        Engine.createNewPlayer(json.players[player].ip, json.players[player].uuid);
-//                                                game.players.push()
+                        var player = json.players[player];
+                        Engine.createNewPlayer(player.playerID,
+                                               player.ip,
+                                               player.uuid);
+                        //                                                game.players.push()
                     }
+
                     newGameLoader.source = "NewGameCreated.qml";
-                    //                    pageLoader.source = "GameArea.qml";
                 }
             }
         }

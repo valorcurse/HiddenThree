@@ -13,10 +13,10 @@ Item {
         //        joinedPlayersList.addPlayer(myself.playerID,
         //                                    myself.ip,
         //                                    AppProperties.getUuid.toString());
-        joinedPlayersList.addPlayer(myself.playerID,
-                                    myself.playerID,
-                                    myself.ip,
-                                    AppProperties.getUuid.toString());
+//        joinedPlayersList.addPlayer(myself.playerID,
+//                                    myself.playerID,
+//                                    myself.ip,
+//                                    AppProperties.getUuid.toString());
 
         for (var playerIndex in game.players) {
             var player = game.players[playerIndex];
@@ -117,10 +117,10 @@ Item {
 
                         var newPlayer = Engine.createNewPlayer(ip, json.uuid);
                         joinedPlayersList.addPlayer(newPlayer.playerID,
+                                                    newPlayer.playerID,
                                                     newPlayer.ip,
                                                     newPlayer.uuid);
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
-                        //                        gameJoined.commandData.players = JSON.stringify(playersJson);
                         gameJoined.commandData.players = playersJson;
 
                         //                        answerRequest.send(gameJoined, ip);

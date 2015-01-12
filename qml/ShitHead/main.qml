@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.1
+import AppProperties 1.0
+
 import "JS/ShitHead.js" as Engine
 import "JS/GameProperties.js" as GameProperties
 import "Components"
@@ -14,18 +16,10 @@ Item {
 
     SystemPalette { id: activePalette }
 
-//    Game {
-//        id: game
-////        state: "SettingUp"
-//    }
-
     Player {
         id: myself
-//        playerID: game.players.length
-
-//        Component.onCompleted: {
-//            game.players.push(myself);
-//        }
+        uuid: AppProperties.getUuid.toString()
+        ip: "127.0.0.1"
     }
 
     Loader {
