@@ -53,8 +53,8 @@ Item {
             }
 
             TableViewColumn { role: "name"; title: "name"; width: 100 }
-            TableViewColumn { role: "ip"; title: "IP"; width: 100 }
-            TableViewColumn { role: "uuid"; title: "UUID"; width: 100 }
+            TableViewColumn { role: "ip"; title: "IP"; width: 120 }
+            TableViewColumn { role: "uuid"; title: "UUID"; width: 150 }
             model: joinedPlayersList
         }
     }
@@ -115,15 +115,19 @@ Item {
 
                         console.log(JSON.stringify(playersJson));
 
-                        var newPlayer = Engine.createNewPlayer(ip, json.uuid);
+                        var newPlayer = Engine.createNewPlayer(game.players.length,
+                                                               ip,
+                                                               json.uuid);
+
                         joinedPlayersList.addPlayer(newPlayer.playerID,
                                                     newPlayer.playerID,
                                                     newPlayer.ip,
                                                     newPlayer.uuid);
+
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
                         gameJoined.commandData.players = playersJson;
 
-                        //                        answerRequest.send(gameJoined, ip);
+                        answerRequest.send(gameJoined, ip);
 
                         //                    game.state = "SettingUp";
                         //                    pageLoader.source = "../GameArea.qml";

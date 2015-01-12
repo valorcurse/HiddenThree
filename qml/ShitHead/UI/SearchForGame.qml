@@ -101,12 +101,10 @@ Item {
                     myself.playerID = json.commandData.newPlayerID;
 
                     for (var playerIndex in json.players) {
-                        console.log("New Player: " + json.players[player]);
-                        var player = json.players[player];
+                        var player = json.players[playerIndex];
                         Engine.createNewPlayer(player.playerID,
                                                player.ip,
                                                player.uuid);
-                        //                                                game.players.push()
                     }
 
                     newGameLoader.source = "NewGameCreated.qml";
