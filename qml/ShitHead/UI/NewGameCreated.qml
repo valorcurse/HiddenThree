@@ -10,16 +10,29 @@ Item {
     Component.onCompleted: {
         myself.playerID = game.players.length;
         game.players.push(myself);
+        //        joinedPlayersList.addPlayer(myself.playerID,
+        //                                    myself.ip,
+        //                                    AppProperties.getUuid.toString());
         joinedPlayersList.addPlayer(myself.playerID,
+                                    myself.playerID,
                                     myself.ip,
                                     AppProperties.getUuid.toString());
 
+        for (var playerIndex in game.players) {
+            var player = game.players[playerIndex];
+
+            joinedPlayersList.addPlayer(player.playerID,
+                                        player.playerID,
+                                        player.ip,
+                                        player.uuid);
+        }
+
 
         //        console.log("Nr Players: " + game.players.length);
-//        for (var player in game.players) {
-//             console.log("player: " + game.players[player]);
-////            playersJson.push(game.players[player].toJson());
-//        }
+        //        for (var player in game.players) {
+        //             console.log("player: " + game.players[player]);
+        ////            playersJson.push(game.players[player].toJson());
+        //        }
     }
 
     Column {
@@ -49,8 +62,14 @@ Item {
     ListModel {
         id: joinedPlayersList
 
-        function addPlayer(name, ip, uuid) {
-            joinedPlayersList.append({"name": name,
+        function addPlayer(playerID, name, ip, uuid) {
+            joinedPlayersList.insert(playerID, {"name": name,
+                                         "ip": ip,
+                                         "uuid": uuid})
+        }
+
+        function insertPlayer(name, ip, uuid, index) {
+            joinedPlayersList.insert(index, {"name": name,
                                          "ip": ip,
                                          "uuid": uuid})
         }
@@ -73,7 +92,7 @@ Item {
 
             if (myself.gameOwner) {
 
-//                console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
+                //                console.log("IP: " + ip + " | Create: " + JSON.stringify(json));
 
                 if (json && typeof json === "object" && json !== null) {
                     if (json.commandData.commandType === CommandData.FINDGAME) {
@@ -87,11 +106,11 @@ Item {
                         if (joinedPlayersList.indexOf(json.uuid) > -1)
                             return;
 
-//                        console.log("Someone wants to join the game")
+                        //                        console.log("Someone wants to join the game")
 
                         var playersJson = [];
                         for (var player in game.players) {
-                           playersJson.push(game.players[player].toJson());
+                            playersJson.push(game.players[player].toJson());
                         }
 
                         console.log(JSON.stringify(playersJson));
@@ -101,10 +120,10 @@ Item {
                                                     newPlayer.ip,
                                                     newPlayer.uuid);
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
-//                        gameJoined.commandData.players = JSON.stringify(playersJson);
-//                        gameJoined.commandData.players = playersJson;
+                        //                        gameJoined.commandData.players = JSON.stringify(playersJson);
+                        gameJoined.commandData.players = playersJson;
 
-                        answerRequest.send(gameJoined, ip);
+                        //                        answerRequest.send(gameJoined, ip);
 
                         //                    game.state = "SettingUp";
                         //                    pageLoader.source = "../GameArea.qml";

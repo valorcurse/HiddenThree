@@ -88,12 +88,17 @@ int GameJoined::newPlayerID() const {
 void GameJoined::setPlayers(QVariantList players) {
     m_players = players;
 
+    QJsonArray jsonArray;
     for (QVariant player : players) {
-//        QJsonValue
-//        jsonObject["newPlayerID"] = m_newPlayerID;
-//        jsonObject["players"][""]
+        QMap<QString, QVariant> playerMap = player.toMap();
+        QJsonArray jsonPlayer = { playerMap.value("id").toString(),
+                                  playerMap.value("ip").toString() };
+        jsonArray.append(jsonPlayer);
     }
-//    emit dataChanged();
+
+    jsonObject["players"] = jsonArray;
+
+    emit dataChanged();
 }
 
 QVariantList GameJoined::players() const {
