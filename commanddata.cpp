@@ -91,9 +91,14 @@ void GameJoined::setPlayers(QVariantList players) {
     QJsonArray jsonArray;
     for (QVariant player : players) {
         QMap<QString, QVariant> playerMap = player.toMap();
-        QJsonArray jsonPlayer = { playerMap.value("id").toString(),
-                                  playerMap.value("ip").toString() };
-        jsonArray.append(jsonPlayer);
+        QJsonObject playerObject;
+        playerObject["id"] = playerMap.value("id").toString();
+        playerObject["ip"] = playerMap.value("ip").toString();
+        jsonArray.append(playerObject);
+
+//        QJsonArray jsonPlayer = { playerMap.value("id").toString(),
+//                                  playerMap.value("ip").toString() };
+//        jsonArray.append(jsonPlayer);
     }
 
     jsonObject["players"] = jsonArray;

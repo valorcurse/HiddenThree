@@ -100,8 +100,8 @@ Item {
 
                     for (var playerIndex in json.commandData.players) {
 
-                        var player = json.players[playerIndex];
-
+                        var player = json.commandData.players[playerIndex];
+                        console.log("New player: " + player);
                         Engine.createNewPlayer(player.playerID,
                                                player.ip,
                                                player.uuid);
