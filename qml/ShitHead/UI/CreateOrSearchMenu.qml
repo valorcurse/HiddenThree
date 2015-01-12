@@ -40,7 +40,7 @@ Item {
             }
 
             onClicked: {
-                newGameLoader.source = "../SearchForGame.qml";
+                newGameLoader.source = "SearchForGame.qml";
             }
         }
     }

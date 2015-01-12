@@ -103,7 +103,7 @@ Item {
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
                         gameJoined.commandData.players = JSON.stringify(playersJson);
 
-//                        answerRequest.send(gameJoined, ip);
+                        answerRequest.send(gameJoined, ip);
 
                         //                    game.state = "SettingUp";
                         //                    pageLoader.source = "../GameArea.qml";

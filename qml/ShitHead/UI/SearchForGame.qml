@@ -79,32 +79,32 @@ Item {
                 if (json.uuid === AppProperties.getUuid.toString())
                     return;
 
-//                console.log("Join: " + JSON.stringify(json));
+                //                console.log("Join: " + JSON.stringify(json));
 
                 if (json.commandData.commandType === CommandData.GAMEFOUND) {
-                    if (libraryModel.indexOf(json.uuid) === -1) {
+                    if (libraryModel.indexOf(json.uuid) > -1)
+                        return;
 
-                        game.name = json.commandData.gameName;
-                        game.ip = ip;
-                        game.uuid = json.uuid;
+                    game.name = json.commandData.gameName;
+                    game.uuid = json.uuid;
 
-                        libraryModel.append({"title": game.name,
-                                                "uuid": game.uuid,
-                                                "ip": game.ip})
-                    }
+                    libraryModel.append({"title": game.name,
+                                            "uuid": game.uuid,
+                                            "ip": ip})
+
                 }
                 else if (json.commandData.commandType === CommandData.GAMEJOINED) {
                     console.log("Joined game!");
 
 
 
-//                    Engine.createNewPlayer(json.commandData.newPlayerID);
+                    //                    Engine.createNewPlayer(json.commandData.newPlayerID);
                     for (var player in json.players) {
                         console.log("New Player: " + json.players[player]);
                         //                        game.players.push()
                     }
                     pageLoader.source = "NewGameCreated.qml";
-//                    pageLoader.source = "GameArea.qml";
+                    //                    pageLoader.source = "GameArea.qml";
                 }
             }
         }
