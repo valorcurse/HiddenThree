@@ -15,7 +15,7 @@ Item {
             var player = game.players[playerIndex];
 
             var name = (player.uuid === AppProperties.getUuid.toString())
-                    ? "me" : player.playerID
+                    ? "me" : player.playerID.toString()
 
             joinedPlayersList.addPlayer(player.playerID,
                                         name,
@@ -53,12 +53,6 @@ Item {
 
         function addPlayer(playerID, name, ip, uuid) {
             joinedPlayersList.insert(playerID, {"name": name,
-                                         "ip": ip,
-                                         "uuid": uuid})
-        }
-
-        function insertPlayer(name, ip, uuid, index) {
-            joinedPlayersList.insert(index, {"name": name,
                                          "ip": ip,
                                          "uuid": uuid})
         }
