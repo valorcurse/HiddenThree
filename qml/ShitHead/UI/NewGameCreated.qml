@@ -101,7 +101,8 @@ Item {
                                                     newPlayer.ip,
                                                     newPlayer.uuid);
                         gameJoined.commandData.newPlayerID = newPlayer.playerID;
-                        gameJoined.commandData.players = JSON.stringify(playersJson);
+//                        gameJoined.commandData.players = JSON.stringify(playersJson);
+//                        gameJoined.commandData.players = playersJson;
 
                         answerRequest.send(gameJoined, ip);
 
