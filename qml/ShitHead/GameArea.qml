@@ -4,6 +4,8 @@ import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
 import "GameProperties.js" as GameProperties
 
+import Arbiter 1.0
+
 Item {
     id: game
 
@@ -34,10 +36,27 @@ Item {
     property var turn: {"preTurn": 0, "playTurn": 1}
     property var currentTurn: turn.preTurn
 
-    signal cardPlayed
+//    property Arbiter arbiter: new Arbiter()
+
+    Arbiter {
+        id: arbiter
+    }
+
+    signal cardPlayed(var topCard)
 
     onCardPlayed: {
         Engine.handlePlay(topCard);
+//        console.log(stackOfCards)
+//        console.log(topCard)
+
+//        var cards = stackOfCards.map(function (card) {
+//          return card.cardObject.number;
+//        });
+
+//        console.log(cards)
+//        console.lo(topCard.cardObject.number)
+
+//        arbiter.playIsAllowed(cards, topCard.cardObject.number);
     }
 
 //    onPlayersChanged: {

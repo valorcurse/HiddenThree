@@ -23,7 +23,8 @@ OTHER_FILES += \
     NewGameArea.qml
 
 HEADERS += \
-    networking.h
+    networking.h \
+    arbiter.h
 
 DEFINES += QMLJSDEBUGGER
 

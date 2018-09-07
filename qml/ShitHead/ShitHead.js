@@ -107,7 +107,7 @@ function playCard(card) {
         //        card.player = undefined;
 
         // Invoke card played signal
-        game.cardPlayed();
+        game.cardPlayed(card);
     }
 }
 
@@ -141,7 +141,7 @@ function handlePlay() {
 
     var numberOfTurnsToSkip = 1;
 
-    if (isCardPlayable(card)) {
+    if (card.playable) {
 
         // Don't set new topcard
         if (cardValue === "3") {

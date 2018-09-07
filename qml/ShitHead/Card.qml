@@ -3,13 +3,27 @@ import QtGraphicalEffects 1.0
 import QtQuick.Window 2.1
 import "ShitHead.js" as Engine
 import "GameProperties.js" as GameProperties
+import Arbiter 1.0
 
 Flipable {
     id: card
 
+    Arbiter {
+        id: arbiter
+    }
+
     property var cardObject
     property var player
-    property bool playable: Engine.isPlayable(card)
+
+    property bool playable: {
+        if (state !== "Hand") return false;
+
+        var stack = stackOfCards.map(function (card) {
+            return card.cardObject.number;
+        });
+
+        return arbiter.playIsAllowed(stack, cardObject.number);
+    }
     property bool chosen: false
     property string previousState: state
 
@@ -140,7 +154,9 @@ Flipable {
             }
 
             else if (game.state === "Play" && currentTurn === turn.playTurn) {
-                Engine.playCard(card);
+                if (card.playable) {
+                    Engine.playCard(card);
+                }
             }
 
             console.log("Clicked | Player: " + (player === undefined ? "no player" : player.playerID)

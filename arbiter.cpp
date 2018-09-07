@@ -4,10 +4,8 @@ bool Arbiter::playIsAllowed(QList<QString> stack, QString proposedCard){
     return true;
 }
 
-struct NewPlayState Arbiter::newPlayState(QList<QString> stack, QList<QString> proposedCards){
-    struct NewPlayState state;
-    state.clearStack = false;
-    state.turnIncrement = 1;
+NewPlayState Arbiter::newPlayState(QList<QString> stack, QList<QString> proposedCards){
+    NewPlayState state(false, 1);
     return state;
 }
 

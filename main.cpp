@@ -1,13 +1,16 @@
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
-//#include <QDesktopWidget>
-//#include <QApplication>
 #include <QScreen>
 
 #include <iostream>
 
+#include "arbiter.h"
+
 int main(int argc, char *argv[])
 {
+
+    qmlRegisterType<Arbiter>("Arbiter", 1, 0, "Arbiter");
+
     QGuiApplication app(argc, argv);
 
     QtQuick2ApplicationViewer viewer;
