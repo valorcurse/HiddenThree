@@ -118,6 +118,7 @@ Item {
     StackView {
         id: player2ThreeStack
         height: GameProperties.cardHeight
+        width: parent.width
 
         anchors {
             bottom: playArea.top
@@ -200,6 +201,7 @@ Item {
     StackView {
         id: player1ThreeStack
         height: GameProperties.cardHeight
+        width: parent.width
 
         anchors {
             top: playArea.bottom
