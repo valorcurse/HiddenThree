@@ -22,7 +22,12 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *-build-*
+moc_predefs.h
 
 # QtCreator
 
 *.autosave
+
+# Local files
+ShitHead
+
