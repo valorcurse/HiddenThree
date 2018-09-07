@@ -4,15 +4,17 @@
 struct NewPlayState {
     Q_GADGET
 
-    Q_PROPERTY(bool clearStack MEMBER m_clearStack)
-    Q_PROPERTY(int turnIncrement MEMBER m_turnIncrement)
+    Q_PROPERTY(bool getClearStack MEMBER clearStack)
+    Q_PROPERTY(int getTurnIncrement MEMBER turnIncrement)
 
 public:
+    NewPlayState() {}
+
     NewPlayState(bool clearStack, int turnIncrement) :
-        m_clearStack(clearStack), m_turnIncrement(turnIncrement) {}
-private:
-    bool m_clearStack;
-    int m_turnIncrement;
+        clearStack(clearStack), turnIncrement(turnIncrement) {}
+
+    bool clearStack;
+    int turnIncrement;
 
 };
 
@@ -25,5 +27,6 @@ public:
     Q_INVOKABLE QList<bool> playIsPossible(QList<QString> stack, QList<QString> proposedCards);
 
 private:
+    int translateCard(QString card);
 };
 
