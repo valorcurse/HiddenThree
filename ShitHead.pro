@@ -24,6 +24,7 @@ OTHER_FILES += \
 
 HEADERS += \
     networking.h
+    arbiter.h
 
 DEFINES += QMLJSDEBUGGER
 
