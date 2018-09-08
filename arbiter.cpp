@@ -43,7 +43,7 @@ NewPlayState Arbiter::newPlayState(QList<QString> stack, QList<QString> proposed
     NewPlayState state;
     int newCard = cardMap[proposedCards.first()];
     if (newCard == 8) {
-        state.clearStack = true;
+        state.burnStack = true;
         state.turnIncrement = 0;
         return state;
     }
@@ -57,11 +57,11 @@ NewPlayState Arbiter::newPlayState(QList<QString> stack, QList<QString> proposed
         }
     }
     if (cardSetCount >= 4){
-        state.clearStack = true;
+        state.burnStack = true;
         state.turnIncrement = 0;
         return state;
     }
-    state.clearStack = false;
+    state.burnStack = false;
     if (newCard == 6){
         state.turnIncrement = 2;
     } else {

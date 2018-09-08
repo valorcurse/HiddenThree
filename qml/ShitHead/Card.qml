@@ -15,6 +15,7 @@ Flipable {
     property var cardObject
     property var player
 
+//    property bool playable: Engine.isPlayable(card)
     property bool playable: {
         if (state !== "Hand") return false;
 

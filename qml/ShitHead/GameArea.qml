@@ -45,7 +45,13 @@ Item {
     signal cardPlayed(var topCard)
 
     onCardPlayed: {
-        Engine.handlePlay(topCard);
+        var stack = stackOfCards.map(function (card) {
+            return card.cardObject.number;
+        });
+
+        var newPlayState = arbiter.newPlayState(stack, [topCard.cardObject.number])
+
+        Engine.handlePlay(newPlayState);
 //        console.log(stackOfCards)
 //        console.log(topCard)
 

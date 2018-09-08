@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 {
 
     qmlRegisterType<Arbiter>("Arbiter", 1, 0, "Arbiter");
+    qRegisterMetaType<NewPlayState>("NewPlayState");
 
     QGuiApplication app(argc, argv);
 

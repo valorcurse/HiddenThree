@@ -133,7 +133,7 @@ function handlePreTurn() {
     }
 }
 
-function handlePlay() {
+function handlePlay(newPlayState) {
 
     // Get last played card
     var card = playedCards[playedCards.length - 1];
@@ -141,42 +141,19 @@ function handlePlay() {
 
     var numberOfTurnsToSkip = 1;
 
-    if (card.playable) {
-
-        // Don't set new topcard
-        if (cardValue === "3") {
-            card = game.topCard;
+    if (newPlayState.burnStack) {
+        while (game.playedCards.length > 0) {
+            var playedCard = playedCards.pop();
+            playedCard.state = "Burned";
         }
-
-        // Burn played cards
-        else if (cardValue === "10" || quartetPlayed()) {
-
-            console.log("Burning cards");
-
-            while (game.playedCards.length > 0) {
-                var playedCard = playedCards.pop();
-                playedCard.state = "Burned";
-            }
-
-            numberOfTurnsToSkip = 0;
-        }
-
-        // Skip next player
-        else if (cardValue === "8") {
-            numberOfTurnsToSkip = 2;
-        }
+    }
 
         game.topCard = card;
-    }
-
-    else {
-        grabPlayedCards();
-    }
 
     // Deal player new cards if possible or necessary
     dealCards(currentPlayer, 3 - currentPlayer.hand.cards.count);
 
-    switchPlayerTurn(numberOfTurnsToSkip);
+    switchPlayerTurn(newPlayState.turnIncrement);
 }
 
 function grabPlayedCards() {

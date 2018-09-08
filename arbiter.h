@@ -4,19 +4,20 @@
 struct NewPlayState {
     Q_GADGET
 
-    Q_PROPERTY(bool getClearStack MEMBER clearStack)
+    Q_PROPERTY(bool getClearStack MEMBER burnStack)
     Q_PROPERTY(int getTurnIncrement MEMBER turnIncrement)
 
 public:
     NewPlayState() {}
 
     NewPlayState(bool clearStack, int turnIncrement) :
-        clearStack(clearStack), turnIncrement(turnIncrement) {}
+        burnStack(clearStack), turnIncrement(turnIncrement) {}
 
-    bool clearStack;
+    bool burnStack;
     int turnIncrement;
 
 };
+Q_DECLARE_METATYPE(NewPlayState)
 
 class Arbiter : public QObject {
     Q_OBJECT
