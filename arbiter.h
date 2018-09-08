@@ -4,8 +4,8 @@
 struct NewPlayState {
     Q_GADGET
 
-    Q_PROPERTY(bool getClearStack MEMBER burnStack)
-    Q_PROPERTY(int getTurnIncrement MEMBER turnIncrement)
+    Q_PROPERTY(bool burnStack MEMBER burnStack)
+    Q_PROPERTY(int turnIncrement MEMBER turnIncrement)
 
 public:
     NewPlayState() {}
