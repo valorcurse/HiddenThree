@@ -6,7 +6,7 @@ function startNewGame() {
     createStackOfCards();
 
     // Shuffle cards
-    shuffle(stackOfCards);
+//    shuffle(stackOfCards);
 
     // Create players
     player1 = game.players[0];
@@ -136,10 +136,10 @@ function handlePreTurn() {
 function handlePlay(newPlayState) {
 
     // Get last played card
-    var card = playedCards[playedCards.length - 1];
-    var cardValue = card.cardObject.number;
+//    var card = playedCards[playedCards.length - 1];
+//    var cardValue = card.cardObject.number;
 
-    var numberOfTurnsToSkip = 1;
+//    var numberOfTurnsToSkip = 1;
 
     if (newPlayState.burnStack) {
         while (game.playedCards.length > 0) {
@@ -147,8 +147,6 @@ function handlePlay(newPlayState) {
             playedCard.state = "Burned";
         }
     }
-
-        game.topCard = card;
 
     // Deal player new cards if possible or necessary
     dealCards(currentPlayer, 3 - currentPlayer.hand.cards.count);
@@ -214,7 +212,8 @@ function isPlayable(card) {
 
         console.log("Not bottom card");
 
-        return isCardPlayable(card);
+//        return isCardPlayable(card);
+        return true;
 
     }
 

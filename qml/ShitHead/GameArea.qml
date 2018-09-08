@@ -36,7 +36,13 @@ Item {
     property var turn: {"preTurn": 0, "playTurn": 1}
     property var currentTurn: turn.preTurn
 
-//    property Arbiter arbiter: new Arbiter()
+    Component.onCompleted: {
+        for (var i in stackOfCards) {
+            var card = stackOfCards[i];
+            cardPlayed.connect(card.refresh)
+        }
+    }
+
 
     Arbiter {
         id: arbiter
@@ -45,7 +51,7 @@ Item {
     signal cardPlayed(var topCard)
 
     onCardPlayed: {
-        var stack = stackOfCards.map(function (card) {
+        var stack = playedCards.map(function (card) {
             return card.cardObject.number;
         });
 

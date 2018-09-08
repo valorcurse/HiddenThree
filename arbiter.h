@@ -23,9 +23,9 @@ class Arbiter : public QObject {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE bool playIsAllowed(QList<QString> stack, QString proposedCard);
     Q_INVOKABLE NewPlayState newPlayState(QList<QString> stack, QList<QString> proposedCards);
     Q_INVOKABLE QList<bool> playIsPossible(QList<QString> stack, QList<QString> proposedCards);
+    Q_INVOKABLE bool playIsAllowed(QList<QString> stack, QString proposedCard);
 
 private:
     int translateCard(QString card);

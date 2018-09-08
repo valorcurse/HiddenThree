@@ -15,16 +15,27 @@ Flipable {
     property var cardObject
     property var player
 
-//    property bool playable: Engine.isPlayable(card)
-    property bool playable: {
+    function refresh() {
+        playable = isPlayable();
+    }
+
+    function isPlayable() {
         if (state !== "Hand") return false;
 
-        var stack = stackOfCards.map(function (card) {
+        var stack = playedCards.map(function (card) {
             return card.cardObject.number;
-        });
+        }).reverse();
 
-        return arbiter.playIsAllowed(stack, cardObject.number);
+        var isPlayable = Engine.isPlayable(card) && arbiter.playIsAllowed(stack, cardObject.number);
+
+        console.log("Card " + cardObject.number + " is playable: " + isPlayable)
+
+        return isPlayable;
     }
+
+//    property bool playable: Engine.isPlayable(card)
+    property bool playable: isPlayable()
+
     property bool chosen: false
     property string previousState: state
 
